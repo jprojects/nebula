@@ -1,0 +1,2 @@
+<?php /** @var \Nebula\Shop\StoreView $this */ $color = (string) (\Nebula\Shop\ShopConfig::get('shop.theme.color') ?? \Nebula\Shop\ShopConfig::get('branding.color') ?? '#4f46e5'); ?>
+<p style="margin:20px 0;"><a href="<?= $this->e($href) ?>" style="display:inline-block;background:<?= $this->e($color) ?>;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;font-weight:bold;"><?= $this->e($label) ?></a></p>

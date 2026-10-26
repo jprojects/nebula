@@ -1,0 +1,72 @@
+{
+  "table": "customers",
+  "primaryKey": "id",
+  "hooks": "Nebula\\Hooks\\CustomersHooks",
+  "recordTitle": "email",
+  "actions": ["view", "create", "edit", "delete", "export"],
+  "menu": { "group": "shop", "order": 40, "icon": "users" },
+
+  "fields": {
+    "id":                { "type": "number", "readonly": true, "grouping": false },
+    "email":             { "type": "email", "required": true, "unique": true, "maxlength": 150, "width": "half" },
+    "name":              { "type": "text", "required": true, "maxlength": 150, "width": "half" },
+    "group_id":          { "type": "select", "width": "third", "help": "help.group",
+                           "source": { "table": "customer_groups", "value": "id", "label": "name" } },
+    "active":            { "type": "checkbox", "default": 1, "width": "third", "colors": { "0": "gray" } },
+    "accepts_marketing": { "type": "checkbox", "width": "third" },
+    "phone":             { "type": "text", "maxlength": 30, "width": "third" },
+    "company":           { "type": "text", "maxlength": 150, "width": "third" },
+    "vat_id":            { "type": "text", "maxlength": 30, "width": "third" },
+    "password":          { "type": "password", "column": "password_hash", "minlength": 8, "help": "help.password", "width": "half" },
+    "locale":            { "type": "select", "width": "half", "options": { "ca": "locale.ca", "es": "locale.es", "en": "locale.en" } },
+    "addresses":         { "type": "repeater", "layout": "block", "max": 10, "addLabel": "repeater.add_address", "summary": "city",
+                           "fields": {
+                             "label":    { "type": "text", "label": "address.label", "maxlength": 60, "width": "third" },
+                             "name":     { "type": "text", "label": "address.name", "maxlength": 150, "width": "two-thirds" },
+                             "address":  { "type": "text", "label": "address.address", "maxlength": 255, "required": true },
+                             "postcode": { "type": "text", "label": "address.postcode", "maxlength": 20, "required": true, "width": "quarter" },
+                             "city":     { "type": "text", "label": "address.city", "maxlength": 100, "width": "quarter" },
+                             "province": { "type": "text", "label": "address.province", "maxlength": 100, "width": "quarter" },
+                             "country":  { "type": "text", "label": "address.country", "maxlength": 2, "width": "quarter" },
+                             "phone":    { "type": "text", "label": "address.phone", "maxlength": 30, "width": "third" }
+                           } },
+    "notes":             { "type": "textarea", "rows": 3 },
+    "orders":            { "type": "number", "width": "quarter",
+                           "sql": "SELECT COUNT(*) FROM orders o WHERE o.customer_id = customers.id AND o.status NOT IN ('cancelled')" },
+    "spent":             { "type": "number", "decimals": 2, "width": "quarter",
+                           "sql": "SELECT COALESCE(SUM(o.total), 0) FROM orders o WHERE o.customer_id = customers.id AND o.payment_status = 'paid'" },
+    "registered":        { "type": "checkbox", "width": "quarter", "sql": "customers.password_hash IS NOT NULL" },
+    "last_login":        { "type": "datetime", "readonly": true, "width": "quarter" },
+    "created_at":        { "type": "datetime", "readonly": true, "width": "quarter" }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "id", "width": "70px" },
+      "name",
+      "email",
+      "company",
+      { "field": "group_id", "width": "150px" },
+      { "field": "orders", "width": "90px", "align": "right" },
+      { "field": "spent", "width": "110px", "align": "right" },
+      { "field": "registered", "width": "90px" },
+      { "field": "created_at", "width": "150px" }
+    ],
+    "defaultSort": { "field": "created_at", "dir": "desc" },
+    "search": ["name", "email", "company", "vat_id", "phone"],
+    "filters": [{ "field": "group_id" }, { "field": "registered" }, { "field": "accepts_marketing" }, { "field": "active" }],
+    "expand": ["addresses", "notes"],
+    "rowActions": [
+      { "label": "actions.orders", "icon": "shopping-cart", "url": "index.php?r=list&m=orders&f[customer_id]={id}" }
+    ]
+  },
+
+  "form": {
+    "sections": [
+      { "title": "sections.general", "fields": ["email", "name", "group_id", "active", "accepts_marketing", "phone", "company", "vat_id", "password", "locale"] },
+      { "title": "sections.addresses", "fields": ["addresses"] },
+      { "title": "sections.notes", "fields": ["notes"] },
+      { "title": "sections.info", "fields": ["orders", "spent", "registered", "last_login", "created_at"] }
+    ]
+  }
+}

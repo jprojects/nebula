@@ -1,0 +1,131 @@
+{
+  "title": "Comandes",
+  "description": "Comandes de la botiga: estat, pagament, enviament i avisos al client",
+  "fields": {
+    "id": "ID",
+    "number": "Número",
+    "created_at": "Data",
+    "status": "Estat",
+    "payment_status": "Pagament",
+    "status_note": "Nota per al client",
+    "tracking_number": "Número de seguiment",
+    "admin_notes": "Notes internes",
+    "customer_id": "Client",
+    "group_id": "Grup (tarifa)",
+    "email": "Correu",
+    "phone": "Telèfon",
+    "bill_name": "Nom",
+    "bill_company": "Empresa",
+    "bill_vat_id": "NIF",
+    "bill_address": "Adreça",
+    "bill_postcode": "C. P.",
+    "bill_city": "Població",
+    "bill_province": "Província",
+    "bill_country": "País",
+    "shipping_name": "Forma d'enviament",
+    "ship_phone": "Telèfon de lliurament",
+    "ship_name": "Destinatari",
+    "ship_address": "Adreça d'enviament",
+    "ship_postcode": "C. P.",
+    "ship_city": "Població",
+    "ship_province": "Província",
+    "ship_country": "País",
+    "payment_name": "Forma de pagament",
+    "payment_gateway": "Passarel·la",
+    "coupon_code": "Cupó",
+    "subtotal": "Subtotal",
+    "discount": "Descompte",
+    "shipping_cost": "Enviament",
+    "payment_fee": "Recàrrec de pagament",
+    "tax_total": "IVA inclòs",
+    "total": "Total",
+    "weight": "Pes (kg)",
+    "paid_at": "Pagada el",
+    "shipped_at": "Enviada el",
+    "notes": "Observacions del client",
+    "lines": "Productes",
+    "payments": "Intents de pagament",
+    "history": "Historial",
+    "items_count": "Unit.",
+    "silent": "No avisar el client"
+  },
+  "status": {
+    "pending": "Pendent de pagament",
+    "paid": "Pagada",
+    "processing": "En preparació",
+    "shipped": "Enviada",
+    "delivered": "Lliurada",
+    "cancelled": "Cancel·lada",
+    "refunded": "Reemborsada"
+  },
+  "gateway": {
+    "transfer": "Transferència bancària",
+    "redsys": "Targeta (Redsys)",
+    "paypal": "PayPal"
+  },
+  "payment": {
+    "pending": "Pendent",
+    "paid": "Pagat",
+    "failed": "Fallit",
+    "refunded": "Reemborsat",
+    "cancelled": "Cancel·lat"
+  },
+  "sections": {
+    "status": "Estat",
+    "lines": "Productes",
+    "customer": "Client",
+    "billing": "Facturació",
+    "shipping": "Enviament",
+    "payment": "Pagament i imports",
+    "history": "Historial"
+  },
+  "help": {
+    "status_note": "Es desa a l'historial i, si s'avisa, va al correu",
+    "silent": "Marca-ho per canviar l'estat sense enviar correu. Si no, s'avisa el client (en preparació, enviada, lliurada, cancel·lada, reemborsada)"
+  },
+  "actions": {
+    "mark_paid": "Marcar com a pagada",
+    "resend": "Reenviar la confirmació",
+    "view_shop": "Veure a la botiga"
+  },
+  "perm": {
+    "mark_paid": "Marcar pagada"
+  },
+  "confirm": {
+    "mark_paid": "Marcar la comanda com a pagada? S'enviarà la confirmació al client.",
+    "resend": "Reenviar el correu de la comanda al client?"
+  },
+  "flash": {
+    "marked_paid": "Comanda marcada com a pagada",
+    "resent": "Correu reenviat a {email}",
+    "not_found": "El registre ja no existeix"
+  },
+  "history": {
+    "marked_paid": "Marcada com a pagada des de la gestió",
+    "system": "Botiga",
+    "notified": "Client avisat"
+  },
+  "lines": {
+    "product": "Producte",
+    "sku": "Ref.",
+    "qty": "Quant.",
+    "unit_price": "Preu",
+    "discount": "Dte.",
+    "tax": "IVA",
+    "total": "Total",
+    "free_shipping": "Enviament gratuït",
+    "tax_breakdown": "IVA {rate} % sobre {base}"
+  },
+  "payments": {
+    "none": "Sense intents de pagament a passarel·la",
+    "date": "Data",
+    "gateway": "Passarel·la",
+    "reference": "Referència",
+    "status": "Estat",
+    "transaction": "Autorització",
+    "amount": "Import"
+  },
+  "validation": {
+    "status": "Estat no vàlid"
+  }
+}

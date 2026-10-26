@@ -1,0 +1,131 @@
+{
+  "title": "Pedidos",
+  "description": "Pedidos de la tienda: estado, pago, envío y avisos al cliente",
+  "fields": {
+    "id": "ID",
+    "number": "Número",
+    "created_at": "Fecha",
+    "status": "Estado",
+    "payment_status": "Pago",
+    "status_note": "Nota para el cliente",
+    "tracking_number": "Número de seguimiento",
+    "admin_notes": "Notas internas",
+    "customer_id": "Cliente",
+    "group_id": "Grupo (tarifa)",
+    "email": "Email",
+    "phone": "Teléfono",
+    "bill_name": "Nombre",
+    "bill_company": "Empresa",
+    "bill_vat_id": "NIF",
+    "bill_address": "Dirección",
+    "bill_postcode": "C. P.",
+    "bill_city": "Población",
+    "bill_province": "Provincia",
+    "bill_country": "País",
+    "shipping_name": "Forma de envío",
+    "ship_phone": "Teléfono de entrega",
+    "ship_name": "Destinatario",
+    "ship_address": "Dirección de envío",
+    "ship_postcode": "C. P.",
+    "ship_city": "Población",
+    "ship_province": "Provincia",
+    "ship_country": "País",
+    "payment_name": "Forma de pago",
+    "payment_gateway": "Pasarela",
+    "coupon_code": "Cupón",
+    "subtotal": "Subtotal",
+    "discount": "Descuento",
+    "shipping_cost": "Envío",
+    "payment_fee": "Recargo de pago",
+    "tax_total": "IVA incluido",
+    "total": "Total",
+    "weight": "Peso (kg)",
+    "paid_at": "Pagado el",
+    "shipped_at": "Enviado el",
+    "notes": "Observaciones del cliente",
+    "lines": "Productos",
+    "payments": "Intentos de pago",
+    "history": "Historial",
+    "items_count": "Unid.",
+    "silent": "No avisar al cliente"
+  },
+  "status": {
+    "pending": "Pendiente de pago",
+    "paid": "Pagado",
+    "processing": "En preparación",
+    "shipped": "Enviado",
+    "delivered": "Entregado",
+    "cancelled": "Cancelado",
+    "refunded": "Reembolsado"
+  },
+  "gateway": {
+    "transfer": "Transferencia bancaria",
+    "redsys": "Tarjeta (Redsys)",
+    "paypal": "PayPal"
+  },
+  "payment": {
+    "pending": "Pendiente",
+    "paid": "Pagado",
+    "failed": "Fallido",
+    "refunded": "Reembolsado",
+    "cancelled": "Cancelado"
+  },
+  "sections": {
+    "status": "Estado",
+    "lines": "Productos",
+    "customer": "Cliente",
+    "billing": "Facturación",
+    "shipping": "Envío",
+    "payment": "Pago e importes",
+    "history": "Historial"
+  },
+  "help": {
+    "status_note": "Se guarda en el historial y, si se avisa, va en el correo",
+    "silent": "Márcalo para cambiar el estado sin enviar correo. Si no, se avisa al cliente (en preparación, enviado, entregado, cancelado, reembolsado)"
+  },
+  "actions": {
+    "mark_paid": "Marcar como pagado",
+    "resend": "Reenviar confirmación",
+    "view_shop": "Ver en la tienda"
+  },
+  "perm": {
+    "mark_paid": "Marcar pagado"
+  },
+  "confirm": {
+    "mark_paid": "¿Marcar el pedido como pagado? Se enviará la confirmación al cliente.",
+    "resend": "¿Reenviar el correo del pedido al cliente?"
+  },
+  "flash": {
+    "marked_paid": "Pedido marcado como pagado",
+    "resent": "Correo reenviado a {email}",
+    "not_found": "El registro ya no existe"
+  },
+  "history": {
+    "marked_paid": "Marcado como pagado desde la gestión",
+    "system": "Tienda",
+    "notified": "Cliente avisado"
+  },
+  "lines": {
+    "product": "Producto",
+    "sku": "Ref.",
+    "qty": "Cant.",
+    "unit_price": "Precio",
+    "discount": "Dto.",
+    "tax": "IVA",
+    "total": "Total",
+    "free_shipping": "Envío gratis",
+    "tax_breakdown": "IVA {rate} % sobre {base}"
+  },
+  "payments": {
+    "none": "Sin intentos de pago en pasarela",
+    "date": "Fecha",
+    "gateway": "Pasarela",
+    "reference": "Referencia",
+    "status": "Estado",
+    "transaction": "Autorización",
+    "amount": "Importe"
+  },
+  "validation": {
+    "status": "Estado no válido"
+  }
+}

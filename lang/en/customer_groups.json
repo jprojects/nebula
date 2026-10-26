@@ -1,0 +1,36 @@
+{
+  "title": "Groups and price lists",
+  "description": "Customer roles: each group has its own price list",
+  "fields": {
+    "id": "ID",
+    "code": "Code",
+    "name": "Name",
+    "description": "Description",
+    "discount_percent": "General discount %",
+    "is_default": "Default",
+    "customers": "Customers",
+    "products": "Products with own price",
+    "created_at": "Created"
+  },
+  "actions": {
+    "customers": "View customers"
+  },
+  "help": {
+    "discount_percent": "Applied to the general price of products without their own price for this group",
+    "is_default": "Used for visitors and new customers",
+    "slug": "Part of the URL. Empty = generated from the name"
+  },
+  "validation": {
+    "code": "Lowercase letters, numbers and underscores only",
+    "default_group": "The default group cannot be deleted",
+    "slug": "Lowercase letters, numbers and hyphens only"
+  },
+  "sections": {
+    "general": "General",
+    "info": "Information",
+    "seo": "Search engines (SEO)"
+  },
+  "flash": {
+    "not_found": "The record no longer exists"
+  }
+}

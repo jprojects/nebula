@@ -1,0 +1,53 @@
+{
+  "table": "categories",
+  "primaryKey": "id",
+  "hooks": "Nebula\\Hooks\\CategoriesHooks",
+  "recordTitle": "name",
+  "menu": { "group": "shop", "order": 30, "icon": "folder-tree" },
+
+  "fields": {
+    "id":               { "type": "number", "readonly": true, "grouping": false },
+    "name":             { "type": "text", "required": true, "maxlength": 150, "width": "two-thirds" },
+    "parent_id":        { "type": "select", "width": "third", "placeholder": "placeholder.root",
+                          "source": { "table": "categories", "value": "id", "label": "name", "order": "name" } },
+    "slug":             { "type": "text", "maxlength": 160, "pattern": "[a-z0-9\\-]*", "patternMessage": "validation.slug",
+                          "help": "help.slug", "width": "half" },
+    "sort":             { "type": "number", "default": 0, "width": "quarter" },
+    "active":           { "type": "checkbox", "default": 1, "width": "quarter", "colors": { "0": "gray" } },
+    "in_menu":          { "type": "checkbox", "default": 1, "width": "quarter" },
+    "description":      { "type": "textarea", "rows": 3 },
+    "image":            { "type": "media", "accept": ["image/*"], "maxSize": "5M" },
+    "meta_title":       { "type": "text", "maxlength": 200 },
+    "meta_description": { "type": "textarea", "rows": 2, "maxlength": 300 },
+    "products":         { "type": "number", "width": "quarter",
+                          "sql": "SELECT COUNT(*) FROM product_categories pc WHERE pc.category_id = categories.id" },
+    "created_at":       { "type": "datetime", "readonly": true, "width": "half" }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "id", "width": "70px" },
+      "name",
+      "parent_id",
+      { "field": "slug", "width": "200px" },
+      { "field": "products", "width": "100px", "align": "right" },
+      { "field": "sort", "width": "80px", "align": "right" },
+      { "field": "in_menu", "width": "90px" },
+      { "field": "active", "width": "80px" }
+    ],
+    "defaultSort": { "field": "sort", "dir": "asc" },
+    "search": ["name", "slug"],
+    "filters": [{ "field": "parent_id" }, { "field": "active" }],
+    "rowActions": [
+      { "label": "actions.products", "icon": "package", "url": "index.php?r=list&m=products&f[categories]={id}" }
+    ]
+  },
+
+  "form": {
+    "sections": [
+      { "title": "sections.general", "fields": ["name", "parent_id", "slug", "sort", "active", "in_menu", "description", "image"] },
+      { "title": "sections.seo", "fields": ["meta_title", "meta_description"] },
+      { "title": "sections.info", "fields": ["products", "created_at"] }
+    ]
+  }
+}

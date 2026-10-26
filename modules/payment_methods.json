@@ -1,0 +1,50 @@
+{
+  "table": "payment_methods",
+  "primaryKey": "id",
+  "recordTitle": "name",
+  "hooks": "Nebula\\Hooks\\PaymentMethodsHooks",
+  "menu": { "group": "settings", "order": 120, "icon": "credit-card" },
+
+  "fields": {
+    "id":           { "type": "number", "readonly": true, "grouping": false },
+    "gateway":      { "type": "select", "required": true, "width": "third", "help": "help.gateway",
+                      "options": { "transfer": "gateway.transfer", "redsys": "gateway.redsys", "paypal": "gateway.paypal" },
+                      "colors": { "transfer": "gray", "redsys": "red", "paypal": "blue", "*": "purple" } },
+    "name":         { "type": "text", "required": true, "maxlength": 150, "width": "two-thirds", "help": "help.name" },
+    "description":  { "type": "text", "maxlength": 300 },
+    "instructions": { "type": "textarea", "rows": 5, "help": "help.instructions" },
+    "group_ids":    { "type": "select", "multiple": true, "help": "help.groups",
+                      "source": { "table": "customer_groups", "value": "id", "label": "name" } },
+    "fee_percent":  { "type": "number", "decimals": 2, "min": 0, "default": 0, "width": "quarter" },
+    "fee_fixed":    { "type": "number", "decimals": 2, "min": 0, "default": 0, "width": "quarter" },
+    "min_total":    { "type": "number", "decimals": 2, "min": 0, "width": "quarter" },
+    "max_total":    { "type": "number", "decimals": 2, "min": 0, "width": "quarter" },
+    "active":       { "type": "checkbox", "default": 1, "width": "half", "colors": { "0": "gray" } },
+    "sort":         { "type": "number", "default": 0, "width": "half" },
+    "configured":   { "type": "select", "compute": "configured", "options": { "yes": "configured.yes", "no": "configured.no" },
+                      "colors": { "yes": "green", "no": "red" } },
+    "created_at":   { "type": "datetime", "readonly": true }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "id", "width": "70px" },
+      "name",
+      { "field": "gateway", "width": "160px" },
+      { "field": "configured", "width": "130px" },
+      { "field": "fee_percent", "width": "100px", "align": "right" },
+      { "field": "fee_fixed", "width": "100px", "align": "right" },
+      { "field": "sort", "width": "80px", "align": "right" },
+      { "field": "active", "width": "80px" }
+    ],
+    "defaultSort": { "field": "sort", "dir": "asc" },
+    "search": ["name"]
+  },
+
+  "form": {
+    "sections": [
+      { "title": "sections.general", "fields": ["gateway", "name", "description", "instructions", "configured", "active", "sort"] },
+      { "title": "sections.conditions", "fields": ["group_ids", "fee_percent", "fee_fixed", "min_total", "max_total"] }
+    ]
+  }
+}

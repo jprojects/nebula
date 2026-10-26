@@ -1,0 +1,501 @@
+{
+  "table": "orders",
+  "primaryKey": "id",
+  "hooks": "Nebula\\Hooks\\OrdersHooks",
+  "recordTitle": "number",
+  "actions": [
+    "view",
+    "edit",
+    "delete",
+    "export",
+    "mark_paid"
+  ],
+  "menu": {
+    "group": "shop",
+    "order": 10,
+    "icon": "shopping-cart"
+  },
+  "chat": true,
+  "fields": {
+    "id": {
+      "type": "number",
+      "readonly": true,
+      "grouping": false
+    },
+    "number": {
+      "type": "text",
+      "readonly": true,
+      "width": "quarter"
+    },
+    "created_at": {
+      "type": "datetime",
+      "readonly": true,
+      "width": "quarter"
+    },
+    "status": {
+      "type": "select",
+      "required": true,
+      "width": "quarter",
+      "options": {
+        "pending": "status.pending",
+        "paid": "status.paid",
+        "processing": "status.processing",
+        "shipped": "status.shipped",
+        "delivered": "status.delivered",
+        "cancelled": "status.cancelled",
+        "refunded": "status.refunded"
+      },
+      "colors": {
+        "pending": "amber",
+        "paid": "green",
+        "processing": "blue",
+        "shipped": "cyan",
+        "delivered": "teal",
+        "cancelled": "gray",
+        "refunded": "purple"
+      }
+    },
+    "payment_status": {
+      "type": "select",
+      "readonly": true,
+      "width": "quarter",
+      "options": {
+        "pending": "payment.pending",
+        "paid": "payment.paid",
+        "failed": "payment.failed",
+        "refunded": "payment.refunded"
+      },
+      "colors": {
+        "pending": "amber",
+        "paid": "green",
+        "failed": "red",
+        "refunded": "purple"
+      }
+    },
+    "silent": {
+      "type": "checkbox",
+      "virtual": true,
+      "width": "half",
+      "help": "help.silent"
+    },
+    "status_note": {
+      "type": "textarea",
+      "virtual": true,
+      "rows": 2,
+      "maxlength": 500,
+      "width": "half",
+      "help": "help.status_note"
+    },
+    "tracking_number": {
+      "type": "text",
+      "maxlength": 100,
+      "width": "half"
+    },
+    "admin_notes": {
+      "type": "textarea",
+      "rows": 3
+    },
+    "customer_id": {
+      "type": "select",
+      "readonly": true,
+      "width": "half",
+      "source": {
+        "table": "customers",
+        "value": "id",
+        "label": "email"
+      },
+      "search": "remote"
+    },
+    "group_id": {
+      "type": "select",
+      "readonly": true,
+      "width": "half",
+      "source": {
+        "table": "customer_groups",
+        "value": "id",
+        "label": "name"
+      }
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "maxlength": 150,
+      "width": "half"
+    },
+    "phone": {
+      "type": "text",
+      "maxlength": 30,
+      "width": "half"
+    },
+    "bill_name": {
+      "type": "text",
+      "required": true,
+      "maxlength": 150,
+      "width": "half"
+    },
+    "bill_company": {
+      "type": "text",
+      "maxlength": 150,
+      "width": "quarter"
+    },
+    "bill_vat_id": {
+      "type": "text",
+      "maxlength": 30,
+      "width": "quarter"
+    },
+    "bill_address": {
+      "type": "text",
+      "required": true,
+      "maxlength": 255
+    },
+    "bill_postcode": {
+      "type": "text",
+      "required": true,
+      "maxlength": 20,
+      "width": "quarter"
+    },
+    "bill_city": {
+      "type": "text",
+      "required": true,
+      "maxlength": 100,
+      "width": "quarter"
+    },
+    "bill_province": {
+      "type": "text",
+      "maxlength": 100,
+      "width": "quarter"
+    },
+    "bill_country": {
+      "type": "select",
+      "required": true,
+      "width": "quarter",
+      "source": {
+        "table": "countries",
+        "value": "code",
+        "label": "name",
+        "order": "name"
+      }
+    },
+    "shipping_name": {
+      "type": "text",
+      "readonly": true,
+      "width": "half"
+    },
+    "ship_phone": {
+      "type": "text",
+      "maxlength": 30,
+      "width": "half"
+    },
+    "ship_name": {
+      "type": "text",
+      "maxlength": 150,
+      "width": "half"
+    },
+    "ship_address": {
+      "type": "text",
+      "maxlength": 255,
+      "width": "half"
+    },
+    "ship_postcode": {
+      "type": "text",
+      "maxlength": 20,
+      "width": "quarter"
+    },
+    "ship_city": {
+      "type": "text",
+      "maxlength": 100,
+      "width": "quarter"
+    },
+    "ship_province": {
+      "type": "text",
+      "maxlength": 100,
+      "width": "quarter"
+    },
+    "ship_country": {
+      "type": "select",
+      "width": "quarter",
+      "source": {
+        "table": "countries",
+        "value": "code",
+        "label": "name",
+        "order": "name"
+      }
+    },
+    "payment_name": {
+      "type": "text",
+      "readonly": true,
+      "width": "half"
+    },
+    "payment_gateway": {
+      "type": "select",
+      "readonly": true,
+      "width": "half",
+      "options": {
+        "transfer": "gateway.transfer",
+        "redsys": "gateway.redsys",
+        "paypal": "gateway.paypal"
+      }
+    },
+    "coupon_code": {
+      "type": "text",
+      "readonly": true,
+      "width": "quarter"
+    },
+    "subtotal": {
+      "type": "number",
+      "decimals": 2,
+      "readonly": true,
+      "width": "quarter"
+    },
+    "discount": {
+      "type": "number",
+      "decimals": 2,
+      "readonly": true,
+      "width": "quarter"
+    },
+    "shipping_cost": {
+      "type": "number",
+      "decimals": 2,
+      "readonly": true,
+      "width": "quarter"
+    },
+    "payment_fee": {
+      "type": "number",
+      "decimals": 2,
+      "readonly": true,
+      "width": "quarter"
+    },
+    "tax_total": {
+      "type": "number",
+      "decimals": 2,
+      "readonly": true,
+      "width": "quarter"
+    },
+    "total": {
+      "type": "number",
+      "decimals": 2,
+      "readonly": true,
+      "width": "quarter"
+    },
+    "weight": {
+      "type": "number",
+      "decimals": 3,
+      "readonly": true,
+      "width": "quarter"
+    },
+    "paid_at": {
+      "type": "datetime",
+      "readonly": true,
+      "width": "quarter"
+    },
+    "shipped_at": {
+      "type": "datetime",
+      "readonly": true,
+      "width": "quarter"
+    },
+    "notes": {
+      "type": "textarea",
+      "readonly": true,
+      "rows": 2
+    },
+    "lines": {
+      "type": "display",
+      "compute": "orderLines",
+      "template": "fields/order_lines"
+    },
+    "payments": {
+      "type": "display",
+      "compute": "orderPayments",
+      "template": "fields/order_payments"
+    },
+    "history": {
+      "type": "display",
+      "compute": "orderHistory",
+      "template": "fields/order_history"
+    },
+    "items_count": {
+      "type": "number",
+      "sql": "SELECT COALESCE(SUM(i.qty), 0) FROM order_items i WHERE i.order_id = orders.id"
+    }
+  },
+  "list": {
+    "columns": [
+      {
+        "field": "number",
+        "width": "130px"
+      },
+      {
+        "field": "created_at",
+        "width": "150px"
+      },
+      "bill_name",
+      "email",
+      {
+        "field": "items_count",
+        "width": "80px",
+        "align": "right"
+      },
+      {
+        "field": "status",
+        "width": "140px"
+      },
+      {
+        "field": "payment_status",
+        "width": "120px"
+      },
+      "payment_name",
+      {
+        "field": "total",
+        "width": "110px",
+        "align": "right"
+      }
+    ],
+    "defaultSort": {
+      "field": "created_at",
+      "dir": "desc"
+    },
+    "search": [
+      "number",
+      "email",
+      "bill_name",
+      "bill_company",
+      "tracking_number"
+    ],
+    "filtersOpen": false,
+    "filters": [
+      {
+        "field": "status"
+      },
+      {
+        "field": "payment_status"
+      },
+      {
+        "field": "payment_gateway"
+      },
+      {
+        "field": "created_at",
+        "operator": "between"
+      },
+      {
+        "field": "bill_country"
+      },
+      {
+        "field": "customer_id"
+      }
+    ],
+    "totals": [
+      "total"
+    ],
+    "expand": [
+      "notes",
+      "admin_notes"
+    ]
+  },
+  "form": {
+    "buttons": [
+      {
+        "label": "actions.mark_paid",
+        "icon": "badge-euro",
+        "action": "markPaid",
+        "variant": "primary",
+        "confirm": "confirm.mark_paid",
+        "showon": "payment_status!:paid",
+        "access": {
+          "permission": "mark_paid"
+        }
+      },
+      {
+        "label": "actions.resend",
+        "icon": "mail",
+        "action": "resendConfirmation",
+        "confirm": "confirm.resend"
+      },
+      {
+        "label": "actions.view_shop",
+        "icon": "external-link",
+        "action": "viewInShop"
+      }
+    ],
+    "sections": [
+      {
+        "title": "sections.status",
+        "fields": [
+          "number",
+          "created_at",
+          "status",
+          "payment_status",
+          "silent",
+          "status_note",
+          "tracking_number",
+          "admin_notes"
+        ]
+      },
+      {
+        "title": "sections.lines",
+        "fields": [
+          "lines"
+        ]
+      },
+      {
+        "title": "sections.customer",
+        "fields": [
+          "customer_id",
+          "group_id",
+          "email",
+          "phone"
+        ]
+      },
+      {
+        "title": "sections.billing",
+        "fields": [
+          "bill_name",
+          "bill_company",
+          "bill_vat_id",
+          "bill_address",
+          "bill_postcode",
+          "bill_city",
+          "bill_province",
+          "bill_country"
+        ]
+      },
+      {
+        "title": "sections.shipping",
+        "fields": [
+          "shipping_name",
+          "ship_phone",
+          "ship_name",
+          "ship_address",
+          "ship_postcode",
+          "ship_city",
+          "ship_province",
+          "ship_country",
+          "notes"
+        ]
+      },
+      {
+        "title": "sections.payment",
+        "fields": [
+          "payment_name",
+          "payment_gateway",
+          "coupon_code",
+          "subtotal",
+          "discount",
+          "shipping_cost",
+          "payment_fee",
+          "tax_total",
+          "total",
+          "weight",
+          "paid_at",
+          "shipped_at",
+          "payments"
+        ]
+      },
+      {
+        "title": "sections.history",
+        "fields": [
+          "history"
+        ]
+      }
+    ]
+  }
+}

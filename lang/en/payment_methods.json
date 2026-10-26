@@ -1,0 +1,49 @@
+{
+  "title": "Payment methods",
+  "description": "Bank transfer, Redsys, PayPal and any gateways you add",
+  "fields": {
+    "id": "ID",
+    "gateway": "Gateway",
+    "name": "Name",
+    "description": "Description",
+    "instructions": "Instructions",
+    "group_ids": "Customer groups",
+    "fee_percent": "Fee %",
+    "fee_fixed": "Fixed fee",
+    "min_total": "Minimum order",
+    "max_total": "Maximum order",
+    "active": "Active",
+    "sort": "Order",
+    "configured": "Credentials",
+    "created_at": "Created"
+  },
+  "gateway": {
+    "transfer": "Bank transfer",
+    "redsys": "Card (Redsys)",
+    "paypal": "PayPal"
+  },
+  "configured": {
+    "yes": "Configured",
+    "no": "Missing credentials"
+  },
+  "sections": {
+    "conditions": "Conditions",
+    "general": "General",
+    "info": "Information",
+    "seo": "Search engines (SEO)"
+  },
+  "help": {
+    "gateway": "Redsys and PayPal credentials go in config.local.php (payments)",
+    "name": "What the customer sees at checkout",
+    "instructions": "Shown after placing the order and in the email (e.g. the IBAN). You can use {number}, {total} and {shop}",
+    "groups": "Only for these customer groups. Empty = all",
+    "slug": "Part of the URL. Empty = generated from the name"
+  },
+  "validation": {
+    "gateway": "That gateway is not in config payments.gateways",
+    "slug": "Lowercase letters, numbers and hyphens only"
+  },
+  "flash": {
+    "not_found": "The record no longer exists"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "title": "Orders",
+  "description": "Shop orders: status, payment, shipping and customer notifications",
+  "fields": {
+    "id": "ID",
+    "number": "Number",
+    "created_at": "Date",
+    "status": "Status",
+    "payment_status": "Payment",
+    "status_note": "Note for the customer",
+    "tracking_number": "Tracking number",
+    "admin_notes": "Internal notes",
+    "customer_id": "Customer",
+    "group_id": "Group (price list)",
+    "email": "Email",
+    "phone": "Phone",
+    "bill_name": "Name",
+    "bill_company": "Company",
+    "bill_vat_id": "VAT ID",
+    "bill_address": "Address",
+    "bill_postcode": "Postcode",
+    "bill_city": "City",
+    "bill_province": "Province",
+    "bill_country": "Country",
+    "shipping_name": "Shipping method",
+    "ship_phone": "Delivery phone",
+    "ship_name": "Recipient",
+    "ship_address": "Shipping address",
+    "ship_postcode": "Postcode",
+    "ship_city": "City",
+    "ship_province": "Province",
+    "ship_country": "Country",
+    "payment_name": "Payment method",
+    "payment_gateway": "Gateway",
+    "coupon_code": "Coupon",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping_cost": "Shipping",
+    "payment_fee": "Payment fee",
+    "tax_total": "VAT included",
+    "total": "Total",
+    "weight": "Weight (kg)",
+    "paid_at": "Paid at",
+    "shipped_at": "Shipped at",
+    "notes": "Customer notes",
+    "lines": "Products",
+    "payments": "Payment attempts",
+    "history": "History",
+    "items_count": "Units",
+    "silent": "Don't notify the customer"
+  },
+  "status": {
+    "pending": "Awaiting payment",
+    "paid": "Paid",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded"
+  },
+  "gateway": {
+    "transfer": "Bank transfer",
+    "redsys": "Card (Redsys)",
+    "paypal": "PayPal"
+  },
+  "payment": {
+    "pending": "Pending",
+    "paid": "Paid",
+    "failed": "Failed",
+    "refunded": "Refunded",
+    "cancelled": "Cancelled"
+  },
+  "sections": {
+    "status": "Status",
+    "lines": "Products",
+    "customer": "Customer",
+    "billing": "Billing",
+    "shipping": "Shipping",
+    "payment": "Payment and amounts",
+    "history": "History"
+  },
+  "help": {
+    "status_note": "Saved in the history and included in the email if the customer is notified",
+    "silent": "Tick to change the status without emailing. Otherwise the customer is notified (processing, shipped, delivered, cancelled, refunded)"
+  },
+  "actions": {
+    "mark_paid": "Mark as paid",
+    "resend": "Resend confirmation",
+    "view_shop": "View in shop"
+  },
+  "perm": {
+    "mark_paid": "Mark paid"
+  },
+  "confirm": {
+    "mark_paid": "Mark the order as paid? The customer will receive the confirmation.",
+    "resend": "Resend the order email to the customer?"
+  },
+  "flash": {
+    "marked_paid": "Order marked as paid",
+    "resent": "Email resent to {email}",
+    "not_found": "The record no longer exists"
+  },
+  "history": {
+    "marked_paid": "Marked as paid from the back office",
+    "system": "Shop",
+    "notified": "Customer notified"
+  },
+  "lines": {
+    "product": "Product",
+    "sku": "SKU",
+    "qty": "Qty",
+    "unit_price": "Price",
+    "discount": "Disc.",
+    "tax": "VAT",
+    "total": "Total",
+    "free_shipping": "Free shipping",
+    "tax_breakdown": "VAT {rate}% on {base}"
+  },
+  "payments": {
+    "none": "No gateway payment attempts",
+    "date": "Date",
+    "gateway": "Gateway",
+    "reference": "Reference",
+    "status": "Status",
+    "transaction": "Authorisation",
+    "amount": "Amount"
+  },
+  "validation": {
+    "status": "Invalid status"
+  }
+}

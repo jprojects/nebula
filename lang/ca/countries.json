@@ -1,0 +1,18 @@
+{
+  "title": "Països",
+  "description": "Països on es ven (checkout i regles d'enviament)",
+  "fields": {
+    "id": "ID",
+    "code": "Codi",
+    "name": "Nom",
+    "active": "Al checkout",
+    "sort": "Ordre"
+  },
+  "help": {
+    "code": "ISO de 2 lletres: ES, PT, FR…",
+    "active": "El client el pot triar"
+  },
+  "validation": {
+    "code": "Dues lletres majúscules"
+  }
+}

@@ -1,0 +1,13 @@
+Options -Indexes
+DirectoryIndex index.php
+
+# Corta la herencia de las reglas del .htaccess de la raíz (evita un bucle public/public/…)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Cabecera de autorización para la API remota en PHP como CGI/FPM
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # URLs de la tienda (/p/producto, /c/categoria…): lo que no es un fichero ni una carpeta va a index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>

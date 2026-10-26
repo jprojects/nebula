@@ -1,0 +1,7 @@
+{
+  "type": "page",
+  "controller": "Nebula\\Pages\\IntegrationsPage",
+  "feature": "google",
+  "adminOnly": true,
+  "menu": { "group": "admin", "order": 960, "icon": "plug" }
+}

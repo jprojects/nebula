@@ -1,0 +1,6 @@
+{
+  "type": "page",
+  "controller": "Nebula\\Pages\\ShippingSimulatorPage",
+  "requires": ["shipping_methods"],
+  "menu": { "group": "settings", "order": 115, "icon": "calculator" }
+}

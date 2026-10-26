@@ -1,0 +1,36 @@
+{
+  "title": "Grupos y tarifas",
+  "description": "Roles de cliente: cada grupo tiene su tarifa de precios",
+  "fields": {
+    "id": "ID",
+    "code": "Código",
+    "name": "Nombre",
+    "description": "Descripción",
+    "discount_percent": "Descuento general %",
+    "is_default": "Por defecto",
+    "customers": "Clientes",
+    "products": "Productos con precio propio",
+    "created_at": "Creado"
+  },
+  "actions": {
+    "customers": "Ver clientes"
+  },
+  "help": {
+    "discount_percent": "Se aplica al precio general de los productos que no tienen precio propio para este grupo",
+    "is_default": "El de los visitantes y los clientes nuevos",
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+  },
+  "validation": {
+    "code": "Solo minúsculas, números y guion bajo",
+    "default_group": "No se puede borrar el grupo por defecto",
+    "slug": "Solo minúsculas, números y guiones"
+  },
+  "sections": {
+    "general": "Datos generales",
+    "info": "Información",
+    "seo": "Buscadores (SEO)"
+  },
+  "flash": {
+    "not_found": "El registro ya no existe"
+  }
+}

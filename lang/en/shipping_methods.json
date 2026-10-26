@@ -1,0 +1,57 @@
+{
+  "title": "Shipping methods",
+  "description": "Shipping rates by country, postcode, weight and amount",
+  "fields": {
+    "id": "ID",
+    "name": "Name",
+    "carrier": "Carrier",
+    "delivery": "Delivery time",
+    "description": "Description",
+    "tracking_url": "Tracking URL",
+    "group_ids": "Customer groups",
+    "active": "Active",
+    "pickup": "Store pickup",
+    "sort": "Order",
+    "rules": "Rate rules",
+    "rules_count": "Rules",
+    "created_at": "Created"
+  },
+  "rules": {
+    "countries": "Countries",
+    "postcodes": "Postcodes",
+    "weight_min": "Weight from (kg)",
+    "weight_max": "Weight to (kg)",
+    "subtotal_min": "Amount from",
+    "subtotal_max": "Amount to",
+    "price": "Price",
+    "price_per_kg": "+ per kg",
+    "free_from": "Free from"
+  },
+  "repeater": {
+    "add_rule": "Add rule"
+  },
+  "sections": {
+    "rules": "Rate rules",
+    "general": "General",
+    "info": "Information",
+    "seo": "Search engines (SEO)"
+  },
+  "actions": {
+    "simulate": "Simulate shipping"
+  },
+  "help": {
+    "delivery": "Shown to the customer: “24/48 h”",
+    "tracking_url": "With {tracking}: https://carrier.com/?n={tracking}",
+    "pickup": "No shipping address needed. Without rules it is always offered and free",
+    "rules": "The FIRST matching rule is used, in this order. Countries: ES,PT (empty = all). Postcodes: 07* (starts with), 08000-08999 (range), !35* (except); empty = all. Weight and amount: from included, to excluded. If none matches, this method is not offered",
+    "groups": "Only for these customer groups. Empty = all",
+    "slug": "Part of the URL. Empty = generated from the name"
+  },
+  "validation": {
+    "rule_country": "Rule countries are 2-letter codes separated by commas (ES,PT)",
+    "slug": "Lowercase letters, numbers and hyphens only"
+  },
+  "flash": {
+    "not_found": "The record no longer exists"
+  }
+}

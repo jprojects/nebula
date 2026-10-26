@@ -1,0 +1,40 @@
+{
+  "title": "Categories",
+  "description": "Shop category tree (a product can be in several)",
+  "fields": {
+    "id": "ID",
+    "name": "Name",
+    "parent_id": "Parent",
+    "slug": "URL",
+    "sort": "Order",
+    "active": "Visible",
+    "in_menu": "In menu",
+    "description": "Description",
+    "image": "Image",
+    "meta_title": "SEO title",
+    "meta_description": "SEO description",
+    "products": "Products",
+    "created_at": "Created"
+  },
+  "placeholder": {
+    "root": "(Top level)"
+  },
+  "actions": {
+    "products": "View products"
+  },
+  "validation": {
+    "parent_cycle": "A category cannot be inside itself or its subcategories",
+    "slug": "Lowercase letters, numbers and hyphens only"
+  },
+  "sections": {
+    "general": "General",
+    "info": "Information",
+    "seo": "Search engines (SEO)"
+  },
+  "help": {
+    "slug": "Part of the URL. Empty = generated from the name"
+  },
+  "flash": {
+    "not_found": "The record no longer exists"
+  }
+}

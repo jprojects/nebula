@@ -1,0 +1,44 @@
+{
+  "table": "customer_groups",
+  "primaryKey": "id",
+  "recordTitle": "name",
+  "hooks": "Nebula\\Hooks\\CustomerGroupsHooks",
+  "menu": { "group": "settings", "order": 130, "icon": "tags" },
+
+  "fields": {
+    "id":               { "type": "number", "readonly": true, "grouping": false },
+    "code":             { "type": "text", "required": true, "unique": true, "maxlength": 50, "pattern": "[a-z0-9_]+",
+                          "patternMessage": "validation.code", "width": "third", "autocomplete": "off" },
+    "name":             { "type": "text", "required": true, "maxlength": 100, "width": "two-thirds" },
+    "description":      { "type": "textarea", "rows": 2, "maxlength": 255 },
+    "discount_percent": { "type": "number", "decimals": 2, "min": 0, "max": 100, "default": 0, "width": "half", "help": "help.discount_percent" },
+    "is_default":       { "type": "checkbox", "width": "half", "help": "help.is_default", "colors": { "1": "green" } },
+    "customers":        { "type": "number", "width": "third", "sql": "SELECT COUNT(*) FROM customers c WHERE c.group_id = customer_groups.id" },
+    "products":         { "type": "number", "width": "third", "sql": "SELECT COUNT(DISTINCT pp.product_id) FROM product_prices pp WHERE pp.group_id = customer_groups.id" },
+    "created_at":       { "type": "datetime", "readonly": true, "width": "third" }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "id", "width": "70px" },
+      { "field": "code", "width": "150px" },
+      "name",
+      { "field": "discount_percent", "width": "110px", "align": "right" },
+      { "field": "is_default", "width": "100px" },
+      { "field": "customers", "width": "100px", "align": "right" },
+      { "field": "products", "width": "130px", "align": "right" }
+    ],
+    "defaultSort": { "field": "name", "dir": "asc" },
+    "search": ["code", "name"],
+    "rowActions": [
+      { "label": "actions.customers", "icon": "users", "url": "index.php?r=list&m=customers&f[group_id]={id}" }
+    ]
+  },
+
+  "form": {
+    "sections": [
+      { "title": "sections.general", "fields": ["code", "name", "description", "discount_percent", "is_default"] },
+      { "title": "sections.info", "fields": ["customers", "products", "created_at"] }
+    ]
+  }
+}

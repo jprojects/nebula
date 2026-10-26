@@ -1,0 +1,30 @@
+{
+  "title": "Panel",
+  "description": "Ventas, pedidos por gestionar y existencias",
+  "kpi": {
+    "today": "Ventas de hoy",
+    "month": "Ventas del mes",
+    "orders_n": "{n} pedidos",
+    "prev_month": "Mes anterior: {total}",
+    "pending_payment": "Pendientes de pago",
+    "to_ship": "Por preparar",
+    "customers": "Clientes nuevos del mes",
+    "shop": "Ver la tienda"
+  },
+  "chart": {
+    "title": "Ventas de los últimos 30 días",
+    "today": "Hoy"
+  },
+  "recent": {
+    "title": "Últimos pedidos",
+    "empty": "Todavía no hay pedidos"
+  },
+  "top": {
+    "title": "Más vendidos (30 días)",
+    "empty": "Sin ventas en los últimos 30 días"
+  },
+  "stock": {
+    "title": "Existencias bajas",
+    "empty": "Ningún producto con pocas existencias"
+  }
+}

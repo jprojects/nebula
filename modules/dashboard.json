@@ -1,0 +1,5 @@
+{
+  "type": "page",
+  "controller": "Nebula\\Pages\\DashboardPage",
+  "menu": { "group": "shop", "order": 5, "icon": "layout-dashboard" }
+}

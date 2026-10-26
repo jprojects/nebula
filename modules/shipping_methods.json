@@ -1,0 +1,62 @@
+{
+  "table": "shipping_methods",
+  "primaryKey": "id",
+  "recordTitle": "name",
+  "hooks": "Nebula\\Hooks\\ShippingHooks",
+  "menu": { "group": "settings", "order": 110, "icon": "truck" },
+
+  "fields": {
+    "id":           { "type": "number", "readonly": true, "grouping": false },
+    "name":         { "type": "text", "required": true, "maxlength": 150, "width": "half" },
+    "carrier":      { "type": "text", "maxlength": 100, "width": "quarter" },
+    "delivery":     { "type": "text", "maxlength": 100, "width": "quarter", "help": "help.delivery" },
+    "description":  { "type": "text", "maxlength": 300 },
+    "tracking_url": { "type": "text", "maxlength": 300, "help": "help.tracking_url", "width": "half" },
+    "group_ids":    { "type": "select", "multiple": true, "width": "half", "help": "help.groups",
+                      "source": { "table": "customer_groups", "value": "id", "label": "name" } },
+    "active":       { "type": "checkbox", "default": 1, "width": "quarter", "colors": { "0": "gray" } },
+    "pickup":       { "type": "checkbox", "width": "quarter", "help": "help.pickup" },
+    "sort":         { "type": "number", "default": 0, "width": "quarter" },
+    "rules":        { "type": "repeater", "layout": "block", "max": 100, "addLabel": "repeater.add_rule", "summary": "countries",
+                      "help": "help.rules",
+                      "fields": {
+                        "countries":    { "type": "text", "label": "rules.countries", "maxlength": 200, "width": "third", "placeholder": "ES,PT" },
+                        "postcodes":    { "type": "text", "label": "rules.postcodes", "maxlength": 500, "width": "two-thirds", "placeholder": "07*, 35*, 38*, 08000-08999, !51*" },
+                        "weight_min":   { "type": "number", "label": "rules.weight_min", "decimals": 3, "min": 0, "width": "quarter" },
+                        "weight_max":   { "type": "number", "label": "rules.weight_max", "decimals": 3, "min": 0, "width": "quarter" },
+                        "subtotal_min": { "type": "number", "label": "rules.subtotal_min", "decimals": 2, "min": 0, "width": "quarter" },
+                        "subtotal_max": { "type": "number", "label": "rules.subtotal_max", "decimals": 2, "min": 0, "width": "quarter" },
+                        "price":        { "type": "number", "label": "rules.price", "decimals": 2, "min": 0, "required": true, "width": "third" },
+                        "price_per_kg": { "type": "number", "label": "rules.price_per_kg", "decimals": 2, "min": 0, "width": "third" },
+                        "free_from":    { "type": "number", "label": "rules.free_from", "decimals": 2, "min": 0, "width": "third" }
+                      } },
+    "rules_count":  { "type": "number", "sql": "COALESCE(JSON_LENGTH(shipping_methods.rules), 0)" },
+    "created_at":   { "type": "datetime", "readonly": true }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "id", "width": "70px" },
+      "name",
+      "carrier",
+      "delivery",
+      { "field": "rules_count", "width": "90px", "align": "right" },
+      { "field": "pickup", "width": "90px" },
+      { "field": "sort", "width": "80px", "align": "right" },
+      { "field": "active", "width": "80px" }
+    ],
+    "defaultSort": { "field": "sort", "dir": "asc" },
+    "search": ["name", "carrier"],
+    "expand": ["rules"],
+    "toolbar": [
+      { "label": "actions.simulate", "icon": "calculator", "url": "index.php?r=page&m=shipping_simulator" }
+    ]
+  },
+
+  "form": {
+    "sections": [
+      { "title": "sections.general", "fields": ["name", "carrier", "delivery", "description", "tracking_url", "group_ids", "active", "pickup", "sort"] },
+      { "title": "sections.rules", "fields": ["rules"] }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "title": "Dashboard",
+  "description": "Sales, orders to handle and stock",
+  "kpi": {
+    "today": "Sales today",
+    "month": "Sales this month",
+    "orders_n": "{n} orders",
+    "prev_month": "Last month: {total}",
+    "pending_payment": "Awaiting payment",
+    "to_ship": "To fulfil",
+    "customers": "New customers this month",
+    "shop": "View shop"
+  },
+  "chart": {
+    "title": "Sales in the last 30 days",
+    "today": "Today"
+  },
+  "recent": {
+    "title": "Latest orders",
+    "empty": "No orders yet"
+  },
+  "top": {
+    "title": "Best sellers (30 days)",
+    "empty": "No sales in the last 30 days"
+  },
+  "stock": {
+    "title": "Low stock",
+    "empty": "No products with low stock"
+  }
+}

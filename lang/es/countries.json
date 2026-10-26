@@ -1,0 +1,18 @@
+{
+  "title": "Países",
+  "description": "Países a los que se vende (checkout y reglas de envío)",
+  "fields": {
+    "id": "ID",
+    "code": "Código",
+    "name": "Nombre",
+    "active": "En el checkout",
+    "sort": "Orden"
+  },
+  "help": {
+    "code": "ISO de 2 letras: ES, PT, FR…",
+    "active": "El cliente lo puede elegir"
+  },
+  "validation": {
+    "code": "Dos letras mayúsculas"
+  }
+}

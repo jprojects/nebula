@@ -1,0 +1,21 @@
+{
+  "title": "Shipping simulator",
+  "description": "Which shipping options a customer would see, and at what price",
+  "form": {
+    "country": "Country",
+    "postcode": "Postcode",
+    "weight": "Weight (kg)",
+    "subtotal": "Product amount",
+    "group": "Group",
+    "default_group": "Default",
+    "submit": "Calculate"
+  },
+  "result": {
+    "title": "Available shipping",
+    "none": "No shipping method matches these details",
+    "method": "Method",
+    "delivery": "Delivery",
+    "price": "Price",
+    "free": "Free"
+  }
+}

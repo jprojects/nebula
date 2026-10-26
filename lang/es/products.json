@@ -1,0 +1,81 @@
+{
+  "title": "Productos",
+  "description": "Catálogo: precios por tarifa, colores con sus imágenes y existencias",
+  "fields": {
+    "id": "ID",
+    "name": "Nombre",
+    "sku": "Referencia",
+    "slug": "URL",
+    "active": "Publicado",
+    "featured": "Destacado",
+    "categories": "Categorías",
+    "sort": "Orden",
+    "price": "Precio (IVA incl.)",
+    "compare_price": "Precio anterior",
+    "tax_rate": "IVA %",
+    "weight": "Peso (kg)",
+    "stock": "Existencias",
+    "prices": "Precios por grupo de clientes",
+    "summary": "Resumen",
+    "description": "Descripción",
+    "images": "Imágenes",
+    "colors": "Colores",
+    "meta_title": "Título para buscadores",
+    "meta_description": "Descripción para buscadores",
+    "created_at": "Creado",
+    "updated_at": "Modificado",
+    "sold": "Vendidos",
+    "colors_count": "Colores"
+  },
+  "prices": {
+    "group": "Grupo",
+    "min_qty": "Desde (u.)",
+    "price": "Precio"
+  },
+  "colors": {
+    "name": "Nombre del color",
+    "hex": "Muestra",
+    "sku": "Referencia",
+    "price_delta": "Suplemento",
+    "images": "Imágenes del color"
+  },
+  "repeater": {
+    "add_price": "Añadir precio",
+    "add_color": "Añadir color"
+  },
+  "sections": {
+    "prices": "Precios y existencias",
+    "images": "Imágenes y colores",
+    "description": "Descripción",
+    "general": "Datos generales",
+    "info": "Información",
+    "seo": "Buscadores (SEO)"
+  },
+  "help": {
+    "sort": "Menor = antes en los listados",
+    "price": "Precio general (tarifa por defecto)",
+    "compare_price": "Se muestra tachado si es mayor que el precio",
+    "weight": "Para calcular los portes",
+    "stock": "Vacío = sin control de existencias",
+    "prices": "Precio para un grupo (tarifa) y a partir de una cantidad. Sin fila para un grupo se aplica el precio general con el descuento del grupo",
+    "images": "La primera es la principal",
+    "colors": "Cada color con sus imágenes: en la ficha, al elegir el color se ven sus fotos. El suplemento se suma al precio",
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+  },
+  "actions": {
+    "duplicate": "Duplicar",
+    "view_shop": "Ver en la tienda"
+  },
+  "confirm": {
+    "duplicate": "¿Duplicar este producto? La copia queda sin publicar."
+  },
+  "flash": {
+    "duplicated": "Producto duplicado",
+    "copy": "copia",
+    "not_found": "El registro ya no existe"
+  },
+  "validation": {
+    "prices_duplicated": "Hay dos precios para el mismo grupo y la misma cantidad",
+    "slug": "Solo minúsculas, números y guiones"
+  }
+}

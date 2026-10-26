@@ -1,0 +1,72 @@
+{
+  "title": "Promotions",
+  "description": "Automatic discounts and coupons with dates, minimums and usage limits",
+  "fields": {
+    "id": "ID",
+    "name": "Name",
+    "label": "Customer-facing label",
+    "code": "Coupon code",
+    "active": "Active",
+    "combinable": "Combinable",
+    "type": "Type",
+    "value": "Value",
+    "min_subtotal": "Minimum amount",
+    "scope": "Applies to",
+    "categories": "Categories",
+    "products": "Products",
+    "group_ids": "Customer groups",
+    "starts_at": "Starts",
+    "ends_at": "Ends",
+    "max_uses": "Max uses",
+    "max_uses_customer": "Uses per customer",
+    "uses": "Uses",
+    "discounted": "Discounted",
+    "state": "State",
+    "created_at": "Created"
+  },
+  "type": {
+    "percent": "Percentage",
+    "fixed": "Fixed amount",
+    "free_shipping": "Free shipping"
+  },
+  "scope": {
+    "all": "Whole order",
+    "categories": "Some categories",
+    "products": "Some products"
+  },
+  "state": {
+    "running": "Running",
+    "scheduled": "Scheduled",
+    "ended": "Ended",
+    "off": "Disabled",
+    "exhausted": "Used up"
+  },
+  "sections": {
+    "discount": "Discount",
+    "dates": "Dates and limits",
+    "general": "General",
+    "info": "Information",
+    "seo": "Search engines (SEO)"
+  },
+  "help": {
+    "name": "For the back office",
+    "label": "What the customer sees in the cart (empty = the name)",
+    "code": "Empty = applied automatically to whoever meets the conditions",
+    "combinable": "If not, it applies alone or not at all (the biggest saving wins)",
+    "value": "% or amount depending on the type",
+    "min_subtotal": "Minimum product amount. With no minimum and no coupon, the reduced price is already shown in the catalogue",
+    "max_uses": "Empty = unlimited",
+    "groups": "Only for these customer groups. Empty = all",
+    "slug": "Part of the URL. Empty = generated from the name"
+  },
+  "validation": {
+    "code": "Letters, numbers, hyphens and underscores only",
+    "percent": "The percentage must be between 0 and 100",
+    "value": "Enter the discount amount",
+    "dates": "The end date is before the start date",
+    "slug": "Lowercase letters, numbers and hyphens only"
+  },
+  "flash": {
+    "not_found": "The record no longer exists"
+  }
+}

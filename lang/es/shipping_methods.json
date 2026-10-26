@@ -1,0 +1,57 @@
+{
+  "title": "Formas de envío",
+  "description": "Portes por país, código postal, peso e importe",
+  "fields": {
+    "id": "ID",
+    "name": "Nombre",
+    "carrier": "Transportista",
+    "delivery": "Plazo",
+    "description": "Descripción",
+    "tracking_url": "URL de seguimiento",
+    "group_ids": "Grupos de clientes",
+    "active": "Activa",
+    "pickup": "Recogida en tienda",
+    "sort": "Orden",
+    "rules": "Reglas de portes",
+    "rules_count": "Reglas",
+    "created_at": "Creada"
+  },
+  "rules": {
+    "countries": "Países",
+    "postcodes": "Códigos postales",
+    "weight_min": "Peso desde (kg)",
+    "weight_max": "Peso hasta (kg)",
+    "subtotal_min": "Importe desde",
+    "subtotal_max": "Importe hasta",
+    "price": "Precio",
+    "price_per_kg": "+ por kg",
+    "free_from": "Gratis desde"
+  },
+  "repeater": {
+    "add_rule": "Añadir regla"
+  },
+  "sections": {
+    "rules": "Reglas de portes",
+    "general": "Datos generales",
+    "info": "Información",
+    "seo": "Buscadores (SEO)"
+  },
+  "actions": {
+    "simulate": "Simular portes"
+  },
+  "help": {
+    "delivery": "Lo que ve el cliente: «24/48 h»",
+    "tracking_url": "Con {tracking}: https://transportista.com/?n={tracking}",
+    "pickup": "No pide dirección de envío. Sin reglas, se ofrece siempre y es gratis",
+    "rules": "Se usa la PRIMERA que encaja, en este orden. Países: ES,PT (vacío = todos). Códigos postales: 07* (empieza por), 08000-08999 (intervalo), !35* (excepto); vacío = todos. Peso e importe: desde incluido, hasta excluido. Si ninguna encaja, este envío no se ofrece",
+    "groups": "Solo para estos grupos de clientes. Vacío = todos",
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+  },
+  "validation": {
+    "rule_country": "Los países de las reglas son códigos de 2 letras separados por comas (ES,PT)",
+    "slug": "Solo minúsculas, números y guiones"
+  },
+  "flash": {
+    "not_found": "El registro ya no existe"
+  }
+}

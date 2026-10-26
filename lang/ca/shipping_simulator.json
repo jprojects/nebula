@@ -1,0 +1,21 @@
+{
+  "title": "Simulador de ports",
+  "description": "Quins enviaments i a quin preu veuria un client",
+  "form": {
+    "country": "País",
+    "postcode": "Codi postal",
+    "weight": "Pes (kg)",
+    "subtotal": "Import productes",
+    "group": "Grup",
+    "default_group": "Per defecte",
+    "submit": "Calcular"
+  },
+  "result": {
+    "title": "Enviaments disponibles",
+    "none": "Cap forma d'enviament encaixa amb aquestes dades",
+    "method": "Forma d'enviament",
+    "delivery": "Termini",
+    "price": "Preu",
+    "free": "Gratuït"
+  }
+}

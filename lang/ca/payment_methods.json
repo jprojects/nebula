@@ -1,0 +1,49 @@
+{
+  "title": "Formes de pagament",
+  "description": "Transferència, Redsys, PayPal i les passarel·les que s'hi afegeixin",
+  "fields": {
+    "id": "ID",
+    "gateway": "Passarel·la",
+    "name": "Nom",
+    "description": "Descripció",
+    "instructions": "Instruccions",
+    "group_ids": "Grups de clients",
+    "fee_percent": "Recàrrec %",
+    "fee_fixed": "Recàrrec fix",
+    "min_total": "Comanda mínima",
+    "max_total": "Comanda màxima",
+    "active": "Activa",
+    "sort": "Ordre",
+    "configured": "Claus",
+    "created_at": "Creada"
+  },
+  "gateway": {
+    "transfer": "Transferència bancària",
+    "redsys": "Targeta (Redsys)",
+    "paypal": "PayPal"
+  },
+  "configured": {
+    "yes": "Configurada",
+    "no": "Falten les claus"
+  },
+  "sections": {
+    "conditions": "Condicions",
+    "general": "Dades generals",
+    "info": "Informació",
+    "seo": "Cercadors (SEO)"
+  },
+  "help": {
+    "gateway": "Les claus de Redsys i PayPal van a config.local.php (payments)",
+    "name": "El que veu el client al checkout",
+    "instructions": "Es mostren en acabar la comanda i al correu (p. ex. l'IBAN). Pots fer servir {number}, {total} i {shop}",
+    "groups": "Només per a aquests grups de clients. Buit = tots",
+    "slug": "Part de l'URL. Buit = es crea a partir del nom"
+  },
+  "validation": {
+    "gateway": "Aquesta passarel·la no és a config payments.gateways",
+    "slug": "Només minúscules, números i guions"
+  },
+  "flash": {
+    "not_found": "El registre ja no existeix"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "title": "Promociones",
+  "description": "Descuentos automáticos y cupones con fechas, mínimos y límites de uso",
+  "fields": {
+    "id": "ID",
+    "name": "Nombre",
+    "label": "Texto para el cliente",
+    "code": "Cupón",
+    "active": "Activa",
+    "combinable": "Combinable",
+    "type": "Tipo",
+    "value": "Valor",
+    "min_subtotal": "Importe mínimo",
+    "scope": "Se aplica a",
+    "categories": "Categorías",
+    "products": "Productos",
+    "group_ids": "Grupos de clientes",
+    "starts_at": "Desde",
+    "ends_at": "Hasta",
+    "max_uses": "Usos máximos",
+    "max_uses_customer": "Usos por cliente",
+    "uses": "Usos",
+    "discounted": "Descontado",
+    "state": "Estado",
+    "created_at": "Creada"
+  },
+  "type": {
+    "percent": "Porcentaje",
+    "fixed": "Importe fijo",
+    "free_shipping": "Envío gratis"
+  },
+  "scope": {
+    "all": "Todo el pedido",
+    "categories": "Unas categorías",
+    "products": "Unos productos"
+  },
+  "state": {
+    "running": "En curso",
+    "scheduled": "Programada",
+    "ended": "Terminada",
+    "off": "Desactivada",
+    "exhausted": "Agotada"
+  },
+  "sections": {
+    "discount": "Descuento",
+    "dates": "Fechas y límites",
+    "general": "Datos generales",
+    "info": "Información",
+    "seo": "Buscadores (SEO)"
+  },
+  "help": {
+    "name": "Para la gestión",
+    "label": "Lo que ve el cliente en el carrito (vacío = el nombre)",
+    "code": "Vacío = se aplica sola a quien cumpla las condiciones",
+    "combinable": "Si no, se aplica sola o no se aplica (gana la que más ahorra)",
+    "value": "% o importe según el tipo",
+    "min_subtotal": "Importe mínimo de los productos. Sin mínimo y sin cupón, el precio rebajado se ve ya en el catálogo",
+    "max_uses": "Vacío = sin límite",
+    "groups": "Solo para estos grupos de clientes. Vacío = todos",
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+  },
+  "validation": {
+    "code": "Solo letras, números, guiones y guion bajo",
+    "percent": "El porcentaje tiene que estar entre 0 y 100",
+    "value": "Indica el importe del descuento",
+    "dates": "La fecha de fin es anterior a la de inicio",
+    "slug": "Solo minúsculas, números y guiones"
+  },
+  "flash": {
+    "not_found": "El registro ya no existe"
+  }
+}

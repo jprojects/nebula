@@ -1,0 +1,67 @@
+{
+  "table": "promotions",
+  "primaryKey": "id",
+  "hooks": "Nebula\\Hooks\\PromotionsHooks",
+  "recordTitle": "name",
+  "menu": { "group": "shop", "order": 50, "icon": "badge-percent" },
+
+  "fields": {
+    "id":                { "type": "number", "readonly": true, "grouping": false },
+    "name":              { "type": "text", "required": true, "maxlength": 150, "width": "half", "help": "help.name" },
+    "label":             { "type": "text", "maxlength": 150, "width": "half", "help": "help.label" },
+    "code":              { "type": "text", "maxlength": 40, "unique": true, "pattern": "[A-Za-z0-9_\\-]*", "patternMessage": "validation.code",
+                           "width": "third", "help": "help.code", "autocomplete": "off" },
+    "active":            { "type": "checkbox", "default": 1, "width": "third", "colors": { "0": "gray" } },
+    "combinable":        { "type": "checkbox", "default": 1, "width": "third", "help": "help.combinable" },
+    "type":              { "type": "select", "required": true, "default": "percent", "width": "third",
+                           "options": { "percent": "type.percent", "fixed": "type.fixed", "free_shipping": "type.free_shipping" },
+                           "colors": { "percent": "blue", "fixed": "purple", "free_shipping": "teal" } },
+    "value":             { "type": "number", "decimals": 2, "min": 0, "default": 0, "width": "third", "showon": "type!:free_shipping", "help": "help.value" },
+    "min_subtotal":      { "type": "number", "decimals": 2, "min": 0, "width": "third", "help": "help.min_subtotal" },
+    "scope":             { "type": "select", "required": true, "default": "all", "width": "third",
+                           "options": { "all": "scope.all", "categories": "scope.categories", "products": "scope.products" } },
+    "categories":        { "type": "select", "multiple": true, "width": "two-thirds", "showon": "scope:categories",
+                           "source": { "table": "categories", "value": "id", "label": "name", "order": "name" } },
+    "products":          { "type": "select", "multiple": true, "width": "two-thirds", "showon": "scope:products", "search": "remote",
+                           "source": { "table": "products", "value": "id", "label": "name", "order": "name" } },
+    "group_ids":         { "type": "select", "multiple": true, "help": "help.groups",
+                           "source": { "table": "customer_groups", "value": "id", "label": "name" } },
+    "starts_at":         { "type": "datetime", "width": "half" },
+    "ends_at":           { "type": "datetime", "width": "half" },
+    "max_uses":          { "type": "number", "min": 1, "width": "third", "help": "help.max_uses" },
+    "max_uses_customer": { "type": "number", "min": 1, "width": "third" },
+    "uses":              { "type": "number", "readonly": true, "width": "third" },
+    "discounted":        { "type": "number", "decimals": 2, "width": "third",
+                           "sql": "SELECT COALESCE(SUM(u.amount), 0) FROM promotion_uses u WHERE u.promotion_id = promotions.id" },
+    "state":             { "type": "select", "compute": "state",
+                           "options": { "running": "state.running", "scheduled": "state.scheduled", "ended": "state.ended", "off": "state.off", "exhausted": "state.exhausted" },
+                           "colors": { "running": "green", "scheduled": "blue", "ended": "gray", "off": "gray", "exhausted": "amber" } },
+    "created_at":        { "type": "datetime", "readonly": true, "width": "third" }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "id", "width": "70px" },
+      "name",
+      { "field": "code", "width": "130px" },
+      { "field": "type", "width": "130px" },
+      { "field": "value", "width": "90px", "align": "right" },
+      { "field": "scope", "width": "120px" },
+      { "field": "starts_at", "width": "150px" },
+      { "field": "ends_at", "width": "150px" },
+      { "field": "uses", "width": "80px", "align": "right" },
+      { "field": "state", "width": "120px" }
+    ],
+    "defaultSort": { "field": "created_at", "dir": "desc" },
+    "search": ["name", "label", "code"],
+    "filters": [{ "field": "type" }, { "field": "active" }, { "field": "starts_at", "operator": "between" }]
+  },
+
+  "form": {
+    "sections": [
+      { "title": "sections.general", "fields": ["name", "label", "code", "active", "combinable", "state"] },
+      { "title": "sections.discount", "fields": ["type", "value", "min_subtotal", "scope", "categories", "products", "group_ids"] },
+      { "title": "sections.dates", "fields": ["starts_at", "ends_at", "max_uses", "max_uses_customer", "uses", "discounted"] }
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Categorías",
+  "description": "Árbol de categorías de la tienda (un producto puede estar en varias)",
+  "fields": {
+    "id": "ID",
+    "name": "Nombre",
+    "parent_id": "Dentro de",
+    "slug": "URL",
+    "sort": "Orden",
+    "active": "Visible",
+    "in_menu": "En el menú",
+    "description": "Descripción",
+    "image": "Imagen",
+    "meta_title": "Título para buscadores",
+    "meta_description": "Descripción para buscadores",
+    "products": "Productos",
+    "created_at": "Creada"
+  },
+  "placeholder": {
+    "root": "(Principal)"
+  },
+  "actions": {
+    "products": "Ver productos"
+  },
+  "validation": {
+    "parent_cycle": "Una categoría no puede estar dentro de sí misma ni de sus subcategorías",
+    "slug": "Solo minúsculas, números y guiones"
+  },
+  "sections": {
+    "general": "Datos generales",
+    "info": "Información",
+    "seo": "Buscadores (SEO)"
+  },
+  "help": {
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+  },
+  "flash": {
+    "not_found": "El registro ya no existe"
+  }
+}

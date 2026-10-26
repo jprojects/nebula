@@ -1,0 +1,72 @@
+{
+  "title": "Promocions",
+  "description": "Descomptes automàtics i cupons amb dates, mínims i límits d'ús",
+  "fields": {
+    "id": "ID",
+    "name": "Nom",
+    "label": "Text per al client",
+    "code": "Cupó",
+    "active": "Activa",
+    "combinable": "Combinable",
+    "type": "Tipus",
+    "value": "Valor",
+    "min_subtotal": "Import mínim",
+    "scope": "S'aplica a",
+    "categories": "Categories",
+    "products": "Productes",
+    "group_ids": "Grups de clients",
+    "starts_at": "Des de",
+    "ends_at": "Fins a",
+    "max_uses": "Usos màxims",
+    "max_uses_customer": "Usos per client",
+    "uses": "Usos",
+    "discounted": "Descomptat",
+    "state": "Estat",
+    "created_at": "Creada"
+  },
+  "type": {
+    "percent": "Percentatge",
+    "fixed": "Import fix",
+    "free_shipping": "Enviament gratuït"
+  },
+  "scope": {
+    "all": "Tota la comanda",
+    "categories": "Unes categories",
+    "products": "Uns productes"
+  },
+  "state": {
+    "running": "En curs",
+    "scheduled": "Programada",
+    "ended": "Acabada",
+    "off": "Desactivada",
+    "exhausted": "Esgotada"
+  },
+  "sections": {
+    "discount": "Descompte",
+    "dates": "Dates i límits",
+    "general": "Dades generals",
+    "info": "Informació",
+    "seo": "Cercadors (SEO)"
+  },
+  "help": {
+    "name": "Per a la gestió",
+    "label": "El que veu el client a la cistella (buit = el nom)",
+    "code": "Buit = s'aplica sola a qui compleixi les condicions",
+    "combinable": "Si no, s'aplica sola o no s'aplica (guanya la que estalvia més)",
+    "value": "% o import segons el tipus",
+    "min_subtotal": "Import mínim dels productes. Sense mínim i sense cupó, el preu rebaixat ja es veu al catàleg",
+    "max_uses": "Buit = sense límit",
+    "groups": "Només per a aquests grups de clients. Buit = tots",
+    "slug": "Part de l'URL. Buit = es crea a partir del nom"
+  },
+  "validation": {
+    "code": "Només lletres, números, guions i guió baix",
+    "percent": "El percentatge ha de ser entre 0 i 100",
+    "value": "Indica l'import del descompte",
+    "dates": "La data de fi és anterior a la d'inici",
+    "slug": "Només minúscules, números i guions"
+  },
+  "flash": {
+    "not_found": "El registre ja no existeix"
+  }
+}

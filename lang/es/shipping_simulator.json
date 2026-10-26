@@ -1,0 +1,21 @@
+{
+  "title": "Simulador de portes",
+  "description": "Qué envíos y a qué precio vería un cliente",
+  "form": {
+    "country": "País",
+    "postcode": "Código postal",
+    "weight": "Peso (kg)",
+    "subtotal": "Importe productos",
+    "group": "Grupo",
+    "default_group": "Por defecto",
+    "submit": "Calcular"
+  },
+  "result": {
+    "title": "Envíos disponibles",
+    "none": "Ninguna forma de envío encaja con estos datos",
+    "method": "Forma de envío",
+    "delivery": "Plazo",
+    "price": "Precio",
+    "free": "Gratis"
+  }
+}

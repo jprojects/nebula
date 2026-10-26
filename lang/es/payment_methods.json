@@ -1,0 +1,49 @@
+{
+  "title": "Formas de pago",
+  "description": "Transferencia, Redsys, PayPal y las pasarelas que se añadan",
+  "fields": {
+    "id": "ID",
+    "gateway": "Pasarela",
+    "name": "Nombre",
+    "description": "Descripción",
+    "instructions": "Instrucciones",
+    "group_ids": "Grupos de clientes",
+    "fee_percent": "Recargo %",
+    "fee_fixed": "Recargo fijo",
+    "min_total": "Pedido mínimo",
+    "max_total": "Pedido máximo",
+    "active": "Activa",
+    "sort": "Orden",
+    "configured": "Claves",
+    "created_at": "Creada"
+  },
+  "gateway": {
+    "transfer": "Transferencia bancaria",
+    "redsys": "Tarjeta (Redsys)",
+    "paypal": "PayPal"
+  },
+  "configured": {
+    "yes": "Configurada",
+    "no": "Faltan las claves"
+  },
+  "sections": {
+    "conditions": "Condiciones",
+    "general": "Datos generales",
+    "info": "Información",
+    "seo": "Buscadores (SEO)"
+  },
+  "help": {
+    "gateway": "Las claves de Redsys y PayPal van en config.local.php (payments)",
+    "name": "Lo que ve el cliente en el checkout",
+    "instructions": "Se muestran al terminar el pedido y en el correo (p. ej. el IBAN). Puedes usar {number}, {total} y {shop}",
+    "groups": "Solo para estos grupos de clientes. Vacío = todos",
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+  },
+  "validation": {
+    "gateway": "Esa pasarela no está en config payments.gateways",
+    "slug": "Solo minúsculas, números y guiones"
+  },
+  "flash": {
+    "not_found": "El registro ya no existe"
+  }
+}

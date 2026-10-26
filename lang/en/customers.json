@@ -1,0 +1,64 @@
+{
+  "title": "Customers",
+  "description": "Shop customers and their group (price list)",
+  "fields": {
+    "id": "ID",
+    "email": "Email",
+    "name": "Name",
+    "group_id": "Group (price list)",
+    "active": "Active",
+    "accepts_marketing": "Accepts marketing",
+    "phone": "Phone",
+    "company": "Company",
+    "vat_id": "VAT ID",
+    "password": "Password",
+    "locale": "Language",
+    "addresses": "Addresses",
+    "notes": "Internal notes",
+    "orders": "Orders",
+    "spent": "Spent",
+    "registered": "Registered",
+    "last_login": "Last login",
+    "created_at": "Created"
+  },
+  "address": {
+    "label": "Label",
+    "name": "Recipient",
+    "address": "Address",
+    "postcode": "Postcode",
+    "city": "City",
+    "province": "Province",
+    "country": "Country (ES)",
+    "phone": "Phone"
+  },
+  "locale": {
+    "ca": "Català",
+    "es": "Español",
+    "en": "English"
+  },
+  "repeater": {
+    "add_address": "Add address"
+  },
+  "sections": {
+    "addresses": "Addresses",
+    "notes": "Notes",
+    "general": "General",
+    "info": "Information",
+    "seo": "Search engines (SEO)"
+  },
+  "help": {
+    "group": "Decides the prices, shipping, payments and promotions they see. Empty = default group",
+    "password": "Empty = keep. Without a password the customer buys as a guest",
+    "slug": "Part of the URL. Empty = generated from the name"
+  },
+  "actions": {
+    "orders": "View orders"
+  },
+  "validation": {
+    "email_taken": "There is already a customer with this email",
+    "slug": "Lowercase letters, numbers and hyphens only"
+  },
+  "flash": {
+    "not_found": "The record no longer exists"
+  }
+}

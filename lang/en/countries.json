@@ -1,0 +1,18 @@
+{
+  "title": "Countries",
+  "description": "Countries you sell to (checkout and shipping rules)",
+  "fields": {
+    "id": "ID",
+    "code": "Code",
+    "name": "Name",
+    "active": "At checkout",
+    "sort": "Order"
+  },
+  "help": {
+    "code": "2-letter ISO: ES, PT, FR…",
+    "active": "The customer can choose it"
+  },
+  "validation": {
+    "code": "Two uppercase letters"
+  }
+}

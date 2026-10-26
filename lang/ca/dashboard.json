@@ -1,0 +1,30 @@
+{
+  "title": "Tauler",
+  "description": "Vendes, comandes per gestionar i existències",
+  "kpi": {
+    "today": "Vendes d'avui",
+    "month": "Vendes del mes",
+    "orders_n": "{n} comandes",
+    "prev_month": "Mes anterior: {total}",
+    "pending_payment": "Pendents de pagament",
+    "to_ship": "Per preparar",
+    "customers": "Clients nous del mes",
+    "shop": "Veure la botiga"
+  },
+  "chart": {
+    "title": "Vendes dels darrers 30 dies",
+    "today": "Avui"
+  },
+  "recent": {
+    "title": "Darreres comandes",
+    "empty": "Encara no hi ha comandes"
+  },
+  "top": {
+    "title": "Més venuts (30 dies)",
+    "empty": "Sense vendes als darrers 30 dies"
+  },
+  "stock": {
+    "title": "Existències baixes",
+    "empty": "Cap producte amb poques existències"
+  }
+}

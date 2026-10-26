@@ -1,0 +1,81 @@
+{
+  "title": "Productes",
+  "description": "Catàleg: preus per tarifa, colors amb les seves imatges i existències",
+  "fields": {
+    "id": "ID",
+    "name": "Nom",
+    "sku": "Referència",
+    "slug": "URL",
+    "active": "Publicat",
+    "featured": "Destacat",
+    "categories": "Categories",
+    "sort": "Ordre",
+    "price": "Preu (IVA incl.)",
+    "compare_price": "Preu anterior",
+    "tax_rate": "IVA %",
+    "weight": "Pes (kg)",
+    "stock": "Existències",
+    "prices": "Preus per grup de clients",
+    "summary": "Resum",
+    "description": "Descripció",
+    "images": "Imatges",
+    "colors": "Colors",
+    "meta_title": "Títol per a cercadors",
+    "meta_description": "Descripció per a cercadors",
+    "created_at": "Creat",
+    "updated_at": "Modificat",
+    "sold": "Venuts",
+    "colors_count": "Colors"
+  },
+  "prices": {
+    "group": "Grup",
+    "min_qty": "Des de (u.)",
+    "price": "Preu"
+  },
+  "colors": {
+    "name": "Nom del color",
+    "hex": "Mostra",
+    "sku": "Referència",
+    "price_delta": "Suplement",
+    "images": "Imatges del color"
+  },
+  "repeater": {
+    "add_price": "Afegir preu",
+    "add_color": "Afegir color"
+  },
+  "sections": {
+    "prices": "Preus i existències",
+    "images": "Imatges i colors",
+    "description": "Descripció",
+    "general": "Dades generals",
+    "info": "Informació",
+    "seo": "Cercadors (SEO)"
+  },
+  "help": {
+    "sort": "Menor = abans als llistats",
+    "price": "Preu general (tarifa per defecte)",
+    "compare_price": "Es mostra ratllat si és més alt que el preu",
+    "weight": "Per calcular els ports",
+    "stock": "Buit = sense control d'existències",
+    "prices": "Preu per a un grup (tarifa) i a partir d'una quantitat. Sense fila per a un grup s'aplica el preu general amb el descompte del grup",
+    "images": "La primera és la principal",
+    "colors": "Cada color amb les seves imatges: a la fitxa, en triar el color es veuen les seves fotos. El suplement se suma al preu",
+    "slug": "Part de l'URL. Buit = es crea a partir del nom"
+  },
+  "actions": {
+    "duplicate": "Duplicar",
+    "view_shop": "Veure a la botiga"
+  },
+  "confirm": {
+    "duplicate": "Duplicar aquest producte? La còpia queda sense publicar."
+  },
+  "flash": {
+    "duplicated": "Producte duplicat",
+    "copy": "còpia",
+    "not_found": "El registre ja no existeix"
+  },
+  "validation": {
+    "prices_duplicated": "Hi ha dos preus per al mateix grup i la mateixa quantitat",
+    "slug": "Només minúscules, números i guions"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "title": "Products",
+  "description": "Catalogue: prices per price list, colours with their images and stock",
+  "fields": {
+    "id": "ID",
+    "name": "Name",
+    "sku": "SKU",
+    "slug": "URL",
+    "active": "Published",
+    "featured": "Featured",
+    "categories": "Categories",
+    "sort": "Order",
+    "price": "Price (VAT incl.)",
+    "compare_price": "Compare-at price",
+    "tax_rate": "VAT %",
+    "weight": "Weight (kg)",
+    "stock": "Stock",
+    "prices": "Prices per customer group",
+    "summary": "Summary",
+    "description": "Description",
+    "images": "Images",
+    "colors": "Colours",
+    "meta_title": "SEO title",
+    "meta_description": "SEO description",
+    "created_at": "Created",
+    "updated_at": "Updated",
+    "sold": "Sold",
+    "colors_count": "Colours"
+  },
+  "prices": {
+    "group": "Group",
+    "min_qty": "From (units)",
+    "price": "Price"
+  },
+  "colors": {
+    "name": "Colour name",
+    "hex": "Swatch",
+    "sku": "SKU",
+    "price_delta": "Surcharge",
+    "images": "Colour images"
+  },
+  "repeater": {
+    "add_price": "Add price",
+    "add_color": "Add colour"
+  },
+  "sections": {
+    "prices": "Prices and stock",
+    "images": "Images and colours",
+    "description": "Description",
+    "general": "General",
+    "info": "Information",
+    "seo": "Search engines (SEO)"
+  },
+  "help": {
+    "sort": "Lower = earlier in listings",
+    "price": "General price (default price list)",
+    "compare_price": "Shown struck through if higher than the price",
+    "weight": "Used to calculate shipping",
+    "stock": "Empty = stock not tracked",
+    "prices": "Price for a group (price list) from a quantity. Without a row for a group, the general price with the group discount applies",
+    "images": "The first one is the main image",
+    "colors": "Each colour with its images: choosing a colour on the product page shows its photos. The surcharge is added to the price",
+    "slug": "Part of the URL. Empty = generated from the name"
+  },
+  "actions": {
+    "duplicate": "Duplicate",
+    "view_shop": "View in shop"
+  },
+  "confirm": {
+    "duplicate": "Duplicate this product? The copy will be unpublished."
+  },
+  "flash": {
+    "duplicated": "Product duplicated",
+    "copy": "copy",
+    "not_found": "The record no longer exists"
+  },
+  "validation": {
+    "prices_duplicated": "There are two prices for the same group and quantity",
+    "slug": "Lowercase letters, numbers and hyphens only"
+  }
+}

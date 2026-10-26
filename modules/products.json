@@ -1,0 +1,99 @@
+{
+  "table": "products",
+  "primaryKey": "id",
+  "hooks": "Nebula\\Hooks\\ProductsHooks",
+  "recordTitle": "name",
+  "actions": ["view", "create", "edit", "delete", "export"],
+  "menu": { "group": "shop", "order": 20, "icon": "package" },
+
+  "fields": {
+    "id":               { "type": "number", "readonly": true, "grouping": false },
+    "name":             { "type": "text", "required": true, "maxlength": 200, "width": "two-thirds" },
+    "sku":              { "type": "text", "maxlength": 64, "width": "third" },
+    "slug":             { "type": "text", "maxlength": 210, "pattern": "[a-z0-9\\-]*", "patternMessage": "validation.slug",
+                          "help": "help.slug", "width": "two-thirds" },
+    "active":           { "type": "checkbox", "default": 1, "width": "quarter", "colors": { "0": "gray" } },
+    "featured":         { "type": "checkbox", "width": "quarter", "colors": { "1": "amber" } },
+    "categories":       { "type": "select", "multiple": true, "width": "two-thirds",
+                          "source": { "table": "categories", "value": "id", "label": "name", "order": "name" } },
+    "sort":             { "type": "number", "default": 0, "width": "third", "help": "help.sort" },
+
+    "price":            { "type": "number", "decimals": 2, "min": 0, "required": true, "width": "quarter", "help": "help.price" },
+    "compare_price":    { "type": "number", "decimals": 2, "min": 0, "width": "quarter", "help": "help.compare_price" },
+    "tax_rate":         { "type": "number", "decimals": 2, "min": 0, "max": 100, "default": 21, "required": true, "width": "quarter" },
+    "weight":           { "type": "number", "decimals": 3, "min": 0, "default": 0, "width": "quarter", "help": "help.weight" },
+    "stock":            { "type": "number", "width": "quarter", "help": "help.stock" },
+    "prices":           { "type": "repeater", "layout": "table", "max": 50, "addLabel": "repeater.add_price",
+                          "help": "help.prices",
+                          "fields": {
+                            "group_id": { "type": "select", "label": "prices.group", "required": true,
+                                          "source": { "table": "customer_groups", "value": "id", "label": "name" } },
+                            "min_qty":  { "type": "number", "label": "prices.min_qty", "min": 1, "default": 1, "required": true },
+                            "price":    { "type": "number", "label": "prices.price", "decimals": 2, "min": 0, "required": true }
+                          } },
+
+    "summary":          { "type": "textarea", "rows": 2, "maxlength": 500 },
+    "description":      { "type": "richtext", "rows": 10, "images": true, "maxSize": "5M", "listLength": 80 },
+    "images":           { "type": "media", "multiple": true, "maxFiles": 20, "maxSize": "8M", "accept": ["image/*"], "help": "help.images" },
+    "colors":           { "type": "repeater", "layout": "block", "max": 40, "addLabel": "repeater.add_color", "summary": "name",
+                          "help": "help.colors",
+                          "fields": {
+                            "code":        { "type": "hidden" },
+                            "name":        { "type": "text", "label": "colors.name", "required": true, "maxlength": 60, "width": "third" },
+                            "hex":         { "type": "color", "label": "colors.hex", "width": "quarter" },
+                            "sku":         { "type": "text", "label": "colors.sku", "maxlength": 64, "width": "quarter" },
+                            "price_delta": { "type": "number", "label": "colors.price_delta", "decimals": 2, "width": "quarter" },
+                            "images":      { "type": "media", "label": "colors.images", "multiple": true, "maxFiles": 12, "maxSize": "8M", "accept": ["image/*"] }
+                          } },
+
+    "meta_title":       { "type": "text", "maxlength": 200 },
+    "meta_description": { "type": "textarea", "rows": 2, "maxlength": 300 },
+    "created_at":       { "type": "datetime", "readonly": true, "width": "half" },
+    "updated_at":       { "type": "datetime", "readonly": true, "width": "half" },
+    "sold":             { "type": "number", "width": "quarter",
+                          "sql": "SELECT COALESCE(SUM(i.qty), 0) FROM order_items i JOIN orders o ON o.id = i.order_id WHERE i.product_id = products.id AND o.status NOT IN ('cancelled', 'refunded')" },
+    "colors_count":     { "type": "number", "sql": "COALESCE(JSON_LENGTH(products.colors), 0)" }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "id", "width": "70px" },
+      "name",
+      { "field": "sku", "width": "120px" },
+      { "field": "categories", "maxWidth": "220px" },
+      { "field": "colors_count", "width": "80px", "align": "right" },
+      { "field": "price", "width": "100px", "align": "right" },
+      { "field": "stock", "width": "90px", "align": "right" },
+      { "field": "sold", "width": "90px", "align": "right" },
+      { "field": "featured", "width": "90px" },
+      { "field": "active", "width": "80px" }
+    ],
+    "defaultSort": { "field": "name", "dir": "asc" },
+    "search": ["name", "sku", "summary"],
+    "filters": [
+      { "field": "categories" },
+      { "field": "active" },
+      { "field": "featured" },
+      { "field": "price", "operator": "between" },
+      { "field": "stock", "operator": "between" }
+    ],
+    "expand": ["summary", "colors", "prices"],
+    "rowActions": [
+      { "label": "actions.duplicate", "icon": "copy", "action": "duplicate", "confirm": "confirm.duplicate", "access": { "permission": "create" } }
+    ]
+  },
+
+  "form": {
+    "buttons": [
+      { "label": "actions.view_shop", "icon": "external-link", "action": "viewInShop", "showon": "active:1" }
+    ],
+    "sections": [
+      { "title": "sections.general", "fields": ["name", "sku", "slug", "active", "featured", "categories", "sort", "summary"] },
+      { "title": "sections.prices", "fields": ["price", "compare_price", "tax_rate", "weight", "stock", "prices"] },
+      { "title": "sections.images", "fields": ["images", "colors"] },
+      { "title": "sections.description", "fields": ["description"] },
+      { "title": "sections.seo", "fields": ["meta_title", "meta_description"] },
+      { "title": "sections.info", "fields": ["sold", "created_at", "updated_at"] }
+    ]
+  }
+}

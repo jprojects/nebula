@@ -1,0 +1,36 @@
+{
+  "title": "Grups i tarifes",
+  "description": "Rols de client: cada grup té la seva tarifa de preus",
+  "fields": {
+    "id": "ID",
+    "code": "Codi",
+    "name": "Nom",
+    "description": "Descripció",
+    "discount_percent": "Descompte general %",
+    "is_default": "Per defecte",
+    "customers": "Clients",
+    "products": "Productes amb preu propi",
+    "created_at": "Creat"
+  },
+  "actions": {
+    "customers": "Veure clients"
+  },
+  "help": {
+    "discount_percent": "S'aplica al preu general dels productes que no tenen preu propi per a aquest grup",
+    "is_default": "El dels visitants i els clients nous",
+    "slug": "Part de l'URL. Buit = es crea a partir del nom"
+  },
+  "validation": {
+    "code": "Només minúscules, números i guió baix",
+    "default_group": "No es pot esborrar el grup per defecte",
+    "slug": "Només minúscules, números i guions"
+  },
+  "sections": {
+    "general": "Dades generals",
+    "info": "Informació",
+    "seo": "Cercadors (SEO)"
+  },
+  "flash": {
+    "not_found": "El registre ja no existeix"
+  }
+}

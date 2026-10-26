@@ -1,0 +1,24 @@
+{
+  "table": "countries",
+  "primaryKey": "id",
+  "recordTitle": "name",
+  "menu": { "group": "settings", "order": 140, "icon": "globe" },
+
+  "fields": {
+    "id":     { "type": "number", "readonly": true, "grouping": false },
+    "code":   { "type": "text", "required": true, "unique": true, "maxlength": 2, "minlength": 2, "pattern": "[A-Z]{2}",
+                "patternMessage": "validation.code", "width": "quarter", "help": "help.code" },
+    "name":   { "type": "text", "required": true, "maxlength": 100, "width": "half" },
+    "active": { "type": "checkbox", "default": 1, "width": "quarter", "help": "help.active", "colors": { "0": "gray" } },
+    "sort":   { "type": "number", "default": 0, "width": "quarter" }
+  },
+
+  "list": {
+    "columns": [{ "field": "code", "width": "90px" }, "name", { "field": "sort", "width": "80px", "align": "right" }, { "field": "active", "width": "90px" }],
+    "defaultSort": { "field": "sort", "dir": "asc" },
+    "search": ["code", "name"],
+    "filters": [{ "field": "active" }]
+  },
+
+  "form": { "fields": ["code", "name", "active", "sort"] }
+}

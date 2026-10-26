@@ -1,0 +1,57 @@
+{
+  "title": "Formes d'enviament",
+  "description": "Ports per país, codi postal, pes i import",
+  "fields": {
+    "id": "ID",
+    "name": "Nom",
+    "carrier": "Transportista",
+    "delivery": "Termini",
+    "description": "Descripció",
+    "tracking_url": "URL de seguiment",
+    "group_ids": "Grups de clients",
+    "active": "Activa",
+    "pickup": "Recollida a la botiga",
+    "sort": "Ordre",
+    "rules": "Regles de ports",
+    "rules_count": "Regles",
+    "created_at": "Creada"
+  },
+  "rules": {
+    "countries": "Països",
+    "postcodes": "Codis postals",
+    "weight_min": "Pes des de (kg)",
+    "weight_max": "Pes fins a (kg)",
+    "subtotal_min": "Import des de",
+    "subtotal_max": "Import fins a",
+    "price": "Preu",
+    "price_per_kg": "+ per kg",
+    "free_from": "Gratuït des de"
+  },
+  "repeater": {
+    "add_rule": "Afegir regla"
+  },
+  "sections": {
+    "rules": "Regles de ports",
+    "general": "Dades generals",
+    "info": "Informació",
+    "seo": "Cercadors (SEO)"
+  },
+  "actions": {
+    "simulate": "Simular ports"
+  },
+  "help": {
+    "delivery": "El que veu el client: «24/48 h»",
+    "tracking_url": "Amb {tracking}: https://transportista.com/?n={tracking}",
+    "pickup": "No demana adreça d'enviament. Sense regles, s'ofereix sempre i és gratuïta",
+    "rules": "S'utilitza la PRIMERA que encaixa, en aquest ordre. Països: ES,PT (buit = tots). Codis postals: 07* (comença per), 08000-08999 (interval), !35* (excepte); buit = tots. Pes i import: des de inclòs, fins a exclòs. Si no n'encaixa cap, aquest enviament no s'ofereix",
+    "groups": "Només per a aquests grups de clients. Buit = tots",
+    "slug": "Part de l'URL. Buit = es crea a partir del nom"
+  },
+  "validation": {
+    "rule_country": "Els països de les regles són codis de 2 lletres separats per comes (ES,PT)",
+    "slug": "Només minúscules, números i guions"
+  },
+  "flash": {
+    "not_found": "El registre ja no existeix"
+  }
+}

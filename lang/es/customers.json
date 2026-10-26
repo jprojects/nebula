@@ -1,0 +1,64 @@
+{
+  "title": "Clientes",
+  "description": "Clientes de la tienda y su grupo (tarifa de precios)",
+  "fields": {
+    "id": "ID",
+    "email": "Email",
+    "name": "Nombre",
+    "group_id": "Grupo (tarifa)",
+    "active": "Activo",
+    "accepts_marketing": "Acepta publicidad",
+    "phone": "Teléfono",
+    "company": "Empresa",
+    "vat_id": "NIF / CIF",
+    "password": "Contraseña",
+    "locale": "Idioma",
+    "addresses": "Direcciones",
+    "notes": "Notas internas",
+    "orders": "Pedidos",
+    "spent": "Gastado",
+    "registered": "Con cuenta",
+    "last_login": "Último acceso",
+    "created_at": "Alta"
+  },
+  "address": {
+    "label": "Nombre",
+    "name": "Destinatario",
+    "address": "Dirección",
+    "postcode": "C. P.",
+    "city": "Población",
+    "province": "Provincia",
+    "country": "País (ES)",
+    "phone": "Teléfono"
+  },
+  "locale": {
+    "ca": "Català",
+    "es": "Español",
+    "en": "English"
+  },
+  "repeater": {
+    "add_address": "Añadir dirección"
+  },
+  "sections": {
+    "addresses": "Direcciones",
+    "notes": "Notas",
+    "general": "Datos generales",
+    "info": "Información",
+    "seo": "Buscadores (SEO)"
+  },
+  "help": {
+    "group": "Decide los precios, envíos, pagos y promociones que ve. Vacío = grupo por defecto",
+    "password": "Vacío = no cambiar. Sin contraseña el cliente compra sin cuenta",
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+  },
+  "actions": {
+    "orders": "Ver pedidos"
+  },
+  "validation": {
+    "email_taken": "Ya hay un cliente con este email",
+    "slug": "Solo minúsculas, números y guiones"
+  },
+  "flash": {
+    "not_found": "El registro ya no existe"
+  }
+}
