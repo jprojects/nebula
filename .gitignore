@@ -1,14 +1,35 @@
-config/config.local.php
+# Configuración de la instalación (secretos) y sus copias (FTP, editores: "config.local 7.php", config.local.php.bak…)
+config/config.local*.php
+config/*.bak
+config.local*.php
+
+# Datos de la instalación
 storage/uploads/*
 !storage/uploads/.gitkeep
 storage/logs/*
 !storage/logs/.gitkeep
 storage/backups/
 storage/remote/
+storage/cache/
+
+# Logs de PHP del hosting y volcados o copias sueltos en la raíz (los de database/ sí van)
+error_log
+*.log
+/*.sql
+/*.sql.gz
+/*.zip
+/*.tar.gz
+
+# Entorno local
+.env
+.env.*
+node_modules/
+.claude/
 
 # Editores y sistema
 .vscode/
 .idea/
 *.swp
+*~
 .DS_Store
 Thumbs.db
