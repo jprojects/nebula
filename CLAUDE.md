@@ -27,11 +27,19 @@ y Neutron.
 - `groups` es palabra reservada en MySQL 8: las columnas de grupos de clientes se llaman `group_ids`.
 - Los `pattern` de los JSON van con el guion escapado (`[a-z0-9\\-]*`): los navegadores los evalúan con el flag `v`.
 
+## Núcleo de Nebula: siempre actualizable
+
+- Nebula es un producto: cada tienda es una **instalación** que se actualiza desde las etiquetas de este repo. En una
+  tienda concreta **no se tocan los ficheros de `core.json`**: lo propio de esa tienda (módulos, hooks, pasarelas,
+  textos, plantilla) va fuera del núcleo. Si una tienda necesita un cambio del núcleo, se hace aquí de forma genérica,
+  se publica una versión y la tienda se actualiza.
+
 ## Núcleo de Quasar
 
 - Los ficheros heredados (`src/Core`, `src/Fields`, `src/Controllers`, `src/Remote`, `src/Mail`, `src/Export`,
   `src/Ai`, `src/Reports`, `src/Google`, `templates/default`) se mantienen lo más parecidos posible a Quasar para poder
-  portar arreglos en los dos sentidos. Cambios propios de Nebula en ellos: `Migrator` (shop.sql y datos iniciales),
+  portar arreglos en los dos sentidos. Lo que se haga aquí en esos ficheros y sea genérico se lleva también a Quasar
+  (`~/Projects/quasar`, con su versión), y al revés. Cambios propios de Nebula en ellos: `Migrator` (shop.sql y datos iniciales),
   `HomeController` (redirige al Panel), `RemoteController` (`app: nebula`, bloque `shop`), `FieldFactory` (tipos
   `display` y `color`), `bootstrap.php` (`ShopConfig`), estilos `nb-` al final de `style.css`.
 - La cabecera de la API remota sigue siendo `X-Quasar-Token` (la que envía Cosmo).
