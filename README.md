@@ -56,6 +56,7 @@ src/Hooks/                lógica de los módulos de la tienda en la gestión
 src/Pages/                Panel y Simulador de portes
 modules/                  módulos de la gestión (orders, products, categories, customers, promotions, …)
 templates/store/          plantillas, store.css y store.js de la tienda; emails/ los correos
+themes/{tema}/            tema propio de una tienda (shop.theme.dir): fuera del núcleo, ver «Tema propio»
 templates/default/        plantilla de la gestión (fields/order_*.php: bloques de la ficha del pedido)
 lang/{ca,es,en}/store.json  textos de la tienda; el resto, de la gestión
 database/schema.sql       tablas de la gestión · database/shop.sql tablas de la tienda
@@ -84,7 +85,11 @@ En `config.php` están todas las claves con su valor por defecto; en `config.loc
     'pending_ttl_hours' => 48,        // cron: cancela los pedidos con tarjeta/PayPal sin pagar
     'transfer_ttl_days' => 0,         // ídem transferencias (0 = nunca)
     'low_stock' => 3,                 // aviso en el Panel
-    'theme' => ['color' => '#0f766e', 'logo' => 'storage/branding/logo.svg'],   // por defecto, los de branding
+    'theme' => [
+        'color' => '#0f766e',                     // --primary (por defecto, el de branding)
+        'logo' => 'storage/branding/logo.svg',    // /assets/logo (por defecto, el de branding)
+        'dir' => 'themes/mitienda',               // tema propio (ver «Tema propio»)
+    ],
     'footer_links' => ['Aviso legal' => '/legal', 'Condiciones' => 'https://…'],
 ],
 ```
@@ -249,7 +254,7 @@ fallos y recuperación de contraseña por enlace de un solo uso (1 h). Son indep
 | `/entrar` · `/registro` · `/recuperar` · `/restablecer` · `/cuenta` · `/cuenta/datos` | cuenta |
 | `/idioma/{código}` | cambia el idioma |
 | `/media/{id}[/thumb]` | imágenes de productos y categorías (las del resto de módulos solo se ven en la gestión) |
-| `/assets/{fichero}` · `/assets/logo` | `templates/store/assets/` y el logo |
+| `/assets/{fichero}` · `/assets/logo` | `assets/` del tema o, si no lo tiene, `templates/store/assets/`; y el logo |
 | `/api/…` | JSON para `store.js`: `search`, `cart`, `cart/add`, `cart/update`, `cart/coupon`, `checkout/quote`, `checkout/place`, `account/*` |
 | `/pay/{pasarela}/return·cancel·notify` | vuelta y aviso de las pasarelas (sin CSRF) |
 
@@ -259,6 +264,27 @@ fallos y recuperación de contraseña por enlace de un solo uso (1 h). Son indep
 - `store.js` usa atributos `data-*` (`data-add-to-cart`, `data-cart-open`, `data-listing`, `data-checkout`,
   `data-ajax-form`…): una plantilla propia puede reutilizarlos.
 - Textos en `lang/{ca,es,en}/store.json`; los datos del catálogo (nombres, descripciones) están en un solo idioma.
+
+## Tema propio
+
+`templates/store/` es núcleo y una tienda no lo toca. El diseño propio va en una carpeta del tema
+(`shop.theme.dir`, por ejemplo `themes/mitienda/`, que no está en `core.json`), con la misma estructura:
+
+```
+themes/mitienda/
+  partials/header.php     sustituye a templates/store/partials/header.php (cabecera, buscador, cuenta, carrito, menú)
+  partials/footer.php     ídem el pie
+  partials/head.php       opcional: se añade al final del <head> (fuentes precargadas, metas…)
+  assets/theme.css        opcional: se carga después de store.css (variables --primary, --bg…, claro y oscuro)
+  assets/favicon.png      opcional: sustituye al favicon.svg
+  assets/…                fuentes, imágenes: /assets/{fichero}, el del tema antes que el del núcleo
+```
+
+Cualquier plantilla (`product.php`, `emails/layout.php`…) se puede sustituir igual, pero cuanto menos se copie, menos
+hay que revisar al actualizar: lo normal es `theme.css` y, si hace falta, la cabecera y el pie. Las plantillas del tema
+tienen los mismos helpers (`$this->url()`, `t()`, `icon()`, `asset()`, `has()`, `hasAsset()`…) y deben conservar los
+atributos `data-*` que usa `store.js`. Los textos nuevos de un tema no van en `store.json` (es núcleo): o fijos en el
+idioma de la tienda, o con `$this->locale()`.
 
 ## Cosmo
 

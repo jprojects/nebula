@@ -59,7 +59,8 @@ final class Urls
     /** Ficheros estáticos de templates/store/assets (sirve Shop, como la gestión con ?r=asset). */
     public function asset(string $file): string
     {
-        $v = @filemtime(NB_ROOT . '/templates/store/assets/' . $file) ?: 0;
+        $path = Theme::asset($file);
+        $v = $path !== null ? (int) filemtime($path) : 0;
         return $this->to('/assets/' . $file, ['v' => $v ?: null]);
     }
 

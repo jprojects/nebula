@@ -171,6 +171,7 @@ return [
         'theme' => [
             'color' => null,             // color principal de la tienda (por defecto branding.color)
             'logo' => null,              // ruta a la imagen (por defecto branding.logo)
+            'dir' => null,               // tema propio fuera del núcleo, p. ej. 'themes/mitienda' (README: «Tema propio»)
         ],
         // Enlaces del pie: 'Aviso legal' => 'https://…' o páginas propias
         'footer_links' => [],

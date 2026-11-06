@@ -7,7 +7,7 @@ use Nebula\Core\Lang;
 use Nebula\Core\Session;
 
 /**
- * Plantillas de la tienda (templates/store/). Mismos helpers que la vista de la gestión ($this->e(), t(), icon()…)
+ * Plantillas de la tienda (templates/store/ o las del tema: Theme). Mismos helpers que la vista de la gestión ($this->e(), t(), icon()…)
  * más los de la tienda (url(), money(), img()…). Los textos están en lang/{idioma}/store.json.
  */
 final class StoreView
@@ -20,7 +20,6 @@ final class StoreView
     public function __construct(
         public readonly Lang $lang,
         public readonly Urls $urls,
-        private readonly string $dir = NB_ROOT . '/templates/store',
     ) {
     }
 
@@ -43,7 +42,7 @@ final class StoreView
 
     private function renderFile(string $__template, array $__vars): string
     {
-        if (!preg_match('~^[A-Za-z0-9_/-]+$~', $__template) || !is_file($__file = $this->dir . '/' . $__template . '.php')) {
+        if (($__file = Theme::template($__template)) === null) {
             throw new \RuntimeException("Plantilla de la tienda no encontrada: $__template");
         }
         extract($__vars, EXTR_SKIP);
@@ -81,6 +80,18 @@ final class StoreView
     public function url(string $path = '/', array $query = []): string
     {
         return $this->urls->to($path, $query);
+    }
+
+    /** ¿Existe la plantilla (en el tema o en el núcleo)? */
+    public function has(string $template): bool
+    {
+        return Theme::template($template) !== null;
+    }
+
+    /** ¿Existe el asset (en el tema o en el núcleo)? Para assets opcionales como theme.css. */
+    public function hasAsset(string $file): bool
+    {
+        return Theme::asset($file) !== null;
     }
 
     public function asset(string $file): string

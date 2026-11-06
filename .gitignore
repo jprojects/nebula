@@ -1,3 +1,6 @@
+# Contraseñas de las instalaciones (gestión, BD, TPV, Cosmo): solo en local, nunca al repo ni al servidor
+/credencials.local.md
+
 # Configuración de la instalación (secretos) y sus copias (FTP, editores: "config.local 7.php", config.local.php.bak…)
 config/config.local*.php
 config/*.bak
@@ -19,6 +22,9 @@ error_log
 /*.sql.gz
 /*.zip
 /*.tar.gz
+
+# Temas propios de cada tienda (shop.theme.dir): son de la instalación, no del núcleo
+/themes/
 
 # Entorno local
 .env

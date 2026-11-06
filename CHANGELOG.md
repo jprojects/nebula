@@ -2,6 +2,17 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versiones [semver](https://semver.org/lang/es/).
 
+## 0.2.0 — 2026-11-06
+
+### Añadido
+- **Tema propio** (`shop.theme.dir`): una carpeta fuera del núcleo cuyas plantillas y assets tienen prioridad sobre los
+  de `templates/store/`. Se carga su `assets/theme.css` después de `store.css`, su `partials/head.php` en el `<head>`
+  y su `assets/favicon.png` si lo tiene. Ver «Tema propio» en el README.
+
+### Cambiado
+- La cabecera y el pie de la tienda pasan del `layout.php` a `partials/header.php` y `partials/footer.php`, para que un
+  tema los pueda sustituir sin copiar el layout.
+
 ## 0.1.0 — 2026-10-26
 
 Primera versión. La gestión parte del núcleo de Quasar 0.7.0 (renombrado a `Nebula\`); ver `docs/gestion.md`.

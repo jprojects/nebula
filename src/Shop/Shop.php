@@ -345,9 +345,8 @@ final class Shop
             $logo !== null ? $this->sendFile($logo) : http_response_code(404);
             return;
         }
-        $base = realpath(NB_ROOT . '/templates/store/assets');
-        $path = $base ? realpath($base . '/' . $file) : false;
-        if (!$base || !$path || !str_starts_with($path, $base . DIRECTORY_SEPARATOR) || !is_file($path)) {
+        $path = Theme::asset($file); // el del tema o, si no lo tiene, el del núcleo
+        if ($path === null) {
             http_response_code(404);
             return;
         }
