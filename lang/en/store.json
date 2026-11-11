@@ -10,7 +10,14 @@
     "secure": "Secure payment",
     "home": "Home",
     "breadcrumbs": "You are here",
-    "back_home": "Back to the shop"
+    "back_home": "Back to the shop",
+    "all_categories": "All categories",
+    "see_all": "See all",
+    "back": "Back",
+    "more": "{n} more…",
+    "theme_dark": "Dark mode",
+    "theme_light": "Light mode",
+    "see_products": "See the products"
   },
   "home": {
     "title": "Welcome to {shop}",

@@ -338,6 +338,7 @@ final class Shop
             'customer' => $this->customer(),
             'cartCount' => $this->showPrices() ? $this->cart()->count() : 0,
             'showPrices' => $this->showPrices(),
+            'themeSwitch' => (bool) ($theme['switch'] ?? true),
             'menu' => $catalog->menuTree(),
             'locales' => $this->services->locales()->all(),
             'brandColor' => is_string($color) && preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color) ? $color : null,

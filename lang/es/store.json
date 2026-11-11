@@ -10,7 +10,14 @@
     "secure": "Pago seguro",
     "home": "Inicio",
     "breadcrumbs": "Estás en",
-    "back_home": "Volver a la tienda"
+    "back_home": "Volver a la tienda",
+    "all_categories": "Todas las categorías",
+    "see_all": "Ver todo",
+    "back": "Atrás",
+    "more": "{n} más…",
+    "theme_dark": "Modo oscuro",
+    "theme_light": "Modo claro",
+    "see_products": "Ver los productos"
   },
   "home": {
     "title": "Bienvenido a {shop}",

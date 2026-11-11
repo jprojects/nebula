@@ -95,6 +95,7 @@ En `config.php` están todas las claves con su valor por defecto; en `config.loc
         'color' => '#0f766e',                     // --primary (por defecto, el de branding)
         'logo' => 'storage/branding/logo.svg',    // /assets/logo (por defecto, el de branding)
         'dir' => 'themes/mitienda',               // tema propio (ver «Tema propio»)
+        'switch' => true,                         // botón de modo claro / oscuro (ver «Cabecera»)
     ],
     'footer_links' => ['Aviso legal' => '/legal', 'Condiciones' => 'https://…'],
 ],
@@ -145,6 +146,20 @@ defecto no se traduce (sus textos son los de la ficha).
   siguen. Los nombres de los colores no se traducen.
 - Por dentro: `products.translations` y `categories.translations` (el repeater) se copian al guardar a
   `product_translations` y `category_translations`, que es lo que consulta la tienda (`Translations`).
+
+## Cabecera: megamenú de categorías y modo oscuro
+
+- **Megamenú**: el botón «Totes les categories» de la cabecera abre un panel con las categorías principales a la
+  izquierda (las que tienen «En el menú») y, al pasar por encima o con el teclado (↑ ↓), sus subcategorías en columnas
+  con las de tercer nivel (6 como mucho, y «N més…»). Una principal sin subcategorías muestra su descripción y
+  «Veure els productes». Se cierra con Esc o tocando fuera. En el móvil, el botón de menú lo abre a pantalla completa:
+  se entra en una categoría y se vuelve con «Enrere». Es el parcial `partials/mega_menu.php`: un tema con su propia
+  cabecera lo puede incluir (`<?= $this->partial('partials/mega_menu') ?>`) con un botón `data-mega-open`.
+- **Claro / oscuro**: por defecto, el del sistema; el botón de la luna/sol de la cabecera lo fija y se recuerda en el
+  navegador (`localStorage`, `theme-mode.js` lo aplica antes de pintar, sin parpadeo). Los colores oscuros son las
+  mismas variables de `store.css` con `:root[data-theme="dark"]`; un `theme.css` propio que tenga modo oscuro tiene que
+  usar también ese selector (además de `prefers-color-scheme` con `:root:not([data-theme="light"])`).
+  `shop.theme.switch => false` quita el botón.
 
 ## Grupos de clientes y tarifas
 

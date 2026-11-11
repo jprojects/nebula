@@ -180,6 +180,7 @@ return [
             'color' => null,             // color principal de la tienda (por defecto branding.color)
             'logo' => null,              // ruta a la imagen (por defecto branding.logo)
             'dir' => null,               // tema propio fuera del núcleo, p. ej. 'themes/mitienda' (README: «Tema propio»)
+            'switch' => true,            // botón de modo claro / oscuro en la cabecera (false: solo el del sistema)
         ],
         // Enlaces del pie: 'Aviso legal' => 'https://…' o páginas propias
         'footer_links' => [],

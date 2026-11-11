@@ -8,12 +8,17 @@ $shopName = $this->shopName();
 ?>
 <header class="nb-header">
   <div class="nb-container nb-header-row">
-    <button class="nb-icon-btn nb-menu-toggle" type="button" data-toggle="nav" aria-label="<?= $this->e($this->t('layout.menu')) ?>" aria-expanded="false">
+    <button class="nb-icon-btn nb-menu-toggle" type="button" data-mega-open aria-controls="nb-mega" aria-expanded="false" aria-label="<?= $this->e($this->t('layout.menu')) ?>">
       <?= $this->icon('menu') ?>
     </button>
     <a class="nb-logo" href="<?= $this->e($this->url('/')) ?>">
       <?php if ($hasLogo): ?><img src="<?= $this->e($this->url('/assets/logo')) ?>" alt="<?= $this->e($shopName) ?>"><?php else: ?><span><?= $this->e($shopName) ?></span><?php endif ?>
     </a>
+    <?php if ($menu): ?>
+      <button class="nb-mega-btn" type="button" data-mega-open aria-controls="nb-mega" aria-expanded="false">
+        <?= $this->icon('layout-grid') ?><span><?= $this->e($this->t('layout.all_categories')) ?></span><?= $this->icon('chevron-down', 'nb-mega-caret') ?>
+      </button>
+    <?php endif ?>
 
     <form class="nb-search" action="<?= $this->e($this->url('/buscar')) ?>" method="get" role="search" data-search>
       <?= $this->icon('search', 'nb-search-icon') ?>
@@ -34,6 +39,12 @@ $shopName = $this->shopName();
           </div>
         </details>
       <?php endif ?>
+      <?php if ($themeSwitch ?? true): ?>
+        <button class="nb-icon-btn nb-theme-btn" type="button" data-theme-toggle aria-pressed="false"
+                aria-label="<?= $this->e($this->t('layout.theme_dark')) ?>" data-label-dark="<?= $this->e($this->t('layout.theme_dark')) ?>" data-label-light="<?= $this->e($this->t('layout.theme_light')) ?>">
+          <?= $this->icon('moon', 'nb-theme-moon') ?><?= $this->icon('sun', 'nb-theme-sun') ?>
+        </button>
+      <?php endif ?>
       <a class="nb-icon-btn" href="<?= $this->e($this->url($customer ? '/cuenta' : '/entrar')) ?>" title="<?= $this->e($customer ? $this->t('account.title') : $this->t('account.login')) ?>">
         <?= $this->icon($customer ? 'circle-user-round' : 'user') ?>
         <span class="nb-hide-sm"><?= $this->e($customer ? (explode(' ', (string) $customer['name'])[0] ?: $this->t('account.title')) : $this->t('account.login')) ?></span>
@@ -45,20 +56,5 @@ $shopName = $this->shopName();
     </nav>
   </div>
 
-  <nav class="nb-nav" data-nav aria-label="<?= $this->e($this->t('layout.categories')) ?>">
-    <ul class="nb-container nb-nav-list">
-      <?php foreach ($menu as $cat): ?>
-        <li class="<?= $cat['children'] ? 'has-children' : '' ?>">
-          <a href="<?= $this->e($this->urls->category($cat['slug'])) ?>"<?= $path === '/c/' . $cat['slug'] ? ' aria-current="page"' : '' ?>><?= $this->e($cat['name']) ?></a>
-          <?php if ($cat['children']): ?>
-            <ul class="nb-subnav">
-              <?php foreach ($cat['children'] as $sub): ?>
-                <li><a href="<?= $this->e($this->urls->category($sub['slug'])) ?>"><?= $this->e($sub['name']) ?></a></li>
-              <?php endforeach ?>
-            </ul>
-          <?php endif ?>
-        </li>
-      <?php endforeach ?>
-    </ul>
-  </nav>
 </header>
+<?php if ($menu): ?><?= $this->partial('partials/mega_menu') ?><?php endif ?>

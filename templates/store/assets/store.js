@@ -505,7 +505,91 @@
   const auto = $('[data-autosubmit]');
   if (auto) setTimeout(() => auto.submit(), 400);
 
-  // Menú en móvil
+  // Megamenú de categorías (partials/mega_menu.php). Escritorio: panel bajo la cabecera, la categoría principal se
+  // elige al pasar por encima o con el teclado. Móvil (botón de menú): pantalla completa, se entra y se vuelve atrás.
+  const mega = $('[data-mega]');
+  if (mega) {
+    const openers = $$('[data-mega-open]');
+    const mobile = () => matchMedia('(max-width: 720px)').matches;
+    const title = $('[data-mega-title]', mega);
+    const back = $('[data-mega-back]', mega);
+    const allTitle = title ? title.textContent : '';
+    const show = (id) => {
+      $$('[data-mega-root]', mega).forEach((a) => a.classList.toggle('is-active', a.dataset.megaRoot === id));
+      $$('[data-mega-panel]', mega).forEach((p) => { p.hidden = p.dataset.megaPanel !== id; });
+    };
+    const level = (root) => {
+      mega.classList.toggle('is-level-2', !!root);
+      if (back) back.hidden = !root;
+      if (title) title.textContent = root ? root.querySelector('span').textContent : allTitle;
+      if (root) { show(root.dataset.megaRoot); $('.nb-mega-in', mega).scrollTop = 0; }
+    };
+    const setOpen = (open, focus) => {
+      if (open) {
+        const header = $('.nb-header');
+        mega.style.setProperty('--nb-header-h', (header ? Math.round(header.getBoundingClientRect().bottom) : 64) + 'px');
+        level(null);
+      }
+      mega.hidden = !open;
+      openers.forEach((b) => b.setAttribute('aria-expanded', open ? 'true' : 'false'));
+      document.documentElement.classList.toggle('nb-no-scroll', open && mobile());
+      if (open && focus) { const first = $('.nb-mega-root.is-active', mega) || $('.nb-mega-root', mega); if (first) first.focus(); }
+    };
+    openers.forEach((b) => b.addEventListener('click', () => setOpen(mega.hidden, true)));
+    mega.addEventListener('click', (e) => {
+      if (e.target.closest('[data-mega-close]')) { setOpen(false); return; }
+      if (e.target.closest('[data-mega-back]')) { level(null); return; }
+      const root = e.target.closest('[data-mega-root][data-mega-has]');
+      if (root && mobile()) { e.preventDefault(); level(root); }
+    });
+    // Escritorio: al pasar por encima (con una pausa corta, para no cambiar al cruzar en diagonal) o al enfocar
+    let hoverTimer = 0;
+    mega.addEventListener('mouseover', (e) => {
+      const root = e.target.closest('[data-mega-root]');
+      if (!root || mobile()) return;
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => show(root.dataset.megaRoot), 90);
+    });
+    mega.addEventListener('focusin', (e) => {
+      const root = e.target.closest('[data-mega-root]');
+      if (root && !mobile()) show(root.dataset.megaRoot);
+    });
+    mega.addEventListener('keydown', (e) => {
+      const root = e.target.closest('[data-mega-root]');
+      if (!root || !['ArrowDown', 'ArrowUp'].includes(e.key)) return;
+      e.preventDefault();
+      const all = $$('[data-mega-root]', mega);
+      all[(all.indexOf(root) + (e.key === 'ArrowDown' ? 1 : all.length - 1)) % all.length].focus();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || mega.hidden) return;
+      setOpen(false);
+      const visible = openers.find((b) => b.offsetParent !== null);
+      if (visible) visible.focus();
+    });
+  }
+
+  // Modo claro / oscuro (theme-mode.js lo aplica antes de pintar; aquí, el botón de la cabecera)
+  const themeBtn = $('[data-theme-toggle]');
+  if (themeBtn) {
+    const html = document.documentElement;
+    const current = () => html.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const sync = () => {
+      const dark = current() === 'dark';
+      themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      themeBtn.setAttribute('aria-label', dark ? themeBtn.dataset.labelLight : themeBtn.dataset.labelDark);
+      themeBtn.title = themeBtn.getAttribute('aria-label');
+    };
+    themeBtn.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      try { localStorage.setItem('nb-theme', next); } catch (e) { /* sin almacenamiento: solo esta página */ }
+      sync();
+    });
+    sync();
+  }
+
+  // Menú en móvil (cabeceras de tema con el menú antiguo: data-toggle="nav" y data-nav)
   document.addEventListener('click', (e) => {
     const t = e.target.closest('[data-toggle="nav"]');
     if (!t) return;

@@ -2,6 +2,18 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versiones [semver](https://semver.org/lang/es/).
 
+## 0.4.0 — 2026-11-11
+
+### Añadido
+- **Megamenú de categorías** en la cabecera (`partials/mega_menu.php`): botón «Totes les categories» con las
+  principales a la izquierda y sus subcategorías y las de tercer nivel en columnas; en el móvil, a pantalla completa
+  entrando en cada categoría. Sustituye a la fila de categorías bajo la cabecera, que con muchas no se veía.
+- **Botón de modo claro / oscuro** en la cabecera, que se recuerda en el navegador (`shop.theme.switch`).
+
+### Cambiado
+- El modo oscuro de `store.css` sigue al sistema salvo que el visitante elija (`data-theme` en `<html>`). Las
+  cabeceras de tema con el menú antiguo (`data-nav`) siguen funcionando.
+
 ## 0.3.1 — 2026-11-11
 
 ### Corregido

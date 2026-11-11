@@ -10,7 +10,14 @@
     "secure": "Pagament segur",
     "home": "Inici",
     "breadcrumbs": "Ets a",
-    "back_home": "Torna a la botiga"
+    "back_home": "Torna a la botiga",
+    "all_categories": "Totes les categories",
+    "see_all": "Veure-ho tot",
+    "back": "Enrere",
+    "more": "{n} més…",
+    "theme_dark": "Mode fosc",
+    "theme_light": "Mode clar",
+    "see_products": "Veure els productes"
   },
   "home": {
     "title": "Benvingut a {shop}",
