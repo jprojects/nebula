@@ -38,9 +38,21 @@ final class PaymentMethods
             if ($class === null) {
                 return null;
             }
-            $this->gateways[$code] = new $class((array) ($this->config[$code] ?? []), $code);
+            $this->gateways[$code] = new $class($this->gatewayConfig($code), $code);
         }
         return $this->gateways[$code];
+    }
+
+    /**
+     * Configuración de una pasarela. Con 'uses' toma la de otra y le añade la suya: Bizum es el TPV de Redsys con
+     * pay_methods 'z' (mismas claves, sin repetirlas).
+     */
+    private function gatewayConfig(string $code): array
+    {
+        $own = (array) ($this->config[$code] ?? []);
+        $base = isset($own['uses']) && is_string($own['uses']) && $own['uses'] !== $code ? (array) ($this->config[$own['uses']] ?? []) : [];
+        unset($own['uses']);
+        return array_replace($base, array_filter($own, fn ($v) => $v !== null && $v !== ''));
     }
 
     public function find(int $id): ?array

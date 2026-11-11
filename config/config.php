@@ -194,6 +194,7 @@ return [
         'gateways' => [
             'transfer' => Nebula\Shop\Payments\TransferGateway::class,
             'redsys' => Nebula\Shop\Payments\RedsysGateway::class,
+            'bizum' => Nebula\Shop\Payments\RedsysGateway::class,   // el mismo TPV de Redsys, solo con Bizum
             'paypal' => Nebula\Shop\Payments\PaypalGateway::class,
         ],
         'redsys' => [
@@ -204,6 +205,11 @@ return [
             'currency' => '978',         // 978 = EUR
             'merchant_name' => null,     // por defecto el nombre de la tienda
             'pay_methods' => null,       // p. ej. 'z' = solo Bizum, 'C' = solo tarjeta (null = las del TPV)
+        ],
+        // Bizum: las claves de 'redsys' (uses) con el método de pago Bizum. Si el TPV de Bizum es otro, sus claves aquí.
+        'bizum' => [
+            'uses' => 'redsys',
+            'pay_methods' => 'z',
         ],
         'paypal' => [
             'sandbox' => true,

@@ -220,6 +220,7 @@ La columna «Claves» indica si la pasarela está configurada: si no, no se ofre
 'payments' => [
     'redsys' => ['sandbox' => false, 'merchant_code' => '999008881', 'terminal' => '1', 'secret' => 'clave SHA-256',
                  'pay_methods' => null],          // 'z' = solo Bizum, 'C' = solo tarjeta
+    'bizum' => ['uses' => 'redsys', 'pay_methods' => 'z'],   // ya es así por defecto: Bizum con el TPV de Redsys
     'paypal' => ['sandbox' => false, 'client_id' => '…', 'client_secret' => '…'],
 ],
 ```
@@ -230,6 +231,10 @@ La columna «Claves» indica si la pasarela está configurada: si no, no se ofre
   (`/pay/redsys/notify`); si no llega (p. ej. en local), se acepta el de la vuelta a URLOK, que va firmado igual.
   Pruebas: `sandbox => true`, FUC `999008881`, terminal `1`, clave `sq7HjrUOBfKmC576ILgskD5srU870gJ7`, tarjeta
   `4548810000000003`, CVV `123`.
+- **Bizum**: pasarela `bizum`, el mismo TPV de Redsys con `pay_methods => 'z'`. Por defecto usa las claves de
+  `redsys` (`'bizum' => ['uses' => 'redsys']`), así que basta con crear la forma de pago «Bizum»; si el comercio
+  tiene otro TPV para Bizum, sus claves van en `payments.bizum`. Para que la forma «Tarjeta» no ofrezca también Bizum
+  en la página de Redsys, `'redsys' => ['pay_methods' => 'C']`.
 - **PayPal**: API Orders v2. Se crea la orden, el cliente la aprueba en PayPal y se captura al volver. Credenciales
   en developer.paypal.com (una pareja para sandbox y otra para live).
 

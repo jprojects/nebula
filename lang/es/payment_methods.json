@@ -20,7 +20,8 @@
   "gateway": {
     "transfer": "Transferencia bancaria",
     "redsys": "Tarjeta (Redsys)",
-    "paypal": "PayPal"
+    "paypal": "PayPal",
+    "bizum": "Bizum (Redsys)"
   },
   "configured": {
     "yes": "Configurada",

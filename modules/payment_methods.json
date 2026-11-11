@@ -8,8 +8,8 @@
   "fields": {
     "id":           { "type": "number", "readonly": true, "grouping": false },
     "gateway":      { "type": "select", "required": true, "width": "third", "help": "help.gateway",
-                      "options": { "transfer": "gateway.transfer", "redsys": "gateway.redsys", "paypal": "gateway.paypal" },
-                      "colors": { "transfer": "gray", "redsys": "red", "paypal": "blue", "*": "purple" } },
+                      "options": { "transfer": "gateway.transfer", "redsys": "gateway.redsys", "bizum": "gateway.bizum", "paypal": "gateway.paypal" },
+                      "colors": { "transfer": "gray", "redsys": "red", "bizum": "green", "paypal": "blue", "*": "purple" } },
     "name":         { "type": "text", "required": true, "maxlength": 150, "width": "two-thirds", "help": "help.name" },
     "description":  { "type": "text", "maxlength": 300 },
     "instructions": { "type": "textarea", "rows": 5, "help": "help.instructions" },

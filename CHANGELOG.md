@@ -2,6 +2,12 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versiones [semver](https://semver.org/lang/es/).
 
+## 0.6.0 — 2026-11-11
+
+### Añadido
+- **Bizum** como pasarela (`bizum`): el TPV de Redsys solo con Bizum, con las mismas claves (`'uses' => 'redsys'`). Una
+  pasarela puede tomar la configuración de otra con `uses`.
+
 ## 0.5.0 — 2026-11-11
 
 ### Cambiado
