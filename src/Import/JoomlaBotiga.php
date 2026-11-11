@@ -232,19 +232,35 @@ final class JoomlaBotiga
     private function categories(): void
     {
         $rows = $this->src->fetchAll(
-            "SELECT id, parent_id, lft, title, alias, description, params, metadesc, published, language
+            "SELECT id, parent_id, level, lft, title, alias, description, params, metadesc, published, language
              FROM {$this->t('categories')} WHERE extension = 'com_botiga' AND published IN (0, 1) ORDER BY lft"
         );
-        // Las versiones de una categoría en cada idioma comparten el código de familia de Factusol (botiga_categories)
-        $keys = [];
-        if ($this->has('botiga_categories', 'factusol_codfam')) {
-            foreach ($this->src->fetchAll("SELECT catid, factusol_codfam FROM {$this->t('botiga_categories')}") as $r) {
-                if (trim((string) $r['factusol_codfam']) !== '') {
-                    $keys[(int) $r['catid']] = 'fam:' . trim((string) $r['factusol_codfam']);
-                }
+        $keys = $this->categoryKeys($rows);
+        // Sin productos en todo su árbol (en ningún idioma): no se importan
+        $used = [];
+        foreach ($this->src->fetchAll("SELECT catid FROM {$this->t('botiga_items')}") as $i) {
+            foreach (Text::ids((string) $i['catid']) as $c) {
+                $used[$c] = true;
             }
         }
-        $groups = $this->groupByLanguage($rows, fn ($r) => $keys[(int) $r['id']] ?? null);
+        $parentOf = array_column($rows, 'parent_id', 'id');
+        foreach (array_keys($used) as $c) {
+            for ($i = 0, $p = $c; $p > 1 && $i < 20 && isset($parentOf[$p]); $i++, $p = (int) $parentOf[$p]) {
+                $used[$p] = true;
+            }
+        }
+        $groups = [];
+        $empty = 0;
+        foreach ($this->groupByLanguage($rows, fn ($r) => $keys[(int) $r['id']] ?? null) as $key => $members) {
+            if (array_filter($members, fn ($r) => isset($used[(int) $r['id']]))) {
+                $groups[$key] = $members;
+            } else {
+                $empty += count($members);
+            }
+        }
+        if ($empty) {
+            $this->note("$empty categorías de Joomla sin productos (ni en sus subcategorías): no se importan");
+        }
 
         $done = 0;
         $kept = 0;
@@ -291,6 +307,48 @@ final class JoomlaBotiga
         if ($kept) {
             $this->count('categorías cambiadas en Nebula (no se tocan)', $kept);
         }
+    }
+
+    /**
+     * Clave que comparten las versiones de una categoría en cada idioma (Joomla no las relaciona):
+     *   1. el código de familia de Factusol (botiga_categories.factusol_codfam);
+     *   2. si no tiene, las claves de sus subcategorías (dos categorías con los mismos hijos son la misma);
+     *   3. si tampoco, el alias sin el sufijo del idioma (roomba, roomba-es, roomba-en) y el nivel.
+     * @return array<int,string> id de Joomla => clave
+     */
+    private function categoryKeys(array $rows): array
+    {
+        $keys = [];
+        if ($this->has('botiga_categories', 'factusol_codfam')) {
+            foreach ($this->src->fetchAll("SELECT catid, factusol_codfam FROM {$this->t('botiga_categories')}") as $r) {
+                if (trim((string) $r['factusol_codfam']) !== '') {
+                    $keys[(int) $r['catid']] = 'fam:' . trim((string) $r['factusol_codfam']);
+                }
+            }
+        }
+        $children = [];
+        $levels = [];
+        foreach ($rows as $r) {
+            $children[(int) $r['parent_id']][] = (int) $r['id'];
+            $levels[(int) $r['id']] = $r;
+        }
+        uasort($levels, fn ($a, $b) => (int) $b['level'] <=> (int) $a['level']); // de las hojas a la raíz
+        foreach ($levels as $id => $r) {
+            if (isset($keys[$id])) {
+                continue;
+            }
+            $sub = array_values(array_unique(array_filter(array_map(fn ($c) => $keys[$c] ?? null, $children[$id] ?? []))));
+            if ($sub) {
+                sort($sub);
+                $keys[$id] = 'sub:' . md5(implode('|', $sub));
+                continue;
+            }
+            $alias = (string) preg_replace('/-(ca|es|en|fr|de|it|pt|eu|gl)$/', '', trim((string) $r['alias']));
+            if ($alias !== '') {
+                $keys[$id] = 'alias:' . (int) $r['level'] . ':' . $alias;
+            }
+        }
+        return $keys;
     }
 
     // ---------------------------------------------------------------- productos

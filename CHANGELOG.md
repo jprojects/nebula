@@ -2,6 +2,13 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versiones [semver](https://semver.org/lang/es/).
 
+## 0.3.1 — 2026-11-11
+
+### Corregido
+- Importación desde Joomla: las categorías principales salían repetidas una vez por idioma. Ahora las versiones de una
+  categoría se enlazan también por sus subcategorías (o por el alias sin el sufijo del idioma), y las categorías sin
+  productos en todo su árbol no se importan. Una tienda importada con la 0.3.0 se tiene que volver a importar desde cero.
+
 ## 0.3.0 — 2026-11-11
 
 ### Añadido

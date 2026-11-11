@@ -338,7 +338,7 @@ También se pueden dejar en `config.local.php` → `'import' => ['joomla' => ['d
 |---|---|
 | Idiomas del catálogo (`ca-ES`, `es-ES`…) | Configuración → Idiomas (los que faltan se crean) |
 | Grupos de usuarios con precio propio o con clientes (no los del núcleo) | Grupos de clientes `joomla_{id}`; Registered = el de por defecto |
-| `#__categories` de com_botiga, una por idioma | Una categoría con sus traducciones (se enlazan por `botiga_categories.factusol_codfam`), con el árbol y la imagen |
+| `#__categories` de com_botiga, una por idioma | Una categoría con sus traducciones, con el árbol y la imagen. Las versiones de cada idioma se enlazan por `botiga_categories.factusol_codfam`, si no por sus subcategorías y si no por el alias sin el sufijo del idioma (`roomba-es`); las que no tienen productos en todo su árbol no se importan |
 | `botiga_items`, una fila por idioma | Un producto con sus traducciones (se enlazan por `factusol_codart` o la referencia): precio del grupo por defecto **+ IVA** (botiga los guarda sin IVA), precios de los otros grupos, PVP como precio anterior, imágenes (también las del texto), categorías |
 | `#__users` + la ficha más completa de `botiga_users` | Clientes con su **contraseña de Joomla**, grupo, empresa, NIF, teléfono, dirección, idioma, recargo de equivalencia (si existe la columna) |
 | `botiga_comandes` + `comandesDetall` | Pedidos como historial (`J000123`), con el total que cobró Joomla: 1 → cancelado, 2 → pendiente (cancelado si tiene más de 30 días), 3 y 4 → pagado |
