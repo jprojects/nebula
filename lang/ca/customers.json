@@ -19,7 +19,8 @@
     "spent": "Gastat",
     "registered": "Amb compte",
     "last_login": "Darrer accés",
-    "created_at": "Alta"
+    "created_at": "Alta",
+    "equivalence_surcharge": "Recàrrec d'equivalència"
   },
   "address": {
     "label": "Nom",
@@ -49,7 +50,8 @@
   "help": {
     "group": "Decideix els preus, enviaments, pagaments i promocions que veu. Buit = grup per defecte",
     "password": "Buit = no canviar. Sense contrasenya el client compra sense compte",
-    "slug": "Part de l'URL. Buit = es crea a partir del nom"
+    "slug": "Part de l'URL. Buit = es crea a partir del nom",
+    "equivalence_surcharge": "Comerç minorista en recàrrec d'equivalència: als seus pedidos s'afegeix el recàrrec de cada tipus d'IVA (configuració shop.equivalence_surcharge)"
   },
   "actions": {
     "orders": "Veure comandes"

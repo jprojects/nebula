@@ -7,11 +7,17 @@ use Nebula\Core\Database;
 
 /**
  * Lectura del catálogo para la tienda: categorías, listados y fichas de producto ya con el precio del grupo
- * del cliente y las promociones automáticas.
+ * del cliente, las promociones automáticas y los textos en el idioma del visitante (Translations).
  */
 final class Catalog
 {
     public const SORTS = ['featured', 'newest', 'price_asc', 'price_desc', 'name'];
+
+    /** Órdenes posibles (sin los de precio si el visitante no ve los precios). */
+    public static function sorts(bool $prices): array
+    {
+        return $prices ? self::SORTS : array_values(array_diff(self::SORTS, ['price_asc', 'price_desc']));
+    }
 
     private ?array $categories = null;
 
@@ -19,7 +25,24 @@ final class Catalog
         private readonly Database $db,
         private readonly Pricing $pricing,
         private readonly Promotions $promotions,
+        private readonly Services $services,
     ) {
+    }
+
+    /** Idioma de los textos y si hay que traducir (no es el de por defecto). */
+    private function locale(): string
+    {
+        return $this->services->locale();
+    }
+
+    private function translated(): bool
+    {
+        return !$this->services->locales()->isDefault($this->locale());
+    }
+
+    private function translate(string $table, array $rows): array
+    {
+        return Translations::apply($this->db, $table, $rows, $this->locale(), $this->services->locales());
     }
 
     // ---------------------------------------------------------------- categorías
@@ -28,7 +51,10 @@ final class Catalog
     public function categories(): array
     {
         if ($this->categories === null) {
-            $rows = $this->db->fetchAll('SELECT * FROM categories WHERE active = 1 ORDER BY sort, name');
+            $rows = $this->translate('categories', $this->db->fetchAll('SELECT * FROM categories WHERE active = 1 ORDER BY sort, name'));
+            if ($this->translated()) {
+                usort($rows, fn ($a, $b) => [(int) $a['sort'], mb_strtolower($a['name'])] <=> [(int) $b['sort'], mb_strtolower($b['name'])]);
+            }
             $this->categories = [];
             foreach ($rows as $r) {
                 $r['id'] = (int) $r['id'];
@@ -59,6 +85,7 @@ final class Catalog
         return $build(0, 1);
     }
 
+    /** Categoría por su slug en cualquier idioma (la vista comprueba si es el del idioma actual). */
     public function categoryBySlug(string $slug): ?array
     {
         foreach ($this->categories() as $c) {
@@ -66,7 +93,8 @@ final class Catalog
                 return $c;
             }
         }
-        return null;
+        $id = Translations::findBySlug($this->db, 'categories', $slug);
+        return $id !== null ? ($this->categories()[$id] ?? null) : null;
     }
 
     /** Categoría y sus antecesores, de la raíz a ella. */
@@ -124,8 +152,14 @@ final class Catalog
         if (isset($opts['q']) && trim((string) $opts['q']) !== '') {
             foreach (array_slice(preg_split('/\s+/', trim((string) $opts['q'])) ?: [], 0, 5) as $word) {
                 $like = '%' . addcslashes($word, '%_\\') . '%';
-                $where[] = '(p.name LIKE ? OR p.sku LIKE ? OR p.summary LIKE ?)';
-                array_push($params, $like, $like, $like);
+                if ($this->translated()) {
+                    $where[] = '(p.name LIKE ? OR p.sku LIKE ? OR p.summary LIKE ? OR EXISTS (SELECT 1 FROM product_translations t
+                                 WHERE t.product_id = p.id AND t.locale = ? AND (t.name LIKE ? OR t.summary LIKE ?)))';
+                    array_push($params, $like, $like, $like, $this->locale(), $like, $like);
+                } else {
+                    $where[] = '(p.name LIKE ? OR p.sku LIKE ? OR p.summary LIKE ?)';
+                    array_push($params, $like, $like, $like);
+                }
             }
         }
         if (!empty($opts['featured'])) {
@@ -148,19 +182,27 @@ final class Catalog
         $page = max(1, min($pages, (int) ($opts['page'] ?? 1)));
 
         [$priceExpr, $priceParams] = $this->pricing->sqlPrice($group);
+        $nameExpr = $this->translated()
+            ? "COALESCE((SELECT NULLIF(t.name, '') FROM product_translations t WHERE t.product_id = p.id AND t.locale = ?), p.name)"
+            : 'p.name';
         $order = match ($opts['sort'] ?? 'featured') {
             'newest' => 'p.created_at DESC, p.id DESC',
             'price_asc' => "$priceExpr ASC, p.id",
             'price_desc' => "$priceExpr DESC, p.id",
-            'name' => 'p.name ASC',
+            'name' => "$nameExpr ASC",
             default => 'p.featured DESC, p.sort ASC, p.created_at DESC',
         };
-        $orderParams = in_array($opts['sort'] ?? '', ['price_asc', 'price_desc'], true) ? $priceParams : [];
+        $orderParams = match ($opts['sort'] ?? '') {
+            'price_asc', 'price_desc' => $priceParams,
+            'name' => $this->translated() ? [$this->locale()] : [],
+            default => [],
+        };
         $rows = $this->db->fetchAll(
             'SELECT p.*' . $sql . " ORDER BY $order LIMIT $size OFFSET " . (($page - 1) * $size),
             [...$params, ...$orderParams]
         );
         $this->pricing->preload(array_column($rows, 'id'), (int) $group['id']);
+        $rows = $this->translate('products', $rows);
         return [
             'items' => array_map(fn ($r) => $this->present($r, $group), $rows),
             'total' => $total,
@@ -170,16 +212,21 @@ final class Catalog
         ];
     }
 
+    /** Producto por su slug en cualquier idioma (la vista comprueba si es el del idioma actual). */
     public function productBySlug(string $slug, array $group): ?array
     {
         $row = $this->db->fetch('SELECT * FROM products WHERE slug = ? AND active = 1', [$slug]);
-        return $row ? $this->present($row, $group, true) : null;
+        if ($row === null && ($id = Translations::findBySlug($this->db, 'products', $slug)) !== null) {
+            $row = $this->db->fetch('SELECT * FROM products WHERE id = ? AND active = 1', [$id]);
+        }
+        return $row ? $this->present($this->translate('products', [$row])[0], $group, true) : null;
     }
 
-    /** Fila de products activa (para el carrito). */
+    /** Fila de products activa (para el carrito), con los textos del idioma. */
     public function productRow(int $id): ?array
     {
-        return $this->db->fetch('SELECT * FROM products WHERE id = ? AND active = 1', [$id]);
+        $row = $this->db->fetch('SELECT * FROM products WHERE id = ? AND active = 1', [$id]);
+        return $row !== null ? $this->translate('products', [$row])[0] : null;
     }
 
     /**

@@ -81,7 +81,7 @@ final class Shop
         $this->app = new App($config); // BD, correo, archivos y log de la gestión
         $this->services = new Services($this->app->db);
         $this->urls = $this->services->urls();
-        $this->lang = new Lang(NB_ROOT . '/lang', (string) ($config['shop']['locale'] ?? 'ca'), (string) ($config['fallback_locale'] ?? 'es'));
+        $this->lang = new Lang(NB_ROOT . '/lang', $this->services->locales()->default(), (string) ($config['fallback_locale'] ?? 'es'));
         $this->view = new StoreView($this->lang, $this->urls);
     }
 
@@ -160,18 +160,28 @@ final class Shop
         return new Cart();
     }
 
+    /**
+     * ¿Ve los precios el visitante? Con 'shop.guest_prices' => false (tiendas para profesionales), solo los clientes
+     * con la sesión abierta: los demás no ven precios ni pueden comprar.
+     */
+    public function showPrices(): bool
+    {
+        return $this->customer() !== null || (bool) ($this->config['shop']['guest_prices'] ?? true);
+    }
+
     /** Resumen del carrito valorado (sin envío) para la cabecera y el panel lateral. */
     public function cartSummary(): array
     {
         $cart = $this->cart();
         $customer = $this->customer();
-        $quote = $this->services->calculator()->quote($cart->lines(), [
+        $quote = $this->services->calculator()->quote($this->showPrices() ? $cart->lines() : [], [
             'group' => $this->group(),
             'coupon' => $cart->coupon(),
             'email' => $customer['email'] ?? null,
             'customer_id' => $customer !== null ? (int) $customer['id'] : null,
+            'surcharge' => !empty($customer['equivalence_surcharge']),
         ]);
-        if ($quote['lines'] != $cart->lines()) {
+        if ($this->showPrices() && $quote['lines'] != $cart->lines()) {
             $cart->replace($quote['lines']);
         }
         return $quote;
@@ -205,9 +215,9 @@ final class Shop
         echo $this->view->render($template, $vars, $layout);
     }
 
-    public function redirect(string $url): never
+    public function redirect(string $url, int $status = 303): never
     {
-        header('Location: ' . $url, true, 303);
+        header('Location: ' . $url, true, $status);
         exit;
     }
 
@@ -275,9 +285,14 @@ final class Shop
         return $path;
     }
 
+    /**
+     * Idioma del visitante: el elegido (sesión), el de su cuenta o el del navegador, si es uno de los activos
+     * (Configuración → Idiomas). Los textos de la tienda salen de lang/{idioma}/store.json (si no existe, del
+     * idioma de reserva) y los del catálogo, de sus traducciones.
+     */
     private function resolveLocale(): void
     {
-        $locales = array_keys((array) ($this->config['shop']['locales'] ?? ['ca' => 'Català']));
+        $locales = $this->services->locales()->codes();
         $locale = (string) Session::get('shop_locale', '');
         if ($locale === '') {
             $locale = (string) ($this->customer()['locale'] ?? '');
@@ -291,14 +306,17 @@ final class Shop
                 }
             }
         }
-        if (in_array($locale, $locales, true)) {
-            $this->lang->setLocale($locale);
+        if (!in_array($locale, $locales, true)) {
+            $locale = $this->services->locales()->default();
         }
+        $this->lang->setLocale($locale);
+        $this->view->setLocale($locale);
+        $this->services->setLocale($locale);
     }
 
     private function switchLocale(string $code): void
     {
-        if (array_key_exists($code, (array) ($this->config['shop']['locales'] ?? []))) {
+        if ($this->services->locales()->has($code)) {
             Session::set('shop_locale', $code);
             $customer = $this->customer();
             if ($customer !== null) {
@@ -318,9 +336,10 @@ final class Shop
         $color = $theme['color'] ?? $this->config['branding']['color'] ?? null;
         $this->view->share([
             'customer' => $this->customer(),
-            'cartCount' => $this->cart()->count(),
+            'cartCount' => $this->showPrices() ? $this->cart()->count() : 0,
+            'showPrices' => $this->showPrices(),
             'menu' => $catalog->menuTree(),
-            'locales' => (array) ($this->config['shop']['locales'] ?? []),
+            'locales' => $this->services->locales()->all(),
             'brandColor' => is_string($color) && preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color) ? $color : null,
             'hasLogo' => $this->logoFile() !== null,
             'footerLinks' => (array) ($this->config['shop']['footer_links'] ?? []),

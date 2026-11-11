@@ -1,0 +1,33 @@
+{
+  "title": "Idiomas",
+  "description": "Idiomas de la tienda y del catálogo: los productos y las categorías se traducen en cada ficha",
+  "fields": {
+    "id": "ID",
+    "code": "Código",
+    "name": "Nombre",
+    "sort": "Orden",
+    "active": "Activo",
+    "is_default": "Por defecto",
+    "products": "Productos traducidos",
+    "categories": "Categorías traducidas",
+    "created_at": "Creado"
+  },
+  "help": {
+    "code": "Dos letras minúsculas (ISO 639-1): ca, es, en, fr…",
+    "name": "Como se ve en el selector de idioma de la tienda",
+    "active": "Inactivo: no sale en el selector, pero se conservan las traducciones",
+    "is_default": "El idioma de los textos principales del catálogo y de los visitantes nuevos. Cambiarlo no traduce los textos que ya hay"
+  },
+  "validation": {
+    "code": "Dos letras minúsculas",
+    "keep_default": "Para cambiar el idioma por defecto, marca otro como idioma por defecto",
+    "delete_default": "No se puede borrar el idioma por defecto"
+  },
+  "sections": {
+    "general": "Datos generales",
+    "info": "Información"
+  },
+  "flash": {
+    "not_found": "El registro ya no existe"
+  }
+}

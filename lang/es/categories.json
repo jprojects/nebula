@@ -14,7 +14,8 @@
     "meta_title": "Título para buscadores",
     "meta_description": "Descripción para buscadores",
     "products": "Productos",
-    "created_at": "Creada"
+    "created_at": "Creada",
+    "translations": "Traducciones"
   },
   "placeholder": {
     "root": "(Principal)"
@@ -24,17 +25,32 @@
   },
   "validation": {
     "parent_cycle": "Una categoría no puede estar dentro de sí misma ni de sus subcategorías",
-    "slug": "Solo minúsculas, números y guiones"
+    "slug": "Solo minúsculas, números y guiones",
+    "translation_default": "El idioma por defecto no se traduce: sus textos son los de la ficha",
+    "translation_duplicated": "Hay dos traducciones para el mismo idioma"
   },
   "sections": {
     "general": "Datos generales",
     "info": "Información",
-    "seo": "Buscadores (SEO)"
+    "seo": "Buscadores (SEO)",
+    "translations": "Traducciones"
   },
   "help": {
-    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre",
+    "translations": "Textos en los otros idiomas de la tienda (Configuración → Idiomas). Lo que se deje vacío se muestra en el idioma por defecto"
   },
   "flash": {
     "not_found": "El registro ya no existe"
+  },
+  "repeater": {
+    "add_translation": "Añadir traducción"
+  },
+  "translations": {
+    "locale": "Idioma",
+    "name": "Nombre",
+    "slug": "URL",
+    "description": "Descripción",
+    "meta_title": "Título para buscadores",
+    "meta_description": "Descripción para buscadores"
   }
 }

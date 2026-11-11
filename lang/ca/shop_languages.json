@@ -1,0 +1,33 @@
+{
+  "title": "Idiomes",
+  "description": "Idiomes de la botiga i del catàleg: els productes i les categories es tradueixen a cada fitxa",
+  "fields": {
+    "id": "ID",
+    "code": "Codi",
+    "name": "Nom",
+    "sort": "Ordre",
+    "active": "Actiu",
+    "is_default": "Per defecte",
+    "products": "Productes traduïts",
+    "categories": "Categories traduïdes",
+    "created_at": "Creat"
+  },
+  "help": {
+    "code": "Dues lletres minúscules (ISO 639-1): ca, es, en, fr…",
+    "name": "Com es veu al selector d'idioma de la botiga",
+    "active": "Inactiu: no surt al selector, però les traduccions es conserven",
+    "is_default": "L'idioma dels textos principals del catàleg i dels visitants nous. Canviar-lo no tradueix els textos que ja hi ha"
+  },
+  "validation": {
+    "code": "Dues lletres minúscules",
+    "keep_default": "Per canviar l'idioma per defecte, marca'n un altre com a idioma per defecte",
+    "delete_default": "No es pot esborrar l'idioma per defecte"
+  },
+  "sections": {
+    "general": "Dades generals",
+    "info": "Informació"
+  },
+  "flash": {
+    "not_found": "El registre ja no existeix"
+  }
+}

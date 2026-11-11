@@ -5,10 +5,13 @@ namespace Nebula\Hooks;
 
 use Nebula\Core\ModuleHooks;
 use Nebula\Core\User;
+use Nebula\Shop\Locales;
 use Nebula\Shop\Text;
+use Nebula\Shop\Translations;
 
 /**
- * Categorías: slug automático, sin ciclos en el árbol y, al borrar, fuera de los productos que la tenían
+ * Categorías: slug automático, traducciones (copia a category_translations), sin ciclos en el árbol y, al borrar,
+ * fuera de los productos que la tenían
  * (products.categories es una lista JSON; product_categories se borra sola por la clave foránea).
  */
 final class CategoriesHooks extends ModuleHooks
@@ -17,7 +20,14 @@ final class CategoriesHooks extends ModuleHooks
     {
         if (array_key_exists('slug', $data) || $id === null) {
             $base = trim((string) ($data['slug'] ?? '')) !== '' ? Text::slug((string) $data['slug']) : Text::slug((string) ($data['name'] ?? $existing['name'] ?? ''));
-            $data['slug'] = Text::uniqueSlug($this->db, 'categories', $base, $id);
+            $data['slug'] = Translations::uniqueSlug($this->db, 'categories', $base, $id);
+        }
+        if (array_key_exists('translations', $data)) {
+            $translations = Translations::normalize($this->db, 'categories', $data['translations'], $id, new Locales($this->db));
+            if (is_string($translations)) {
+                return $translations;
+            }
+            $data['translations'] = json_encode($translations, JSON_UNESCAPED_UNICODE);
         }
         $parent = isset($data['parent_id']) && $data['parent_id'] !== '' ? (int) $data['parent_id'] : null;
         if ($id !== null && $parent !== null) {
@@ -31,6 +41,13 @@ final class CategoriesHooks extends ModuleHooks
             }
         }
         return null;
+    }
+
+    public function afterSave(string $id, array $data, bool $isNew, User $user): void
+    {
+        if (array_key_exists('translations', $data)) {
+            Translations::sync($this->db, 'categories', (int) $id, Text::json($data['translations']));
+        }
     }
 
     public function afterDelete(string $id, User $user): void

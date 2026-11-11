@@ -59,7 +59,8 @@ final class Customers
         if ($row['locked_until'] !== null && strtotime((string) $row['locked_until']) > time()) {
             throw new ShopException('login_locked');
         }
-        if (!password_verify($password, (string) $row['password_hash'])) {
+        // También las de otra tienda importada (LegacyPasswords): se pasan a password_hash() más abajo
+        if (!LegacyPasswords::verify($password, (string) $row['password_hash'])) {
             $fails = (int) $row['failed_logins'] + 1;
             $max = max(1, (int) ShopConfig::get('shop.login_max_attempts', 5));
             $this->db->update('customers', [
@@ -71,6 +72,9 @@ final class Customers
         $update = ['failed_logins' => 0, 'locked_until' => null, 'last_login' => date('Y-m-d H:i:s')];
         if (password_needs_rehash((string) $row['password_hash'], PASSWORD_DEFAULT)) {
             $update['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+            if (!LegacyPasswords::isNative((string) $row['password_hash'])) {
+                Log::channel('shop')->info('Contraseña heredada del cliente {id} pasada a password_hash', ['id' => $row['id']]);
+            }
         }
         $this->db->update('customers', $update, 'id', $row['id']);
         $this->startSession((int) $row['id']);

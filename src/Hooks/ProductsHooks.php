@@ -7,12 +7,15 @@ use Nebula\Core\Action;
 use Nebula\Core\ActionResult;
 use Nebula\Core\ModuleHooks;
 use Nebula\Core\User;
+use Nebula\Shop\Locales;
 use Nebula\Shop\Text;
+use Nebula\Shop\Translations;
 use Nebula\Shop\Urls;
 
 /**
  * Productos: slug automático, código estable de cada color (el carrito y los pedidos lo usan) y copia de las
- * categorías y los precios por grupo a sus tablas (product_categories, product_prices) para consultar la tienda.
+ * categorías, los precios por grupo y las traducciones a sus tablas (product_categories, product_prices,
+ * product_translations) para consultar la tienda.
  */
 final class ProductsHooks extends ModuleHooks
 {
@@ -20,7 +23,14 @@ final class ProductsHooks extends ModuleHooks
     {
         if (array_key_exists('slug', $data) || $id === null) {
             $base = trim((string) ($data['slug'] ?? '')) !== '' ? Text::slug((string) $data['slug']) : Text::slug((string) ($data['name'] ?? $existing['name'] ?? ''));
-            $data['slug'] = Text::uniqueSlug($this->db, 'products', $base, $id);
+            $data['slug'] = Translations::uniqueSlug($this->db, 'products', $base, $id);
+        }
+        if (array_key_exists('translations', $data)) {
+            $translations = Translations::normalize($this->db, 'products', $data['translations'], $id, new Locales($this->db));
+            if (is_string($translations)) {
+                return $translations;
+            }
+            $data['translations'] = json_encode($translations, JSON_UNESCAPED_UNICODE);
         }
         if (array_key_exists('colors', $data)) {
             $data['colors'] = json_encode($this->colorCodes(Text::json($data['colors'])), JSON_UNESCAPED_UNICODE);
@@ -51,6 +61,9 @@ final class ProductsHooks extends ModuleHooks
         if (array_key_exists('prices', $data)) {
             self::syncPrices($this->db, (int) $id, Text::json($data['prices']));
         }
+        if (array_key_exists('translations', $data)) {
+            Translations::sync($this->db, 'products', (int) $id, Text::json($data['translations']));
+        }
     }
 
     /** Copia products.prices a product_prices. */
@@ -77,10 +90,12 @@ final class ProductsHooks extends ModuleHooks
         }
         unset($row['id'], $row['created_at'], $row['updated_at']);
         $row['name'] .= ' (' . $a->t('flash.copy') . ')';
-        $row['slug'] = Text::uniqueSlug($this->db, 'products', Text::slug($row['name']), null);
+        $row['slug'] = Translations::uniqueSlug($this->db, 'products', Text::slug($row['name']), null);
         $row['active'] = 0;
+        $translations = Translations::normalize($this->db, 'products', $row['translations'] ?? null, null, new Locales($this->db));
+        $row['translations'] = is_array($translations) ? json_encode($translations, JSON_UNESCAPED_UNICODE) : null;
         $newId = $this->db->insert('products', $row);
-        $this->afterSave($newId, ['categories' => $row['categories'], 'prices' => $row['prices']], true, $a->user);
+        $this->afterSave($newId, ['categories' => $row['categories'], 'prices' => $row['prices'], 'translations' => $row['translations']], true, $a->user);
         return ActionResult::redirect($a->editUrl($newId), $a->t('flash.duplicated'));
     }
 

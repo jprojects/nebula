@@ -78,6 +78,7 @@ final class OrderService
                 'shipping_cost' => $quote['shipping_cost'],
                 'payment_fee' => $quote['payment_fee'],
                 'tax_total' => $quote['tax_total'],
+                'surcharge_total' => $quote['surcharge_total'] ?? 0,
                 'total' => $quote['total'],
                 'weight' => $quote['weight'],
                 'coupon_code' => array_values(array_filter(array_column($quote['promotions'], 'code')))[0] ?? null,

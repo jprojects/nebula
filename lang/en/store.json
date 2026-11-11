@@ -53,7 +53,9 @@
     "add": "Add to cart",
     "last_units": "Only {n} left!",
     "description": "Description",
-    "related": "You may also like"
+    "related": "You may also like",
+    "login_for_prices": "Sign in to see prices",
+    "login_for_prices_text": "Prices and purchases are for registered customers only."
   },
   "cart": {
     "title": "Cart",
@@ -87,7 +89,8 @@
     "free_shipping": "Free shipping",
     "tax_included": "Includes {rate}% VAT",
     "tax_total": "VAT included",
-    "shipping_later": "Shipping is calculated at checkout."
+    "shipping_later": "Shipping is calculated at checkout.",
+    "surcharge": "Equivalence surcharge {rate} %"
   },
   "checkout": {
     "title": "Checkout",
@@ -220,7 +223,8 @@
     "http_503": "We're updating the shop. Please come back in a few minutes.",
     "http_500": "Something went wrong",
     "http_text_404": "The link may be out of date or the product may no longer exist.",
-    "http_text_other": "Please try again in a few minutes."
+    "http_text_other": "Please try again in a few minutes.",
+    "login_to_buy": "Sign in to your account to see prices and buy"
   },
   "mail": {
     "footer": "Thank you for shopping with us",

@@ -1,0 +1,43 @@
+{
+  "table": "shop_languages",
+  "primaryKey": "id",
+  "recordTitle": "name",
+  "hooks": "Nebula\\Hooks\\ShopLanguagesHooks",
+  "menu": { "group": "settings", "order": 135, "icon": "languages" },
+
+  "fields": {
+    "id":         { "type": "number", "readonly": true, "grouping": false },
+    "code":       { "type": "text", "required": true, "unique": true, "minlength": 2, "maxlength": 2, "pattern": "[a-z]{2}",
+                    "patternMessage": "validation.code", "help": "help.code", "width": "quarter", "autocomplete": "off" },
+    "name":       { "type": "text", "required": true, "maxlength": 50, "help": "help.name", "width": "half" },
+    "sort":       { "type": "number", "default": 0, "width": "quarter" },
+    "active":     { "type": "checkbox", "default": 1, "width": "half", "help": "help.active", "colors": { "0": "gray" } },
+    "is_default": { "type": "checkbox", "width": "half", "help": "help.is_default", "colors": { "1": "green" } },
+    "products":   { "type": "number", "width": "third",
+                    "sql": "SELECT COUNT(*) FROM product_translations t WHERE t.locale = shop_languages.code" },
+    "categories": { "type": "number", "width": "third",
+                    "sql": "SELECT COUNT(*) FROM category_translations t WHERE t.locale = shop_languages.code" },
+    "created_at": { "type": "datetime", "readonly": true, "width": "third" }
+  },
+
+  "list": {
+    "columns": [
+      { "field": "code", "width": "90px" },
+      "name",
+      { "field": "products", "width": "150px", "align": "right" },
+      { "field": "categories", "width": "150px", "align": "right" },
+      { "field": "sort", "width": "80px", "align": "right" },
+      { "field": "is_default", "width": "110px" },
+      { "field": "active", "width": "90px" }
+    ],
+    "defaultSort": { "field": "sort", "dir": "asc" },
+    "search": ["code", "name"]
+  },
+
+  "form": {
+    "sections": [
+      { "title": "sections.general", "fields": ["code", "name", "sort", "active", "is_default"] },
+      { "title": "sections.info", "fields": ["products", "categories", "created_at"] }
+    ]
+  }
+}

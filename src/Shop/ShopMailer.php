@@ -80,7 +80,7 @@ final class ShopMailer
         if ($to === null) {
             return;
         }
-        $view = $this->view((string) ShopConfig::get('shop.locale', 'ca'));
+        $view = $this->view(null);
         $this->send($to, ShopConfig::shopName(), $view->t($subjectKey, ['number' => $order['number'], 'total' => $view->money((float) $order['total'])]),
             $view->render('emails/order_shop', $this->orderVars($order) + [
                 'adminUrl' => $this->urls->admin(['r' => 'edit', 'm' => 'orders', 'id' => $order['id']]),
@@ -100,11 +100,14 @@ final class ShopMailer
 
     private function view(?string $locale): StoreView
     {
-        $lang = new Lang(NB_ROOT . '/lang', (string) ShopConfig::get('shop.locale', 'ca'), (string) ShopConfig::get('fallback_locale', 'es'));
+        $lang = new Lang(NB_ROOT . '/lang', (new Locales($this->db))->default(), (string) ShopConfig::get('fallback_locale', 'es'));
         if ($locale !== null && $locale !== '') {
             $lang->setLocale($locale);
         }
         $view = new StoreView($lang, $this->urls);
+        if ($locale !== null && $locale !== '') {
+            $view->setLocale($locale);
+        }
         $view->share(['absolute' => true]);
         return $view;
     }

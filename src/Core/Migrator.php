@@ -25,7 +25,11 @@ final class Migrator
         $this->log = [];
         $this->runSqlFile(NB_ROOT . '/database/schema.sql');
         $this->runSqlFile(NB_ROOT . '/database/shop.sql');
-        // Columnas añadidas después: $this->ensureColumn('products', 'columna', 'definición');
+        // Columnas añadidas después de la 0.1.0 (en las instalaciones nuevas ya vienen en shop.sql)
+        $this->ensureColumn('products', 'translations', 'JSON NULL AFTER meta_description');
+        $this->ensureColumn('categories', 'translations', 'JSON NULL AFTER meta_description');
+        $this->ensureColumn('customers', 'equivalence_surcharge', 'TINYINT(1) NOT NULL DEFAULT 0 AFTER locale');
+        $this->ensureColumn('orders', 'surcharge_total', 'DECIMAL(12,2) NOT NULL DEFAULT 0 AFTER tax_total');
         if ($demo) {
             $this->demo();
         }
@@ -53,9 +57,19 @@ final class Migrator
         $this->log[] = 'imágenes de ejemplo en ' . $target;
     }
 
-    /** Datos mínimos de una tienda nueva (solo si la tabla está vacía): países y grupo de clientes por defecto. */
+    /** Datos mínimos de una tienda nueva (solo si la tabla está vacía): países, grupo de clientes e idiomas. */
     private function seed(): void
     {
+        if ((int) $this->db->fetchValue('SELECT COUNT(*) FROM shop_languages') === 0) {
+            // Los de 'shop.locales' (lo que había antes de la 0.3.0), con 'shop.locale' por defecto
+            $locales = (array) \Nebula\Shop\ShopConfig::get('shop.locales', ['ca' => 'Català', 'es' => 'Español', 'en' => 'English']);
+            $default = (string) \Nebula\Shop\ShopConfig::get('shop.locale', 'ca');
+            $sort = 0;
+            foreach ($locales as $code => $name) {
+                $this->db->insert('shop_languages', ['code' => (string) $code, 'name' => (string) $name, 'is_default' => $code === $default ? 1 : 0, 'sort' => $sort++]);
+            }
+            $this->log[] = 'idiomas de la tienda';
+        }
         if ((int) $this->db->fetchValue('SELECT COUNT(*) FROM countries') === 0) {
             $sort = 0;
             foreach (self::COUNTRIES as $code => $name) {

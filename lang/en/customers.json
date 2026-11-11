@@ -19,7 +19,8 @@
     "spent": "Spent",
     "registered": "Registered",
     "last_login": "Last login",
-    "created_at": "Created"
+    "created_at": "Created",
+    "equivalence_surcharge": "Equivalence surcharge"
   },
   "address": {
     "label": "Label",
@@ -49,7 +50,8 @@
   "help": {
     "group": "Decides the prices, shipping, payments and promotions they see. Empty = default group",
     "password": "Empty = keep. Without a password the customer buys as a guest",
-    "slug": "Part of the URL. Empty = generated from the name"
+    "slug": "Part of the URL. Empty = generated from the name",
+    "equivalence_surcharge": "Retailer under the Spanish equivalence surcharge scheme: its orders add the surcharge for each VAT rate (setting shop.equivalence_surcharge)"
   },
   "actions": {
     "orders": "View orders"

@@ -225,6 +225,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .nb-colors legend strong { color: var(--text); }
 .nb-buy-row { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; margin-top: 18px; }
 .nb-buy-row .nb-btn { flex: 1; min-width: 200px; }
+/* Tienda sin precios públicos (shop.guest_prices => false) */
+.nb-login-prices { margin-top: 18px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); }
+.nb-login-prices p { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; color: var(--muted); }
+.nb-price-login { align-items: center; gap: 6px; color: var(--muted); font-size: .9rem; text-decoration: none; }
+.nb-price-login:hover { color: var(--primary); }
+.nb-price-login .nb-icon { width: 15px; height: 15px; }
 .nb-qty { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .nb-qty input { width: 52px; text-align: center; border: 0; background: transparent; -moz-appearance: textfield; padding: .5em 0; }
 .nb-qty input::-webkit-inner-spin-button { -webkit-appearance: none; }
@@ -356,7 +362,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ---------------------------------------------------------------- móvil */
 @media (max-width: 900px) {
-  .nb-product, .nb-cart-layout, .nb-checkout { grid-template-columns: 1fr; }
+  .nb-product, .nb-cart-layout, .nb-checkout { grid-template-columns: minmax(0, 1fr); }  /* minmax: las miniaturas no ensanchan la página */
   .nb-gallery, .nb-cart-aside, .nb-sticky { position: static; }
 }
 @media (max-width: 720px) {

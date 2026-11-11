@@ -6,8 +6,9 @@ $general = $imgs($p['images']);
 $colorData = array_map(fn ($c) => [
     'code' => $c['code'],
     'name' => $c['name'],
-    'price' => $this->money($c['price']),
-    'compare' => $c['compare'] !== null ? $this->money($c['compare']) : null,
+    // Sin sesión en una tienda sin precios públicos ('shop.guest_prices' => false), ni en el HTML
+    'price' => ($showPrices ?? true) ? $this->money($c['price']) : null,
+    'compare' => ($showPrices ?? true) && $c['compare'] !== null ? $this->money($c['compare']) : null,
     'images' => $c['images'] ? $imgs($c['images']) : $general,
 ], $p['colors']);
 $first = $p['colors'][0] ?? null;
@@ -40,15 +41,23 @@ $compare = $first !== null ? $first['compare'] : $p['compare'];
       <h1><?= $this->e($p['name']) ?></h1>
       <?php if ($p['sku']): ?><p class="nb-muted nb-sku"><?= $this->e($this->t('product.sku')) ?> <?= $this->e($p['sku']) ?></p><?php endif ?>
 
-      <div class="nb-price nb-price-lg">
-        <span class="nb-price-now" data-price><?= $this->e($this->money($price)) ?></span>
-        <s class="nb-price-old" data-compare<?= $compare ? '' : ' hidden' ?>><?= $compare ? $this->e($this->money($compare)) : '' ?></s>
-        <?php if ($p['promo']): ?><span class="nb-tag nb-tag-sale"><?= $this->e($p['promo']) ?></span><?php endif ?>
-      </div>
-      <p class="nb-muted nb-tax-note"><?= $this->e($this->t('product.tax_included')) ?></p>
+      <?php if ($showPrices ?? true): ?>
+        <div class="nb-price nb-price-lg">
+          <span class="nb-price-now" data-price><?= $this->e($this->money($price)) ?></span>
+          <s class="nb-price-old" data-compare<?= $compare ? '' : ' hidden' ?>><?= $compare ? $this->e($this->money($compare)) : '' ?></s>
+          <?php if ($p['promo']): ?><span class="nb-tag nb-tag-sale"><?= $this->e($p['promo']) ?></span><?php endif ?>
+        </div>
+        <p class="nb-muted nb-tax-note"><?= $this->e($this->t('product.tax_included')) ?></p>
+      <?php endif ?>
 
       <?php if ($p['summary']): ?><p class="nb-summary"><?= $this->e($p['summary']) ?></p><?php endif ?>
 
+      <?php if (!($showPrices ?? true)): ?>
+        <div class="nb-login-prices">
+          <p><?= $this->icon('lock') ?> <?= $this->e($this->t('product.login_for_prices_text')) ?></p>
+          <a class="nb-btn nb-btn-primary nb-btn-lg" href="<?= $this->e($this->url('/entrar', ['next' => $this->urls->product($p['slug'])])) ?>"><?= $this->icon('log-in') ?> <?= $this->e($this->t('product.login_for_prices')) ?></a>
+        </div>
+      <?php else: ?>
       <form class="nb-buy" data-add-to-cart>
         <input type="hidden" name="product_id" value="<?= (int) $p['id'] ?>">
         <?php if ($p['colors']): ?>
@@ -89,6 +98,7 @@ $compare = $first !== null ? $first['compare'] : $p['compare'];
           <p class="nb-stock-low"><?= $this->icon('clock') ?> <?= $this->e($this->t('product.last_units', ['n' => $p['stock']])) ?></p>
         <?php endif ?>
       </form>
+      <?php endif ?>
 
       <?php if ($p['description'] !== ''): ?>
         <section class="nb-prose nb-description">

@@ -53,7 +53,9 @@
     "add": "Añadir al carrito",
     "last_units": "¡Últimas {n} unidades!",
     "description": "Descripción",
-    "related": "También te puede interesar"
+    "related": "También te puede interesar",
+    "login_for_prices": "Entra para ver los precios",
+    "login_for_prices_text": "Los precios y las compras son solo para clientes registrados."
   },
   "cart": {
     "title": "Carrito",
@@ -87,7 +89,8 @@
     "free_shipping": "Envío gratis",
     "tax_included": "IVA {rate} % incluido",
     "tax_total": "IVA incluido",
-    "shipping_later": "Los gastos de envío se calculan en el siguiente paso."
+    "shipping_later": "Los gastos de envío se calculan en el siguiente paso.",
+    "surcharge": "Recargo de equivalencia {rate} %"
   },
   "checkout": {
     "title": "Finalizar compra",
@@ -220,7 +223,8 @@
     "http_503": "Estamos actualizando la tienda. Vuelve en unos minutos.",
     "http_500": "Ha habido un error",
     "http_text_404": "Puede que el enlace sea antiguo o que el producto ya no exista.",
-    "http_text_other": "Inténtalo de nuevo en unos minutos."
+    "http_text_other": "Inténtalo de nuevo en unos minutos.",
+    "login_to_buy": "Entra en tu cuenta para ver los precios y comprar"
   },
   "mail": {
     "footer": "Gracias por tu compra",

@@ -31,6 +31,7 @@ final class CatalogController extends ShopController
     {
         $catalog = $this->services->catalog();
         $category = $catalog->categoryBySlug($slug) ?? throw new HttpException(404);
+        $this->canonical($slug, $category['slug'], fn (string $s) => $this->view->urls->category($s, $_GET));
         $this->listing($category, [
             'category' => $category['id'],
         ], $this->view->urls->category($slug), $category['meta_title'] ?: $category['name'], $category['meta_description']);
@@ -55,7 +56,7 @@ final class CatalogController extends ShopController
             'name' => $p['name'],
             'url' => $this->view->urls->product($p['slug']),
             'image' => $this->view->img($p['cover'], true),
-            'price' => $this->view->money($p['price']),
+            'price' => $this->shop->showPrices() ? $this->view->money($p['price']) : '',
         ], $res['items']), 'all' => $this->view->url('/buscar', ['q' => $q])]);
     }
 
@@ -64,6 +65,7 @@ final class CatalogController extends ShopController
         $catalog = $this->services->catalog();
         $group = $this->shop->group();
         $product = $catalog->productBySlug($slug, $group) ?? throw new HttpException(404);
+        $this->canonical($slug, $product['slug'], fn (string $s) => $this->view->urls->product($s));
         $category = null;
         foreach ($product['categories'] as $id) {
             if (isset($catalog->categories()[$id])) {
@@ -85,10 +87,23 @@ final class CatalogController extends ShopController
         ));
     }
 
+    /**
+     * Si se ha llegado con el slug de otro idioma (o el de antes de traducirlo), al del idioma actual: así, al
+     * cambiar de idioma, la URL también cambia. 302 y no 301: depende del idioma de la sesión, y un 301 que el
+     * navegador recordara provocaría un bucle al volver al otro idioma.
+     */
+    private function canonical(string $requested, string $current, \Closure $url): void
+    {
+        if ($requested !== $current && !isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            $this->shop->redirect($url($current), 302);
+        }
+    }
+
     private function listing(?array $category, array $opts, string $baseUrl, string $title, ?string $description, ?string $q = null): void
     {
         $catalog = $this->services->catalog();
-        $sort = in_array($this->query('sort'), Catalog::SORTS, true) ? $this->query('sort') : 'featured';
+        $sorts = Catalog::sorts($this->shop->showPrices());
+        $sort = in_array($this->query('sort'), $sorts, true) ? $this->query('sort') : 'featured';
         $page = max(1, (int) $this->query('page', '1'));
         $result = $catalog->listing($opts + [
             'sort' => $sort,
@@ -101,6 +116,7 @@ final class CatalogController extends ShopController
             'subcategories' => $category !== null ? $catalog->children($category['id']) : [],
             'result' => $result,
             'sort' => $sort,
+            'sorts' => $sorts,
             'q' => $q,
             'baseUrl' => $baseUrl,
             'query' => array_filter(['q' => $q, 'sort' => $sort !== 'featured' ? $sort : null]),

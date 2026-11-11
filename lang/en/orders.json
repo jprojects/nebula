@@ -47,7 +47,8 @@
     "payments": "Payment attempts",
     "history": "History",
     "items_count": "Units",
-    "silent": "Don't notify the customer"
+    "silent": "Don't notify the customer",
+    "surcharge_total": "Equivalence surcharge"
   },
   "status": {
     "pending": "Awaiting payment",
@@ -114,7 +115,8 @@
     "tax": "VAT",
     "total": "Total",
     "free_shipping": "Free shipping",
-    "tax_breakdown": "VAT {rate}% on {base}"
+    "tax_breakdown": "VAT {rate}% on {base}",
+    "surcharge": "Equivalence surcharge {rate} % on {base}"
   },
   "payments": {
     "none": "No gateway payment attempts",

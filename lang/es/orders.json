@@ -47,7 +47,8 @@
     "payments": "Intentos de pago",
     "history": "Historial",
     "items_count": "Unid.",
-    "silent": "No avisar al cliente"
+    "silent": "No avisar al cliente",
+    "surcharge_total": "Recargo de equivalencia"
   },
   "status": {
     "pending": "Pendiente de pago",
@@ -114,7 +115,8 @@
     "tax": "IVA",
     "total": "Total",
     "free_shipping": "Envío gratis",
-    "tax_breakdown": "IVA {rate} % sobre {base}"
+    "tax_breakdown": "IVA {rate} % sobre {base}",
+    "surcharge": "Recargo de equivalencia {rate} % sobre {base}"
   },
   "payments": {
     "none": "Sin intentos de pago en pasarela",

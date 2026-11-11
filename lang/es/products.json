@@ -25,7 +25,8 @@
     "created_at": "Creado",
     "updated_at": "Modificado",
     "sold": "Vendidos",
-    "colors_count": "Colores"
+    "colors_count": "Colores",
+    "translations": "Traducciones"
   },
   "prices": {
     "group": "Grupo",
@@ -41,7 +42,8 @@
   },
   "repeater": {
     "add_price": "Añadir precio",
-    "add_color": "Añadir color"
+    "add_color": "Añadir color",
+    "add_translation": "Añadir traducción"
   },
   "sections": {
     "prices": "Precios y existencias",
@@ -49,7 +51,8 @@
     "description": "Descripción",
     "general": "Datos generales",
     "info": "Información",
-    "seo": "Buscadores (SEO)"
+    "seo": "Buscadores (SEO)",
+    "translations": "Traducciones"
   },
   "help": {
     "sort": "Menor = antes en los listados",
@@ -60,7 +63,8 @@
     "prices": "Precio para un grupo (tarifa) y a partir de una cantidad. Sin fila para un grupo se aplica el precio general con el descuento del grupo",
     "images": "La primera es la principal",
     "colors": "Cada color con sus imágenes: en la ficha, al elegir el color se ven sus fotos. El suplemento se suma al precio",
-    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre",
+    "translations": "Textos en los otros idiomas de la tienda (Configuración → Idiomas). Lo que se deje vacío se muestra en el idioma por defecto"
   },
   "actions": {
     "duplicate": "Duplicar",
@@ -76,6 +80,17 @@
   },
   "validation": {
     "prices_duplicated": "Hay dos precios para el mismo grupo y la misma cantidad",
-    "slug": "Solo minúsculas, números y guiones"
+    "slug": "Solo minúsculas, números y guiones",
+    "translation_default": "El idioma por defecto no se traduce: sus textos son los de la ficha",
+    "translation_duplicated": "Hay dos traducciones para el mismo idioma"
+  },
+  "translations": {
+    "locale": "Idioma",
+    "name": "Nombre",
+    "slug": "URL",
+    "summary": "Resumen",
+    "description": "Descripción",
+    "meta_title": "Título para buscadores",
+    "meta_description": "Descripción para buscadores"
   }
 }

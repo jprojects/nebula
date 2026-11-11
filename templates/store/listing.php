@@ -10,7 +10,7 @@
     <label class="nb-sort">
       <span><?= $this->e($this->t('listing.sort')) ?></span>
       <select data-listing-sort>
-        <?php foreach (\Nebula\Shop\Catalog::SORTS as $s): ?>
+        <?php foreach ($sorts ?? \Nebula\Shop\Catalog::SORTS as $s): ?>
           <option value="<?= $this->e($s) ?>"<?= $s === $sort ? ' selected' : '' ?>><?= $this->e($this->t('listing.sort_' . $s)) ?></option>
         <?php endforeach ?>
       </select>

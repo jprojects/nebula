@@ -19,7 +19,8 @@
     "spent": "Gastado",
     "registered": "Con cuenta",
     "last_login": "Último acceso",
-    "created_at": "Alta"
+    "created_at": "Alta",
+    "equivalence_surcharge": "Recargo de equivalencia"
   },
   "address": {
     "label": "Nombre",
@@ -49,7 +50,8 @@
   "help": {
     "group": "Decide los precios, envíos, pagos y promociones que ve. Vacío = grupo por defecto",
     "password": "Vacío = no cambiar. Sin contraseña el cliente compra sin cuenta",
-    "slug": "Parte de la URL. Vacío = se crea a partir del nombre"
+    "slug": "Parte de la URL. Vacío = se crea a partir del nombre",
+    "equivalence_surcharge": "Comercio minorista en recargo de equivalencia: a sus pedidos se añade el recargo de cada tipo de IVA (configuración shop.equivalence_surcharge)"
   },
   "actions": {
     "orders": "Ver pedidos"

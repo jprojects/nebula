@@ -14,7 +14,8 @@
     "meta_title": "SEO title",
     "meta_description": "SEO description",
     "products": "Products",
-    "created_at": "Created"
+    "created_at": "Created",
+    "translations": "Translations"
   },
   "placeholder": {
     "root": "(Top level)"
@@ -24,17 +25,32 @@
   },
   "validation": {
     "parent_cycle": "A category cannot be inside itself or its subcategories",
-    "slug": "Lowercase letters, numbers and hyphens only"
+    "slug": "Lowercase letters, numbers and hyphens only",
+    "translation_default": "The default language is not translated: its texts are the record's own",
+    "translation_duplicated": "There are two translations for the same language"
   },
   "sections": {
     "general": "General",
     "info": "Information",
-    "seo": "Search engines (SEO)"
+    "seo": "Search engines (SEO)",
+    "translations": "Translations"
   },
   "help": {
-    "slug": "Part of the URL. Empty = generated from the name"
+    "slug": "Part of the URL. Empty = generated from the name",
+    "translations": "Texts in the shop's other languages (Settings → Languages). Anything left empty is shown in the default language"
   },
   "flash": {
     "not_found": "The record no longer exists"
+  },
+  "repeater": {
+    "add_translation": "Add translation"
+  },
+  "translations": {
+    "locale": "Language",
+    "name": "Name",
+    "slug": "URL",
+    "description": "Description",
+    "meta_title": "Search engine title",
+    "meta_description": "Search engine description"
   }
 }

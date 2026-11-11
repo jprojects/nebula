@@ -16,6 +16,8 @@ final class StoreView
     private ?array $icons = null;
     /** Variables compartidas por todas las plantillas de la petición (cliente, carrito, menú…) */
     private array $shared = [];
+    /** Idioma del visitante (puede no tener textos propios en lang/: entonces t() usa el de reserva) */
+    private ?string $locale = null;
 
     public function __construct(
         public readonly Lang $lang,
@@ -119,7 +121,7 @@ final class StoreView
 
     public function money(float $amount): string
     {
-        return Money::format($amount, $this->lang->locale());
+        return Money::format($amount, $this->locale());
     }
 
     public function date(?string $datetime, bool $time = false): string
@@ -138,7 +140,12 @@ final class StoreView
 
     public function locale(): string
     {
-        return $this->lang->locale();
+        return $this->locale ?? $this->lang->locale();
+    }
+
+    public function setLocale(string $locale): void
+    {
+        $this->locale = $locale;
     }
 
     public function shopName(): string

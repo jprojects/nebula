@@ -12,6 +12,20 @@ CREATE TABLE IF NOT EXISTS countries (
   UNIQUE KEY uq_countries_code (code)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Idiomas de la tienda (Configuración → Idiomas). Los textos del catálogo (products.name, categories.name…) están en
+-- el idioma por defecto; los de los demás van en product_translations y category_translations.
+CREATE TABLE IF NOT EXISTS shop_languages (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  code        VARCHAR(5)   NOT NULL,                  -- ca, es, en, fr… (los textos de la tienda, en lang/{code}/store.json)
+  name        VARCHAR(50)  NOT NULL,                  -- como se ve en el selector: Català, Español…
+  active      TINYINT(1)   NOT NULL DEFAULT 1,
+  is_default  TINYINT(1)   NOT NULL DEFAULT 0,        -- el de los datos del catálogo y de los visitantes nuevos
+  sort        INT          NOT NULL DEFAULT 0,
+  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_shop_languages_code (code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Grupos (roles) de clientes: deciden la tarifa de precios, los envíos, los pagos y las promociones
 CREATE TABLE IF NOT EXISTS customer_groups (
   id                INT UNSIGNED  NOT NULL AUTO_INCREMENT,
@@ -36,6 +50,7 @@ CREATE TABLE IF NOT EXISTS customers (
   group_id           INT UNSIGNED NULL,
   addresses          JSON         NULL,                -- repeater: [{label, name, address, city, postcode, province, country, phone}]
   locale             VARCHAR(5)   NULL,
+  equivalence_surcharge TINYINT(1) NOT NULL DEFAULT 0,  -- recargo de equivalencia (comercio minorista)
   active             TINYINT(1)   NOT NULL DEFAULT 1,
   accepts_marketing  TINYINT(1)   NOT NULL DEFAULT 0,
   notes              TEXT         NULL,                -- solo para la tienda
@@ -76,6 +91,7 @@ CREATE TABLE IF NOT EXISTS categories (
   sort              INT          NOT NULL DEFAULT 0,
   meta_title        VARCHAR(200) NULL,
   meta_description  VARCHAR(300) NULL,
+  translations      JSON         NULL,                -- repeater: [{locale, name, slug, description, meta_title, meta_description}]
   created_at        DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at        DATETIME     NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
@@ -104,6 +120,7 @@ CREATE TABLE IF NOT EXISTS products (
   sort              INT           NOT NULL DEFAULT 0,
   meta_title        VARCHAR(200)  NULL,
   meta_description  VARCHAR(300)  NULL,
+  translations      JSON          NULL,                -- repeater: [{locale, name, slug, summary, description, meta_*}]; se copia a product_translations
   created_at        DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at        DATETIME      NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
@@ -134,6 +151,35 @@ CREATE TABLE IF NOT EXISTS product_prices (
   KEY ix_product_prices_group (group_id),
   CONSTRAINT fk_pp_product FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE,
   CONSTRAINT fk_pp_group FOREIGN KEY (group_id) REFERENCES customer_groups (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Copia de products.translations y categories.translations para la tienda (la mantienen ProductsHooks y
+-- CategoriesHooks). Lo que falta en una traducción se toma del idioma por defecto.
+CREATE TABLE IF NOT EXISTS product_translations (
+  product_id        INT UNSIGNED NOT NULL,
+  locale            VARCHAR(5)   NOT NULL,
+  name              VARCHAR(200) NOT NULL,
+  slug              VARCHAR(210) NOT NULL,
+  summary           VARCHAR(500) NULL,
+  description       MEDIUMTEXT   NULL,
+  meta_title        VARCHAR(200) NULL,
+  meta_description  VARCHAR(300) NULL,
+  PRIMARY KEY (product_id, locale),
+  UNIQUE KEY uq_product_translations_slug (locale, slug),
+  CONSTRAINT fk_pt_product FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS category_translations (
+  category_id       INT UNSIGNED NOT NULL,
+  locale            VARCHAR(5)   NOT NULL,
+  name              VARCHAR(150) NOT NULL,
+  slug              VARCHAR(160) NOT NULL,
+  description       TEXT         NULL,
+  meta_title        VARCHAR(200) NULL,
+  meta_description  VARCHAR(300) NULL,
+  PRIMARY KEY (category_id, locale),
+  UNIQUE KEY uq_category_translations_slug (locale, slug),
+  CONSTRAINT fk_ct_category FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Formas de envío con sus reglas de portes (país, código postal, peso, importe)
@@ -232,11 +278,12 @@ CREATE TABLE IF NOT EXISTS orders (
   shipping_cost       DECIMAL(12,2) NOT NULL DEFAULT 0,
   payment_fee         DECIMAL(12,2) NOT NULL DEFAULT 0,
   tax_total           DECIMAL(12,2) NOT NULL DEFAULT 0,  -- IVA incluido en el total
+  surcharge_total     DECIMAL(12,2) NOT NULL DEFAULT 0,  -- recargo de equivalencia (sumado al total; desglose en taxes)
   total               DECIMAL(12,2) NOT NULL DEFAULT 0,
   weight              DECIMAL(10,3) NOT NULL DEFAULT 0,
   coupon_code         VARCHAR(40)   NULL,
   promotions          JSON          NULL,                -- promociones aplicadas: [{id, label, amount}]
-  taxes               JSON          NULL,                -- desglose: [{rate, base, tax}]
+  taxes               JSON          NULL,                -- desglose: [{rate, base, tax, surcharge_rate, surcharge}]
   notes               TEXT          NULL,                -- del cliente
   admin_notes         TEXT          NULL,
   tracking_number     VARCHAR(100)  NULL,

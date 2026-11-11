@@ -48,6 +48,19 @@
 
     "meta_title":       { "type": "text", "maxlength": 200 },
     "meta_description": { "type": "textarea", "rows": 2, "maxlength": 300 },
+    "translations":     { "type": "repeater", "layout": "block", "max": 20, "addLabel": "repeater.add_translation", "summary": "locale",
+                          "help": "help.translations",
+                          "fields": {
+                            "locale":           { "type": "select", "label": "translations.locale", "required": true, "width": "third",
+                                                  "source": { "table": "shop_languages", "value": "code", "label": "name", "where": "shop_languages.is_default = 0", "order": "sort" } },
+                            "name":             { "type": "text", "label": "translations.name", "required": true, "maxlength": 200, "width": "two-thirds" },
+                            "slug":             { "type": "text", "label": "translations.slug", "maxlength": 210, "pattern": "[a-z0-9\\-]*",
+                                                  "patternMessage": "validation.slug", "width": "half" },
+                            "meta_title":       { "type": "text", "label": "translations.meta_title", "maxlength": 200, "width": "half" },
+                            "summary":          { "type": "textarea", "label": "translations.summary", "rows": 2, "maxlength": 500 },
+                            "description":      { "type": "richtext", "label": "translations.description", "rows": 6, "images": true, "maxSize": "5M" },
+                            "meta_description": { "type": "textarea", "label": "translations.meta_description", "rows": 2, "maxlength": 300 }
+                          } },
     "created_at":       { "type": "datetime", "readonly": true, "width": "half" },
     "updated_at":       { "type": "datetime", "readonly": true, "width": "half" },
     "sold":             { "type": "number", "width": "quarter",
@@ -93,6 +106,7 @@
       { "title": "sections.images", "fields": ["images", "colors"] },
       { "title": "sections.description", "fields": ["description"] },
       { "title": "sections.seo", "fields": ["meta_title", "meta_description"] },
+      { "title": "sections.translations", "fields": ["translations"] },
       { "title": "sections.info", "fields": ["sold", "created_at", "updated_at"] }
     ]
   }

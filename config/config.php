@@ -152,7 +152,9 @@ return [
     // Tienda pública (public/index.php). La gestión está en public/admin/.
     'shop' => [
         'name' => null,                  // nombre en la cabecera, títulos y correos (por defecto branding.company / app_name)
-        'locale' => 'ca',                // idioma por defecto de la tienda
+        // Idiomas: desde la 0.3.0 se eligen en la gestión (Configuración → Idiomas). Estos dos solo sirven para
+        // crearlos la primera vez y mientras la tabla shop_languages no existe.
+        'locale' => 'ca',
         'locales' => ['ca' => 'Català', 'es' => 'Español', 'en' => 'English'],
         'currency' => 'EUR',             // ISO 4217
         'session_name' => 'NEBULASHOP',
@@ -160,12 +162,18 @@ return [
         'page_size' => 12,               // productos por página en las categorías y la búsqueda
         'order_prefix' => '',            // número de pedido: {prefijo}{año}-{000001}
         'guest_checkout' => true,        // comprar sin crear cuenta
+        'guest_prices' => true,          // false: los precios (y comprar) solo con la sesión abierta (tiendas para profesionales)
         'default_country' => 'ES',
         'shipping_tax_rate' => 21,       // IVA de los portes y los recargos de pago (se desglosa en el pedido)
+        // Recargo de equivalencia por tipo de IVA (%): se suma a los pedidos de los clientes que lo tienen marcado
+        'equivalence_surcharge' => ['21' => 5.2, '10' => 1.4, '5' => 0.62, '4' => 0.5, '2' => 0.26, '0' => 0],
         'notify_email' => null,          // copia de cada pedido nuevo (por defecto mail.from.address)
         'pending_ttl_hours' => 48,       // bin/cron.php cancela los pedidos con pago con tarjeta o PayPal no pagados en este tiempo
         'transfer_ttl_days' => 0,        // ídem para los de transferencia (0 = nunca)
         'low_stock' => 3,                // aviso en el panel cuando las existencias bajan de aquí
+        // Contraseñas de clientes importados de otra tienda (LegacyPasswords): se aceptan y se pasan a
+        // password_hash() al entrar. 'joomla' = md5 con sal, {SHA256} y phpass ($P$); bcrypt/argon2 siempre valen.
+        'legacy_passwords' => ['joomla'],
         'login_max_attempts' => 5,
         'login_lockout' => 300,
         'theme' => [

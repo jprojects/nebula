@@ -47,7 +47,8 @@
     "payments": "Intents de pagament",
     "history": "Historial",
     "items_count": "Unit.",
-    "silent": "No avisar el client"
+    "silent": "No avisar el client",
+    "surcharge_total": "Recàrrec d'equivalència"
   },
   "status": {
     "pending": "Pendent de pagament",
@@ -114,7 +115,8 @@
     "tax": "IVA",
     "total": "Total",
     "free_shipping": "Enviament gratuït",
-    "tax_breakdown": "IVA {rate} % sobre {base}"
+    "tax_breakdown": "IVA {rate} % sobre {base}",
+    "surcharge": "Recàrrec d'equivalència {rate} % sobre {base}"
   },
   "payments": {
     "none": "Sense intents de pagament a passarel·la",

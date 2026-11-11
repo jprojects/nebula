@@ -25,7 +25,8 @@
     "created_at": "Created",
     "updated_at": "Updated",
     "sold": "Sold",
-    "colors_count": "Colours"
+    "colors_count": "Colours",
+    "translations": "Translations"
   },
   "prices": {
     "group": "Group",
@@ -41,7 +42,8 @@
   },
   "repeater": {
     "add_price": "Add price",
-    "add_color": "Add colour"
+    "add_color": "Add colour",
+    "add_translation": "Add translation"
   },
   "sections": {
     "prices": "Prices and stock",
@@ -49,7 +51,8 @@
     "description": "Description",
     "general": "General",
     "info": "Information",
-    "seo": "Search engines (SEO)"
+    "seo": "Search engines (SEO)",
+    "translations": "Translations"
   },
   "help": {
     "sort": "Lower = earlier in listings",
@@ -60,7 +63,8 @@
     "prices": "Price for a group (price list) from a quantity. Without a row for a group, the general price with the group discount applies",
     "images": "The first one is the main image",
     "colors": "Each colour with its images: choosing a colour on the product page shows its photos. The surcharge is added to the price",
-    "slug": "Part of the URL. Empty = generated from the name"
+    "slug": "Part of the URL. Empty = generated from the name",
+    "translations": "Texts in the shop's other languages (Settings → Languages). Anything left empty is shown in the default language"
   },
   "actions": {
     "duplicate": "Duplicate",
@@ -76,6 +80,17 @@
   },
   "validation": {
     "prices_duplicated": "There are two prices for the same group and quantity",
-    "slug": "Lowercase letters, numbers and hyphens only"
+    "slug": "Lowercase letters, numbers and hyphens only",
+    "translation_default": "The default language is not translated: its texts are the record's own",
+    "translation_duplicated": "There are two translations for the same language"
+  },
+  "translations": {
+    "locale": "Language",
+    "name": "Name",
+    "slug": "URL",
+    "summary": "Summary",
+    "description": "Description",
+    "meta_title": "Search engine title",
+    "meta_description": "Search engine description"
   }
 }

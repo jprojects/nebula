@@ -22,6 +22,9 @@ final class CheckoutController extends ShopController
 
     public function page(): void
     {
+        if (!$this->shop->showPrices()) {
+            $this->shop->redirect($this->view->url('/entrar', ['next' => (string) ($_SERVER['REQUEST_URI'] ?? '')]));
+        }
         $cart = $this->shop->cart();
         if ($cart->isEmpty()) {
             $this->shop->redirect($this->view->url('/carrito'));
@@ -237,6 +240,9 @@ final class CheckoutController extends ShopController
 
     private function quoteFor(array $dest): array
     {
+        if (!$this->shop->showPrices()) {
+            throw new ShopException('login_to_buy', [], 401);
+        }
         $cart = $this->shop->cart();
         $customer = $this->shop->customer();
         $quote = $this->services->calculator()->quote($cart->lines(), [
@@ -248,6 +254,7 @@ final class CheckoutController extends ShopController
             'postcode' => $dest['postcode'] ?? '',
             'shipping_id' => $dest['shipping_id'] ?? null,
             'payment_id' => $dest['payment_id'] ?? null,
+            'surcharge' => !empty($customer['equivalence_surcharge']),
         ]);
         if ($quote['lines'] != $cart->lines()) {
             $cart->replace($quote['lines']);

@@ -18,7 +18,9 @@
     "company":           { "type": "text", "maxlength": 150, "width": "third" },
     "vat_id":            { "type": "text", "maxlength": 30, "width": "third" },
     "password":          { "type": "password", "column": "password_hash", "minlength": 8, "help": "help.password", "width": "half" },
-    "locale":            { "type": "select", "width": "half", "options": { "ca": "locale.ca", "es": "locale.es", "en": "locale.en" } },
+    "locale":            { "type": "select", "width": "half",
+                           "source": { "table": "shop_languages", "value": "code", "label": "name", "order": "sort" } },
+    "equivalence_surcharge": { "type": "checkbox", "width": "half", "help": "help.equivalence_surcharge", "colors": { "1": "amber" } },
     "addresses":         { "type": "repeater", "layout": "block", "max": 10, "addLabel": "repeater.add_address", "summary": "city",
                            "fields": {
                              "label":    { "type": "text", "label": "address.label", "maxlength": 60, "width": "third" },
@@ -54,7 +56,7 @@
     ],
     "defaultSort": { "field": "created_at", "dir": "desc" },
     "search": ["name", "email", "company", "vat_id", "phone"],
-    "filters": [{ "field": "group_id" }, { "field": "registered" }, { "field": "accepts_marketing" }, { "field": "active" }],
+    "filters": [{ "field": "group_id" }, { "field": "registered" }, { "field": "accepts_marketing" }, { "field": "equivalence_surcharge" }, { "field": "active" }],
     "expand": ["addresses", "notes"],
     "rowActions": [
       { "label": "actions.orders", "icon": "shopping-cart", "url": "index.php?r=list&m=orders&f[customer_id]={id}" }
@@ -63,7 +65,7 @@
 
   "form": {
     "sections": [
-      { "title": "sections.general", "fields": ["email", "name", "group_id", "active", "accepts_marketing", "phone", "company", "vat_id", "password", "locale"] },
+      { "title": "sections.general", "fields": ["email", "name", "group_id", "active", "accepts_marketing", "phone", "company", "vat_id", "password", "locale", "equivalence_surcharge"] },
       { "title": "sections.addresses", "fields": ["addresses"] },
       { "title": "sections.notes", "fields": ["notes"] },
       { "title": "sections.info", "fields": ["orders", "spent", "registered", "last_login", "created_at"] }

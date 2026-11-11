@@ -140,7 +140,7 @@ final class AccountController extends ShopController
             return;
         }
         if (($in['password'] ?? '') !== '') {
-            if (!password_verify((string) ($in['current_password'] ?? ''), (string) $customer['password_hash'])) {
+            if (!\Nebula\Shop\LegacyPasswords::verify((string) ($in['current_password'] ?? ''), (string) $customer['password_hash'])) {
                 $this->fail(['current_password' => $this->t('errors.password_wrong')]);
                 return;
             }

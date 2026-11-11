@@ -26,6 +26,9 @@ final class CartController extends ShopController
 
     public function add(): void
     {
+        if (!$this->shop->showPrices()) {
+            throw new ShopException('login_to_buy', [], 401);
+        }
         $productId = (int) $this->input('product_id');
         $color = $this->input('color') !== '' ? $this->input('color') : null;
         $qty = max(1, min(Cart::MAX_QTY, (int) $this->input('qty', '1')));

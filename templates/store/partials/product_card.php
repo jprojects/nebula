@@ -10,7 +10,7 @@ $url = $this->urls->product($p['slug']);
     <?php else: ?>
       <span class="nb-card-placeholder"><?= $this->icon('image') ?></span>
     <?php endif ?>
-    <?php if ($p['compare']): ?><span class="nb-tag nb-tag-sale"><?= $this->e($p['promo'] ?? $this->t('product.sale')) ?></span><?php endif ?>
+    <?php if ($p['compare'] && ($showPrices ?? true)): ?><span class="nb-tag nb-tag-sale"><?= $this->e($p['promo'] ?? $this->t('product.sale')) ?></span><?php endif ?>
     <?php if (!$p['in_stock']): ?><span class="nb-tag nb-tag-muted"><?= $this->e($this->t('product.out_of_stock')) ?></span><?php endif ?>
   </a>
   <div class="nb-card-body">
@@ -23,10 +23,14 @@ $url = $this->urls->product($p['slug']);
         <?php if (count($p['colors']) > 6): ?><span class="nb-muted">+<?= count($p['colors']) - 6 ?></span><?php endif ?>
       </div>
     <?php endif ?>
-    <div class="nb-price">
-      <?php if ($p['from']): ?><span class="nb-price-from"><?= $this->e($this->t('product.from')) ?></span><?php endif ?>
-      <span class="nb-price-now"><?= $this->e($this->money($p['price'])) ?></span>
-      <?php if ($p['compare']): ?><s class="nb-price-old"><?= $this->e($this->money($p['compare'])) ?></s><?php endif ?>
-    </div>
+    <?php if ($showPrices ?? true): ?>
+      <div class="nb-price">
+        <?php if ($p['from']): ?><span class="nb-price-from"><?= $this->e($this->t('product.from')) ?></span><?php endif ?>
+        <span class="nb-price-now"><?= $this->e($this->money($p['price'])) ?></span>
+        <?php if ($p['compare']): ?><s class="nb-price-old"><?= $this->e($this->money($p['compare'])) ?></s><?php endif ?>
+      </div>
+    <?php else: ?>
+      <a class="nb-price nb-price-login" href="<?= $this->e($this->url('/entrar', ['next' => $url])) ?>"><?= $this->icon('lock') ?> <?= $this->e($this->t('product.login_for_prices')) ?></a>
+    <?php endif ?>
   </div>
 </article>

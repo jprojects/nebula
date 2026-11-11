@@ -19,13 +19,14 @@ final class CartCalculator
         private readonly Promotions $promotions,
         private readonly Shipping $shipping,
         private readonly PaymentMethods $payments,
+        private readonly Services $services,
     ) {
     }
 
     /**
      * @param array<string,array{product_id:int,color:?string,qty:int}> $lines líneas del carrito
      * @param array{group:array,coupon?:?string,email?:?string,customer_id?:?int,country?:?string,postcode?:?string,
-     *              shipping_id?:?int,payment_id?:?int} $ctx
+     *              shipping_id?:?int,payment_id?:?int,surcharge?:bool} $ctx  surcharge: recargo de equivalencia
      * @return array resumen (ver el final del método); 'lines' trae las líneas corregidas para guardar en el carrito
      */
     public function quote(array $lines, array $ctx): array
@@ -43,6 +44,8 @@ final class CartCalculator
             ) as $r) {
                 $rows[(int) $r['id']] = $r;
             }
+            // Nombres y slugs en el idioma del visitante (también los de las líneas del pedido)
+            $rows = array_column(Translations::apply($this->db, 'products', array_values($rows), $this->services->locale(), $this->services->locales()), null, 'id');
             $this->pricing->preload($ids, $groupId);
         }
 
@@ -160,9 +163,11 @@ final class CartCalculator
         }
         $payment ??= $paymentOptions[0] ?? null;
         $fee = $payment['fee'] ?? 0.0;
-        $total = Money::round($beforeFee + $fee);
 
         // IVA incluido, por tipo. Portes y recargo al tipo de config 'shop.shipping_tax_rate'.
+        // Recargo de equivalencia (clientes con customers.equivalence_surcharge): un % de la base de cada tipo de
+        // IVA ('shop.equivalence_surcharge'), que se suma al total.
+        $surchargeRates = !empty($ctx['surcharge']) ? (array) ShopConfig::get('shop.equivalence_surcharge', []) : null;
         $byRate = [];
         foreach ($items as $i) {
             $byRate[(string) $i['tax_rate']] = ($byRate[(string) $i['tax_rate']] ?? 0) + $i['total'] - $i['discount'];
@@ -174,9 +179,16 @@ final class CartCalculator
         $taxes = [];
         foreach ($byRate as $rate => $gross) {
             $tax = Money::includedTax((float) $gross, (float) $rate);
-            $taxes[] = ['rate' => (float) $rate, 'base' => Money::round($gross - $tax), 'tax' => $tax];
+            $entry = ['rate' => (float) $rate, 'base' => Money::round($gross - $tax), 'tax' => $tax];
+            if ($surchargeRates !== null) {
+                $entry['surcharge_rate'] = (float) ($surchargeRates[(string) (float) $rate] ?? 0);
+                $entry['surcharge'] = Money::round($entry['base'] * $entry['surcharge_rate'] / 100);
+            }
+            $taxes[] = $entry;
         }
         usort($taxes, fn ($a, $b) => $b['rate'] <=> $a['rate']);
+        $surcharge = Money::round(array_sum(array_column($taxes, 'surcharge')));
+        $total = Money::round($beforeFee + $fee + $surcharge);
 
         return [
             'items' => array_values($items),
@@ -197,6 +209,8 @@ final class CartCalculator
             'payment_fee' => $fee,
             'taxes' => $taxes,
             'tax_total' => Money::round(array_sum(array_column($taxes, 'tax'))),
+            'surcharge' => $surchargeRates !== null,
+            'surcharge_total' => $surcharge,
             'total' => $total,
             'notices' => $notices,
         ];

@@ -53,7 +53,9 @@
     "add": "Afegeix a la cistella",
     "last_units": "Darreres {n} unitats!",
     "description": "Descripció",
-    "related": "També et pot interessar"
+    "related": "També et pot interessar",
+    "login_for_prices": "Entra per veure els preus",
+    "login_for_prices_text": "Els preus i les compres són només per a clients registrats."
   },
   "cart": {
     "title": "Cistella",
@@ -87,7 +89,8 @@
     "free_shipping": "Enviament gratuït",
     "tax_included": "IVA {rate} % inclòs",
     "tax_total": "IVA inclòs",
-    "shipping_later": "Les despeses d'enviament es calculen al pas següent."
+    "shipping_later": "Les despeses d'enviament es calculen al pas següent.",
+    "surcharge": "Recàrrec d'equivalència {rate} %"
   },
   "checkout": {
     "title": "Finalitza la compra",
@@ -220,7 +223,8 @@
     "http_503": "Estem actualitzant la botiga. Torna d'aquí a uns minuts.",
     "http_500": "Hi ha hagut un error",
     "http_text_404": "Potser l'enllaç és antic o el producte ja no existeix.",
-    "http_text_other": "Torna-ho a provar d'aquí a uns minuts."
+    "http_text_other": "Torna-ho a provar d'aquí a uns minuts.",
+    "login_to_buy": "Entra al teu compte per veure els preus i comprar"
   },
   "mail": {
     "footer": "Gràcies per la teva compra",

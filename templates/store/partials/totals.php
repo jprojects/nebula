@@ -18,6 +18,11 @@ $short = $short ?? false;
     <?php if ($quote['payment_fee'] > 0): ?>
       <div><dt><?= $this->e($this->t('totals.payment_fee')) ?></dt><dd><?= $this->e($this->money($quote['payment_fee'])) ?></dd></div>
     <?php endif ?>
+    <?php foreach ($quote['taxes'] as $tax): ?>
+      <?php if (($tax['surcharge'] ?? 0) > 0): ?>
+        <div><dt><?= $this->e($this->t('totals.surcharge', ['rate' => rtrim(rtrim(number_format((float) $tax['surcharge_rate'], 2, ',', ''), '0'), ',')])) ?></dt><dd><?= $this->e($this->money($tax['surcharge'])) ?></dd></div>
+      <?php endif ?>
+    <?php endforeach ?>
     <div class="nb-totals-total"><dt><?= $this->e($this->t('totals.total')) ?></dt><dd><?= $this->e($this->money($quote['total'])) ?></dd></div>
     <?php foreach ($quote['taxes'] as $tax): ?>
       <div class="nb-totals-tax"><dt><?= $this->e($this->t('totals.tax_included', ['rate' => rtrim(rtrim(number_format($tax['rate'], 2, ',', ''), '0'), ',')])) ?></dt><dd><?= $this->e($this->money($tax['tax'])) ?></dd></div>

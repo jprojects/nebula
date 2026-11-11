@@ -271,6 +271,12 @@
       "readonly": true,
       "width": "quarter"
     },
+    "surcharge_total": {
+      "type": "number",
+      "decimals": 2,
+      "readonly": true,
+      "width": "quarter"
+    },
     "total": {
       "type": "number",
       "decimals": 2,
@@ -483,6 +489,7 @@
           "shipping_cost",
           "payment_fee",
           "tax_total",
+          "surcharge_total",
           "total",
           "weight",
           "paid_at",

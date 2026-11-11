@@ -1,0 +1,33 @@
+{
+  "title": "Languages",
+  "description": "Shop and catalogue languages: products and categories are translated in each record",
+  "fields": {
+    "id": "ID",
+    "code": "Code",
+    "name": "Name",
+    "sort": "Order",
+    "active": "Active",
+    "is_default": "Default",
+    "products": "Translated products",
+    "categories": "Translated categories",
+    "created_at": "Created"
+  },
+  "help": {
+    "code": "Two lowercase letters (ISO 639-1): ca, es, en, fr…",
+    "name": "As shown in the shop's language selector",
+    "active": "Inactive: not shown in the selector, but translations are kept",
+    "is_default": "The language of the main catalogue texts and of new visitors. Changing it does not translate the existing texts"
+  },
+  "validation": {
+    "code": "Two lowercase letters",
+    "keep_default": "To change the default language, mark another one as default",
+    "delete_default": "The default language cannot be deleted"
+  },
+  "sections": {
+    "general": "General",
+    "info": "Information"
+  },
+  "flash": {
+    "not_found": "The record no longer exists"
+  }
+}

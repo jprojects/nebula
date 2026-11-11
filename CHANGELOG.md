@@ -2,6 +2,30 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versiones [semver](https://semver.org/lang/es/).
 
+## 0.3.0 — 2026-11-11
+
+### Añadido
+- **Idiomas de la tienda en la gestión** (Configuración → Idiomas, tabla `shop_languages`): cuántos idiomas tiene la
+  tienda, su orden y cuál es el de por defecto. Sustituye a `shop.locale` / `shop.locales`, que solo se usan para
+  crearlos la primera vez.
+- **Catálogo traducido**: sección Traducciones en productos y categorías (nombre, URL, resumen, descripción y SEO por
+  idioma; lo vacío sale en el idioma por defecto). La tienda muestra los textos, el menú, la búsqueda, el orden por
+  nombre y las líneas del carrito y del pedido en el idioma del visitante, con URL propia por idioma (redirige a la del
+  idioma actual). Tablas `product_translations` y `category_translations`.
+- **Precios solo para clientes** (`shop.guest_prices => false`): sin sesión no se ven precios ni se puede comprar.
+- **Recargo de equivalencia**: casilla en la ficha del cliente; se suma por tipo de IVA (`shop.equivalence_surcharge`)
+  y se ve en el carrito, el checkout, el pedido, los correos y la gestión. Columnas `customers.equivalence_surcharge`
+  y `orders.surcharge_total`.
+- **Contraseñas de clientes importados** (`LegacyPasswords`, `shop.legacy_passwords`): se aceptan los hashes antiguos
+  de Joomla (md5 con sal, `{SHA256}`, phpass) y se pasan a `password_hash()` al entrar.
+- **Importación desde Joomla** (`bin/import-joomla.php`, `src/Import/`): idiomas, grupos, categorías y productos con
+  sus traducciones e imágenes, clientes con su contraseña, pedidos como historial, portes y cupones de com_botiga (1.0
+  de Joomla 3 y versión de Joomla 4/5). Simulación (`--dry-run`), informe de lo que hay que revisar y reimportación sin
+  duplicados (`import_map`).
+
+### Corregido
+- En móvil, una ficha con muchas imágenes ensanchaba la página (la fila de miniaturas ahora se desplaza).
+
 ## 0.2.0 — 2026-11-06
 
 ### Añadido

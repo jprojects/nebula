@@ -21,6 +21,11 @@ $promos = \Nebula\Shop\Text::json($o['promotions']);
   <?php if ((float) $o['payment_fee'] > 0): ?>
     <tr><td style="<?= $td ?>"><?= $this->e($this->t('totals.payment_fee')) ?></td><td style="<?= $td ?>text-align:right;"><?= $this->e($this->money((float) $o['payment_fee'])) ?></td></tr>
   <?php endif ?>
+  <?php foreach (\Nebula\Shop\Text::json($o['taxes'] ?? null) as $tax): ?>
+    <?php if (($tax['surcharge'] ?? 0) > 0): ?>
+      <tr><td style="<?= $td ?>"><?= $this->e($this->t('totals.surcharge', ['rate' => rtrim(rtrim(number_format((float) $tax['surcharge_rate'], 2, ',', ''), '0'), ',')])) ?></td><td style="<?= $td ?>text-align:right;"><?= $this->e($this->money((float) $tax['surcharge'])) ?></td></tr>
+    <?php endif ?>
+  <?php endforeach ?>
   <tr><td style="padding:10px 0;font-weight:bold;"><?= $this->e($this->t('totals.total')) ?></td><td style="padding:10px 0;text-align:right;font-weight:bold;"><?= $this->e($this->money((float) $o['total'])) ?></td></tr>
   <tr><td style="font-size:12px;color:#6b7480;"><?= $this->e($this->t('totals.tax_total')) ?></td><td style="font-size:12px;color:#6b7480;text-align:right;"><?= $this->e($this->money((float) $o['tax_total'])) ?></td></tr>
 </table>

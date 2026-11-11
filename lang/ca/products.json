@@ -25,7 +25,8 @@
     "created_at": "Creat",
     "updated_at": "Modificat",
     "sold": "Venuts",
-    "colors_count": "Colors"
+    "colors_count": "Colors",
+    "translations": "Traduccions"
   },
   "prices": {
     "group": "Grup",
@@ -41,7 +42,8 @@
   },
   "repeater": {
     "add_price": "Afegir preu",
-    "add_color": "Afegir color"
+    "add_color": "Afegir color",
+    "add_translation": "Afegir traducció"
   },
   "sections": {
     "prices": "Preus i existències",
@@ -49,7 +51,8 @@
     "description": "Descripció",
     "general": "Dades generals",
     "info": "Informació",
-    "seo": "Cercadors (SEO)"
+    "seo": "Cercadors (SEO)",
+    "translations": "Traduccions"
   },
   "help": {
     "sort": "Menor = abans als llistats",
@@ -60,7 +63,8 @@
     "prices": "Preu per a un grup (tarifa) i a partir d'una quantitat. Sense fila per a un grup s'aplica el preu general amb el descompte del grup",
     "images": "La primera és la principal",
     "colors": "Cada color amb les seves imatges: a la fitxa, en triar el color es veuen les seves fotos. El suplement se suma al preu",
-    "slug": "Part de l'URL. Buit = es crea a partir del nom"
+    "slug": "Part de l'URL. Buit = es crea a partir del nom",
+    "translations": "Textos en els altres idiomes de la botiga (Configuració → Idiomes). El que es deixi buit es mostra en l'idioma per defecte"
   },
   "actions": {
     "duplicate": "Duplicar",
@@ -76,6 +80,17 @@
   },
   "validation": {
     "prices_duplicated": "Hi ha dos preus per al mateix grup i la mateixa quantitat",
-    "slug": "Només minúscules, números i guions"
+    "slug": "Només minúscules, números i guions",
+    "translation_default": "L'idioma per defecte no es tradueix: els seus textos són els de la fitxa",
+    "translation_duplicated": "Hi ha dues traduccions per al mateix idioma"
+  },
+  "translations": {
+    "locale": "Idioma",
+    "name": "Nom",
+    "slug": "URL",
+    "summary": "Resum",
+    "description": "Descripció",
+    "meta_title": "Títol per a cercadors",
+    "meta_description": "Descripció per a cercadors"
   }
 }

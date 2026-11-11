@@ -1,7 +1,9 @@
 # Nebula
 
-Tienda online independiente: catálogo, tarifas por grupo de clientes, portes por reglas, pagos con Redsys, PayPal y
-transferencia, promociones y pedidos. PHP 8.1+, MySQL/MariaDB y JavaScript sin dependencias.
+Tienda online independiente: catálogo en varios idiomas, tarifas por grupo de clientes, recargo de equivalencia,
+portes por reglas, pagos con Redsys, PayPal y transferencia, promociones y pedidos. Importa tiendas de Joomla
+(com_botiga) sin que los clientes tengan que cambiar la contraseña. PHP 8.1+, MySQL/MariaDB y JavaScript sin
+dependencias.
 
 - **Tienda** (`public/index.php`): pública, con URLs limpias y AJAX para todo lo que no necesita recargar.
 - **Gestión** (`public/admin/`): el núcleo de [Quasar](../quasar) 0.7.0 (tablas y formularios por JSON, usuarios,
@@ -50,9 +52,12 @@ src/Shop/                 servicios de la tienda (sin dependencias de la gestió
   Shop.php                controlador frontal: rutas, sesión, idioma, recursos e imágenes públicas
   Controllers/            Catalog, Cart, Checkout (pedido y pago), Account
   Catalog · Pricing · Promotions · Shipping · Cart · CartCalculator · OrderService · Customers · ShopMailer
+  Locales · Translations   idiomas de la tienda y traducciones del catálogo
+  LegacyPasswords         contraseñas de clientes importados (Joomla)
   Payments/               Gateway (base), TransferGateway, RedsysGateway, PaypalGateway, PaymentService
   Services.php            crea los servicios (tienda, hooks de la gestión y cron)
 src/Hooks/                lógica de los módulos de la tienda en la gestión
+src/Import/               importación desde otras tiendas (JoomlaBotiga, ImportMap, Countries)
 src/Pages/                Panel y Simulador de portes
 modules/                  módulos de la gestión (orders, products, categories, customers, promotions, …)
 templates/store/          plantillas, store.css y store.js de la tienda; emails/ los correos
@@ -61,7 +66,7 @@ templates/default/        plantilla de la gestión (fields/order_*.php: bloques 
 lang/{ca,es,en}/store.json  textos de la tienda; el resto, de la gestión
 database/schema.sql       tablas de la gestión · database/shop.sql tablas de la tienda
 database/demo.sql         tienda de ejemplo (INSERT) · database/demo/ sus imágenes
-bin/                      install.php · cron.php · media-clean.php · mail-test.php · notifications.php
+bin/                      install.php · cron.php · import-joomla.php · media-clean.php · mail-test.php · notifications.php
 docs/gestion.md           referencia del motor de la gestión
 ```
 
@@ -72,15 +77,16 @@ En `config.php` están todas las claves con su valor por defecto; en `config.loc
 ```php
 'shop' => [
     'name' => 'Mi tienda',            // por defecto branding.company / app_name
-    'locale' => 'ca',                 // idioma por defecto; el visitante lo cambia (/idioma/es) y se recuerda
-    'locales' => ['ca' => 'Català', 'es' => 'Español', 'en' => 'English'],
     'currency' => 'EUR',
     'pretty_urls' => true,
     'page_size' => 12,
     'order_prefix' => '',             // número de pedido: {prefijo}2026-000001
     'guest_checkout' => true,         // false: hay que crear cuenta para comprar
+    'guest_prices' => true,           // false: precios y compra solo con la sesión abierta (ver «Precios solo para clientes»)
     'default_country' => 'ES',
     'shipping_tax_rate' => 21,        // IVA de portes y recargos
+    'equivalence_surcharge' => ['21' => 5.2, '10' => 1.4, '5' => 0.62, '4' => 0.5, '2' => 0.26, '0' => 0],
+    'legacy_passwords' => ['joomla'], // contraseñas de clientes importados que se aceptan (ver «Clientes»)
     'notify_email' => null,           // copia de los pedidos (por defecto mail.from.address)
     'pending_ttl_hours' => 48,        // cron: cancela los pedidos con tarjeta/PayPal sin pagar
     'transfer_ttl_days' => 0,         // ídem transferencias (0 = nunca)
@@ -96,6 +102,9 @@ En `config.php` están todas las claves con su valor por defecto; en `config.loc
 
 **Precios con IVA incluido.** Cada producto tiene su tipo de IVA; el pedido guarda el desglose por tipo (los portes y
 los recargos van al `shipping_tax_rate`).
+
+Los idiomas ya no se configuran aquí sino en la gestión (ver «Idiomas»). `shop.locale` y `shop.locales` solo sirven
+para crearlos la primera vez que se migra una instalación de antes de la 0.3.0.
 
 ## Catálogo
 
@@ -116,6 +125,27 @@ una categoría incluye los productos de sus subcategorías.
   `product_prices` (lo que consulta la tienda, también para ordenar por precio).
 - Botones: **Duplicar** (copia sin publicar) y **Ver en la tienda**.
 
+## Idiomas
+
+Configuración → Idiomas: los idiomas de la tienda (código de dos letras, nombre del selector, orden, activo). Uno es
+el **por defecto**: el de los visitantes nuevos y el de los textos principales del catálogo (los campos de cada
+producto y categoría). Para los demás, cada ficha tiene la sección **Traducciones**: una fila por idioma con nombre,
+URL, resumen, descripción y SEO. Lo que una traducción deja vacío se muestra en el idioma por defecto; el idioma por
+defecto no se traduce (sus textos son los de la ficha).
+
+- El visitante elige el idioma en la cabecera (`/idioma/es`); si no, el de su cuenta o el del navegador.
+- **URLs por idioma**: cada traducción tiene su slug. Los slugs son únicos entre todos los idiomas, así que cualquier
+  URL lleva a su producto o categoría. Si se llega con la de otro idioma, se redirige (302) a la del idioma actual:
+  al cambiar de idioma, la URL cambia también.
+- La búsqueda busca también en los nombres y resúmenes traducidos, y «ordenar por nombre» usa el nombre traducido.
+  Los nombres de las líneas del carrito y del pedido quedan en el idioma del cliente.
+- Los textos de la tienda (botones, correos) están en `lang/{código}/store.json`: para un idioma nuevo (p. ej. `fr`)
+  hay que añadir la carpeta; mientras no exista, esos textos salen en el `fallback_locale`.
+- Al borrar un idioma se borran sus traducciones; desactivarlo las conserva. Si cambia el código, las traducciones lo
+  siguen. Los nombres de los colores no se traducen.
+- Por dentro: `products.translations` y `categories.translations` (el repeater) se copian al guardar a
+  `product_translations` y `category_translations`, que es lo que consulta la tienda (`Translations`).
+
 ## Grupos de clientes y tarifas
 
 Configuración → Grupos y tarifas. Cada cliente tiene un grupo (rol); los visitantes y los clientes nuevos, el
@@ -129,6 +159,20 @@ marcado **Por defecto** (no se puede borrar). El grupo decide:
 | Promociones | ídem |
 
 Para pasar un cliente a otra tarifa, cambia su grupo en Tienda → Clientes.
+
+### Precios solo para clientes
+
+Con `shop.guest_prices => false` (tiendas para profesionales) los visitantes sin sesión no ven precios ni pueden
+comprar: las fichas y los listados muestran «Entra per veure els preus», no se puede ordenar por precio, el buscador no
+envía precios y la API del carrito y el checkout responden 401. Los precios no están ni en el HTML.
+
+### Recargo de equivalencia
+
+Los clientes con **Recargo de equivalencia** marcado (Tienda → Clientes, solo desde la gestión) pagan, además del IVA,
+el recargo de cada tipo sobre su base imponible (`shop.equivalence_surcharge`: 5,2 % para el 21 %, 1,4 % para el
+10 %…), también sobre los portes y el recargo de pago. Se ve en el carrito, el checkout, la página del pedido, los
+correos y la ficha del pedido; el pedido lo guarda en `surcharge_total` y en el desglose `taxes`
+(`surcharge_rate`, `surcharge`). Se suma al total que se cobra.
 
 ## Portes
 
@@ -245,6 +289,12 @@ registra con el mismo email, se completa esa ficha (con sus pedidos). La cuenta 
 contraseña y libreta de direcciones (la del pedido se guarda sola). Acceso con bloqueo tras `shop.login_max_attempts`
 fallos y recuperación de contraseña por enlace de un solo uso (1 h). Son independientes de los usuarios de la gestión.
 
+**Contraseñas de otra tienda** (`LegacyPasswords`): al entrar se acepta también el hash que traía un cliente importado
+y, si la contraseña es correcta, se vuelve a guardar con `password_hash()`. Los bcrypt y argon2 (Joomla 3.2 en
+adelante, WordPress 6.8+) ya valen sin hacer nada; `shop.legacy_passwords => ['joomla']` añade los antiguos de
+Joomla: `md5(contraseña+sal):sal`, md5 sin sal, `{SHA256}` y phpass (`$P$`). Nadie tiene que restablecer la
+contraseña. El cliente entra con su **correo** (en Joomla podía ser el nombre de usuario).
+
 ## La tienda por dentro
 
 | Ruta | |
@@ -263,7 +313,46 @@ fallos y recuperación de contraseña por enlace de un solo uso (1 h). Son indep
   total ha cambiado desde que el cliente lo vio (precio, existencias, promoción), se le enseña antes de crear el pedido.
 - `store.js` usa atributos `data-*` (`data-add-to-cart`, `data-cart-open`, `data-listing`, `data-checkout`,
   `data-ajax-form`…): una plantilla propia puede reutilizarlos.
-- Textos en `lang/{ca,es,en}/store.json`; los datos del catálogo (nombres, descripciones) están en un solo idioma.
+- Textos en `lang/{ca,es,en}/store.json`; los del catálogo, en sus traducciones (ver «Idiomas»).
+
+## Migrar desde Joomla (com_botiga)
+
+`bin/import-joomla.php` importa una tienda de Joomla hecha con com_botiga, de cualquier versión (la 1.0 de Joomla 3 y
+la de Joomla 4/5): no mira la versión sino qué tablas y columnas hay. Se ejecuta en la copia local de la instalación
+(`~/Projects/nebula-{cliente}`) con el volcado de Joomla cargado en otra base de datos del mismo servidor; después se
+sube la base de datos y `storage/uploads/` al hosting.
+
+```bash
+mysql -e 'CREATE DATABASE joomla_cliente' && mysql joomla_cliente < volcado_joomla.sql
+php bin/import-joomla.php --db=joomla_cliente --joomla-dir=/ruta/joomla --dry-run   # informe, sin guardar nada
+php bin/import-joomla.php --db=joomla_cliente --joomla-dir=/ruta/joomla
+```
+
+`--joomla-dir` es la carpeta de Joomla que contiene `images/` (sin ella no se importan las imágenes). Otras opciones
+(`--help`): `--host/--port/--user/--pass` si el origen está en otro servidor, `--prefix`, `--only=products,customers`,
+`--prices-with-tax`, `--order-prefix=J`, `--country=2:ES` (un id de `botiga_countries` que hay que leer como otro
+país) y `--skip-never-logged` (sin los usuarios que nunca han entrado ni comprado, que suelen ser altas de robots).
+También se pueden dejar en `config.local.php` → `'import' => ['joomla' => ['db' => [...], 'joomla_dir' => '…']]`.
+
+| Joomla | Nebula |
+|---|---|
+| Idiomas del catálogo (`ca-ES`, `es-ES`…) | Configuración → Idiomas (los que faltan se crean) |
+| Grupos de usuarios con precio propio o con clientes (no los del núcleo) | Grupos de clientes `joomla_{id}`; Registered = el de por defecto |
+| `#__categories` de com_botiga, una por idioma | Una categoría con sus traducciones (se enlazan por `botiga_categories.factusol_codfam`), con el árbol y la imagen |
+| `botiga_items`, una fila por idioma | Un producto con sus traducciones (se enlazan por `factusol_codart` o la referencia): precio del grupo por defecto **+ IVA** (botiga los guarda sin IVA), precios de los otros grupos, PVP como precio anterior, imágenes (también las del texto), categorías |
+| `#__users` + la ficha más completa de `botiga_users` | Clientes con su **contraseña de Joomla**, grupo, empresa, NIF, teléfono, dirección, idioma, recargo de equivalencia (si existe la columna) |
+| `botiga_comandes` + `comandesDetall` | Pedidos como historial (`J000123`), con el total que cobró Joomla: 1 → cancelado, 2 → pendiente (cancelado si tiene más de 30 días), 3 y 4 → pagado |
+| `botiga_shipments` | Una forma de envío con una regla por fila (primero las de código postal); hay que revisarla |
+| `botiga_coupons` (con importe) | Promociones con cupón |
+
+- **No se importan**: los administradores de Joomla (grupos 7 y 8), las fichas de `botiga_users` sin usuario de
+  Joomla (no podían entrar), los usuarios con un correo no válido, los carritos sin líneas, las marcas, los documentos
+  de producto, los favoritos y los carritos guardados (el informe dice cuántos).
+- **Se puede repetir** (p. ej. el día del cambio, con un volcado nuevo): `import_map` recuerda qué se importó y lo
+  actualiza sin duplicar. Lo que se ha cambiado en Nebula después de importarlo (o el cliente que ya existía en Nebula
+  con el mismo correo) no se toca.
+- El informe final dice qué revisar: productos sin precio, productos sin versión en el idioma por defecto, países
+  extraños (un valor por defecto de Joomla: `--country`), imágenes que faltan, líneas de pedido de productos borrados…
 
 ## Tema propio
 
