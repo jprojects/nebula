@@ -160,6 +160,7 @@ return [
         'session_name' => 'NEBULASHOP',
         'pretty_urls' => true,           // /p/producto (necesita el .htaccess de public/ o el servidor de PHP); false = index.php/p/producto
         'page_size' => 12,               // productos por página en las categorías y la búsqueda
+        'home_categories' => false,      // tarjetas de las categorías principales en la portada (ya están en el megamenú)
         'order_prefix' => '',            // número de pedido: {prefijo}{año}-{000001}
         'guest_checkout' => true,        // comprar sin crear cuenta
         'guest_prices' => true,          // false: los precios (y comprar) solo con la sesión abierta (tiendas para profesionales)

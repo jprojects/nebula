@@ -24,6 +24,8 @@ final class CatalogController extends ShopController
         $this->shop->html('home', [
             'featured' => $featured,
             'categories' => array_values(array_filter($catalog->categories(), fn ($c) => $c['parent_id'] === null && $c['in_menu'])),
+            // Las tarjetas de categorías de la portada, solo si se piden: ya están en el megamenú de la cabecera
+            'showCategories' => (bool) ShopConfig::get('shop.home_categories', false),
         ] + $this->meta(ShopConfig::shopName()));
     }
 

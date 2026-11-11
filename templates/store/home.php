@@ -9,7 +9,7 @@
   </div>
 </section>
 
-<?php if ($categories): ?>
+<?php if ($categories && ($showCategories ?? false)): ?>
 <section class="nb-container nb-section">
   <h2 class="nb-section-title"><?= $this->e($this->t('home.categories')) ?></h2>
   <div class="nb-category-grid">

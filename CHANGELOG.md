@@ -2,6 +2,12 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versiones [semver](https://semver.org/lang/es/).
 
+## 0.5.0 — 2026-11-11
+
+### Cambiado
+- La portada ya no muestra las tarjetas de las categorías principales (están en el megamenú de la cabecera), así los
+  productos destacados se ven sin bajar. `shop.home_categories => true` las vuelve a poner.
+
 ## 0.4.0 — 2026-11-11
 
 ### Añadido

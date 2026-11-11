@@ -80,6 +80,7 @@ En `config.php` están todas las claves con su valor por defecto; en `config.loc
     'currency' => 'EUR',
     'pretty_urls' => true,
     'page_size' => 12,
+    'home_categories' => false,       // tarjetas de las categorías principales en la portada (ya están en el megamenú)
     'order_prefix' => '',             // número de pedido: {prefijo}2026-000001
     'guest_checkout' => true,         // false: hay que crear cuenta para comprar
     'guest_prices' => true,           // false: precios y compra solo con la sesión abierta (ver «Precios solo para clientes»)
