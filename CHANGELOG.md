@@ -2,6 +2,13 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) · versiones [semver](https://semver.org/lang/es/).
 
+## 0.6.1 — 2026-11-13
+
+### Corregido
+- En la gestión, los enlaces del Panel (número de pedido, producto con pocas existencias y las tarjetas de pedidos por
+  pagar y por enviar), el del producto en las líneas del pedido y el del simulador de envíos daban 404: la URL se
+  escapaba dos veces (`View::url()` ya la devuelve escapada).
+
 ## 0.6.0 — 2026-11-11
 
 ### Añadido

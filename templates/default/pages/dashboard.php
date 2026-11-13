@@ -16,11 +16,11 @@ $ordersUrl = fn (array $f = []) => $this->url('list', ['m' => 'orders'] + ($f ? 
     <div class="nb-kpi-value"><?= $this->e($money($kpis['month']['total'])) ?></div>
     <div class="nb-kpi-sub"><?= $this->e($this->t('kpi.prev_month', ['total' => $money($kpis['prev_month']['total'])])) ?></div>
   </div>
-  <a class="nb-kpi" href="<?= $this->e($canOrders ? $ordersUrl(['status' => 'pending']) : '#') ?>">
+  <a class="nb-kpi" href="<?= $canOrders ? $ordersUrl(['status' => 'pending']) : '#' ?>">
     <div class="nb-kpi-label"><?= $this->icon('hourglass') ?> <?= $this->e($this->t('kpi.pending_payment')) ?></div>
     <div class="nb-kpi-value"><?= (int) $kpis['pending_payment'] ?></div>
   </a>
-  <a class="nb-kpi" href="<?= $this->e($canOrders ? $ordersUrl(['status' => 'paid']) : '#') ?>">
+  <a class="nb-kpi" href="<?= $canOrders ? $ordersUrl(['status' => 'paid']) : '#' ?>">
     <div class="nb-kpi-label"><?= $this->icon('package-open') ?> <?= $this->e($this->t('kpi.to_ship')) ?></div>
     <div class="nb-kpi-value"><?= (int) $kpis['to_ship'] ?></div>
   </a>
@@ -55,7 +55,7 @@ $ordersUrl = fn (array $f = []) => $this->url('list', ['m' => 'orders'] + ($f ? 
           <tbody>
             <?php foreach ($recent as $o): ?>
               <tr>
-                <td><?= $canOrders ? '<a href="' . $this->e($this->url('edit', ['m' => 'orders', 'id' => $o['id']])) . '">' . $this->e($o['number']) . '</a>' : $this->e($o['number']) ?></td>
+                <td><?= $canOrders ? '<a href="' . $this->url('edit', ['m' => 'orders', 'id' => $o['id']]) . '">' . $this->e($o['number']) . '</a>' : $this->e($o['number']) ?></td>
                 <td><?= $this->e($o['bill_name']) ?></td>
                 <td><span class="qs-tag qs-tone-<?= $this->e($tones[$o['status']] ?? 'gray') ?>"><?= $this->e($this->t('orders:status.' . $o['status'])) ?></span></td>
                 <td class="nb-muted"><?= $this->e(date('d/m H:i', strtotime((string) $o['created_at']))) ?></td>
@@ -90,7 +90,7 @@ $ordersUrl = fn (array $f = []) => $this->url('list', ['m' => 'orders'] + ($f ? 
         <table class="nb-admin-table"><tbody>
           <?php foreach ($lowStock as $p): ?>
             <tr>
-              <td><?= $canProducts ? '<a href="' . $this->e($this->url('edit', ['m' => 'products', 'id' => $p['id']])) . '">' . $this->e($p['name']) . '</a>' : $this->e($p['name']) ?></td>
+              <td><?= $canProducts ? '<a href="' . $this->url('edit', ['m' => 'products', 'id' => $p['id']]) . '">' . $this->e($p['name']) . '</a>' : $this->e($p['name']) ?></td>
               <td class="nb-muted"><?= $this->e($p['sku'] ?? '') ?></td>
               <td class="num"><span class="qs-tag qs-tone-<?= (int) $p['stock'] <= 0 ? 'red' : 'amber' ?>"><?= (int) $p['stock'] ?></span></td>
             </tr>

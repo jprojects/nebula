@@ -21,7 +21,7 @@ $promos = \Nebula\Shop\Text::json($o['promotions'] ?? null);
     <?php foreach ($value['items'] as $i): ?>
       <tr>
         <td>
-          <?php if ($i['product_id']): ?><a href="<?= $this->e($this->url('edit', ['m' => 'products', 'id' => $i['product_id']])) ?>"><?= $this->e($i['name']) ?></a><?php else: ?><?= $this->e($i['name']) ?><?php endif ?>
+          <?php if ($i['product_id']): ?><a href="<?= $this->url('edit', ['m' => 'products', 'id' => $i['product_id']]) ?>"><?= $this->e($i['name']) ?></a><?php else: ?><?= $this->e($i['name']) ?><?php endif ?>
           <?php if ($i['color_name']): ?><span class="nb-muted"> · <?= $this->e($i['color_name']) ?></span><?php endif ?>
         </td>
         <td><?= $this->e($i['sku'] ?? '') ?></td>

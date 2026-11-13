@@ -36,7 +36,7 @@ $money = fn ($v) => \Nebula\Shop\Money::format((float) $v, $this->locale());
       <thead><tr><th><?= $this->e($this->t('result.method')) ?></th><th><?= $this->e($this->t('result.delivery')) ?></th><th class="num"><?= $this->e($this->t('result.price')) ?></th></tr></thead>
       <tbody>
         <?php foreach ($options as $o): ?>
-          <tr><td><a href="<?= $this->e($this->url('edit', ['m' => 'shipping_methods', 'id' => $o['id']])) ?>"><?= $this->e($o['name']) ?></a></td>
+          <tr><td><a href="<?= $this->url('edit', ['m' => 'shipping_methods', 'id' => $o['id']]) ?>"><?= $this->e($o['name']) ?></a></td>
             <td><?= $this->e($o['delivery'] ?? '') ?></td><td class="num"><?= $this->e($o['price'] > 0 ? $money($o['price']) : $this->t('result.free')) ?></td></tr>
         <?php endforeach ?>
       </tbody>
